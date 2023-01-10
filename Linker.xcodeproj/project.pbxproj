@@ -7,18 +7,39 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0BBDBB3C2941752F00EB94C6 /* Classroom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBDBB3B2941752F00EB94C6 /* Classroom.swift */; };
 		0BD150E82940485400256154 /* LinkerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD150E72940485400256154 /* LinkerApp.swift */; };
 		0BD150EA2940485400256154 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD150E92940485400256154 /* ContentView.swift */; };
 		0BD150EC2940485700256154 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BD150EB2940485700256154 /* Assets.xcassets */; };
 		0BD150EF2940485700256154 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BD150EE2940485700256154 /* Preview Assets.xcassets */; };
+		0BD150FB29406B9D00256154 /* GoogleSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD150FA29406B9D00256154 /* GoogleSignInView.swift */; };
+		0BD150FD29406C0C00256154 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD150FC29406C0C00256154 /* ViewRouter.swift */; };
+		0BD150FF29406C6400256154 /* ReminderAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD150FE29406C6400256154 /* ReminderAccessView.swift */; };
+		0BD151032940739E00256154 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD151022940739E00256154 /* HomeView.swift */; };
+		0BD151052940820A00256154 /* ClassroomAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD151042940820A00256154 /* ClassroomAPI.swift */; };
+		0BD7D42029431B11000393A5 /* Assignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7D41F29431B11000393A5 /* Assignment.swift */; };
+		0BD7D4222944449F000393A5 /* ClassroomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7D4212944449F000393A5 /* ClassroomView.swift */; };
+		0F419D14D52F14414E18E909 /* libPods-Linker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B81074692DF533F538F01F52 /* libPods-Linker.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0BBDBB3B2941752F00EB94C6 /* Classroom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classroom.swift; sourceTree = "<group>"; };
 		0BD150E42940485400256154 /* Linker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BD150E72940485400256154 /* LinkerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkerApp.swift; sourceTree = "<group>"; };
 		0BD150E92940485400256154 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0BD150EB2940485700256154 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0BD150EE2940485700256154 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0BD150FA29406B9D00256154 /* GoogleSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInView.swift; sourceTree = "<group>"; };
+		0BD150FC29406C0C00256154 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
+		0BD150FE29406C6400256154 /* ReminderAccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderAccessView.swift; sourceTree = "<group>"; };
+		0BD1510029406FDC00256154 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		0BD151022940739E00256154 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		0BD151042940820A00256154 /* ClassroomAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassroomAPI.swift; sourceTree = "<group>"; };
+		0BD7D41F29431B11000393A5 /* Assignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assignment.swift; sourceTree = "<group>"; };
+		0BD7D4212944449F000393A5 /* ClassroomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassroomView.swift; sourceTree = "<group>"; };
+		0C385047D38C5108BCEBB58F /* Pods-Linker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Linker.debug.xcconfig"; path = "Target Support Files/Pods-Linker/Pods-Linker.debug.xcconfig"; sourceTree = "<group>"; };
+		A41E2733CAF317B060BC406E /* Pods-Linker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Linker.release.xcconfig"; path = "Target Support Files/Pods-Linker/Pods-Linker.release.xcconfig"; sourceTree = "<group>"; };
+		B81074692DF533F538F01F52 /* libPods-Linker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Linker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F419D14D52F14414E18E909 /* libPods-Linker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,6 +59,8 @@
 			children = (
 				0BD150E62940485400256154 /* Linker */,
 				0BD150E52940485400256154 /* Products */,
+				93CF1B62B70CE96349E6710F /* Pods */,
+				142F5764C5794AD6DA722635 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -51,8 +75,11 @@
 		0BD150E62940485400256154 /* Linker */ = {
 			isa = PBXGroup;
 			children = (
+				0BD151012940701A00256154 /* Views */,
+				0BD1510029406FDC00256154 /* Info.plist */,
+				0BD150F5294059BD00256154 /* API */,
 				0BD150E72940485400256154 /* LinkerApp.swift */,
-				0BD150E92940485400256154 /* ContentView.swift */,
+				0BD150FC29406C0C00256154 /* ViewRouter.swift */,
 				0BD150EB2940485700256154 /* Assets.xcassets */,
 				0BD150ED2940485700256154 /* Preview Content */,
 			);
@@ -67,6 +94,45 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		0BD150F5294059BD00256154 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				0BD151042940820A00256154 /* ClassroomAPI.swift */,
+				0BBDBB3B2941752F00EB94C6 /* Classroom.swift */,
+				0BD7D41F29431B11000393A5 /* Assignment.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		0BD151012940701A00256154 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0BD150E92940485400256154 /* ContentView.swift */,
+				0BD150FA29406B9D00256154 /* GoogleSignInView.swift */,
+				0BD150FE29406C6400256154 /* ReminderAccessView.swift */,
+				0BD151022940739E00256154 /* HomeView.swift */,
+				0BD7D4212944449F000393A5 /* ClassroomView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		142F5764C5794AD6DA722635 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B81074692DF533F538F01F52 /* libPods-Linker.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		93CF1B62B70CE96349E6710F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0C385047D38C5108BCEBB58F /* Pods-Linker.debug.xcconfig */,
+				A41E2733CAF317B060BC406E /* Pods-Linker.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +140,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0BD150F22940485700256154 /* Build configuration list for PBXNativeTarget "Linker" */;
 			buildPhases = (
+				BAF67F059AFB04CD344BC693 /* [CP] Check Pods Manifest.lock */,
 				0BD150E02940485400256154 /* Sources */,
 				0BD150E12940485400256154 /* Frameworks */,
 				0BD150E22940485400256154 /* Resources */,
+				B9D567BD2D85793F3E6D68BA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -132,12 +200,62 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		B9D567BD2D85793F3E6D68BA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Linker/Pods-Linker-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Linker/Pods-Linker-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Linker/Pods-Linker-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BAF67F059AFB04CD344BC693 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Linker-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0BD150E02940485400256154 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BD7D42029431B11000393A5 /* Assignment.swift in Sources */,
+				0BD150FD29406C0C00256154 /* ViewRouter.swift in Sources */,
+				0BD151032940739E00256154 /* HomeView.swift in Sources */,
+				0BD150FB29406B9D00256154 /* GoogleSignInView.swift in Sources */,
+				0BD150FF29406C6400256154 /* ReminderAccessView.swift in Sources */,
 				0BD150EA2940485400256154 /* ContentView.swift in Sources */,
+				0BBDBB3C2941752F00EB94C6 /* Classroom.swift in Sources */,
+				0BD7D4222944449F000393A5 /* ClassroomView.swift in Sources */,
+				0BD151052940820A00256154 /* ClassroomAPI.swift in Sources */,
 				0BD150E82940485400256154 /* LinkerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,6 +379,7 @@
 		};
 		0BD150F32940485700256154 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0C385047D38C5108BCEBB58F /* Pods-Linker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -270,6 +389,9 @@
 				DEVELOPMENT_TEAM = 9RC5A2595F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Linker/Info.plist;
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "To check for existing reminders";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "To add and remove reminders";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -290,6 +412,7 @@
 		};
 		0BD150F42940485700256154 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A41E2733CAF317B060BC406E /* Pods-Linker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -299,6 +422,9 @@
 				DEVELOPMENT_TEAM = 9RC5A2595F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Linker/Info.plist;
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "To check for existing reminders";
+				INFOPLIST_KEY_NSRemindersUsageDescription = "To add and remove reminders";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
