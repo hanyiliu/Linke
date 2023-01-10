@@ -23,6 +23,7 @@ struct HomeView: View {
     @State private var showAfterDismiss = false
     @State private var isCompleted = [false, false, false, false]
     @State private var items = [AssignmentType.inProgress, .missing, .noDateDue, .completed]
+    
     let store = EKEventStore()
     
     var body: some View {
@@ -115,10 +116,11 @@ struct HomeView: View {
                                         }
                                     }
                                 }
-                            }
+                            }.presentationDetents([PresentationDetent.medium])
                         }
                         )
                     }
+                    
                     Section(header: Text("Your Classrooms")) {
                         ForEach(classrooms.getVisibleClassrooms()) { classroom in
                             NavigationLink(destination: ClassroomView(classroom: classroom, classrooms: classrooms)) {
@@ -130,7 +132,12 @@ struct HomeView: View {
                             classrooms.getVisibleClassrooms()[indexSet.first!].setHiddenStatus(hidden: true)
                         }
                     }
+                    
                     Section {
+                        
+                        NavigationLink(destination: HiddenClassroomView(classrooms: classrooms)) {
+                            Text("Hidden Classrooms")
+                        }.foregroundColor(Color.gray)
                         Button("Sign Out") {
                             GIDSignIn.sharedInstance.signOut()
                             viewRouter.currentPage = .googleSignIn
@@ -150,8 +157,6 @@ struct HomeView: View {
                 }
                 )
 
-            }.onAppear() {
-                viewRouter.scheduleAppRefresh()
             }
             
         } else {

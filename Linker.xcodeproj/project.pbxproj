@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B229F6A296D1F67005DECC1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B229F69296D1F67005DECC1 /* WidgetKit.framework */; };
+		0B229F6C296D1F67005DECC1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B229F6B296D1F67005DECC1 /* SwiftUI.framework */; };
+		0B229F7C296D1F69005DECC1 /* Linke WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0B229F68296D1F67005DECC1 /* Linke WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0B229F82296D3411005DECC1 /* HiddenClassroomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B229F81296D3411005DECC1 /* HiddenClassroomView.swift */; };
+		0B229F84296D3A32005DECC1 /* HiddenAssignmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B229F83296D3A32005DECC1 /* HiddenAssignmentView.swift */; };
+		0B229F86296D3DDB005DECC1 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B229F85296D3DDB005DECC1 /* LoadingView.swift */; };
 		0BBDBB3C2941752F00EB94C6 /* Classroom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBDBB3B2941752F00EB94C6 /* Classroom.swift */; };
 		0BD150E82940485400256154 /* LinkerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD150E72940485400256154 /* LinkerApp.swift */; };
 		0BD150EA2940485400256154 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD150E92940485400256154 /* ContentView.swift */; };
@@ -22,7 +28,37 @@
 		0F419D14D52F14414E18E909 /* libPods-Linker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B81074692DF533F538F01F52 /* libPods-Linker.a */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		0B229F7A296D1F69005DECC1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BD150DC2940485400256154 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0B229F67296D1F67005DECC1;
+			remoteInfo = "Linke WidgetExtension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0B229F7D296D1F69005DECC1 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				0B229F7C296D1F69005DECC1 /* Linke WidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		0B229F68296D1F67005DECC1 /* Linke WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Linke WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B229F69296D1F67005DECC1 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		0B229F6B296D1F67005DECC1 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		0B229F81296D3411005DECC1 /* HiddenClassroomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenClassroomView.swift; sourceTree = "<group>"; };
+		0B229F83296D3A32005DECC1 /* HiddenAssignmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenAssignmentView.swift; sourceTree = "<group>"; };
+		0B229F85296D3DDB005DECC1 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		0BBDBB3B2941752F00EB94C6 /* Classroom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classroom.swift; sourceTree = "<group>"; };
 		0BD150E42940485400256154 /* Linker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BD150E72940485400256154 /* LinkerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkerApp.swift; sourceTree = "<group>"; };
@@ -43,6 +79,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0B229F65296D1F67005DECC1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B229F6C296D1F67005DECC1 /* SwiftUI.framework in Frameworks */,
+				0B229F6A296D1F67005DECC1 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0BD150E12940485400256154 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -68,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				0BD150E42940485400256154 /* Linker.app */,
+				0B229F68296D1F67005DECC1 /* Linke WidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -111,7 +157,10 @@
 				0BD150FA29406B9D00256154 /* GoogleSignInView.swift */,
 				0BD150FE29406C6400256154 /* ReminderAccessView.swift */,
 				0BD151022940739E00256154 /* HomeView.swift */,
+				0B229F81296D3411005DECC1 /* HiddenClassroomView.swift */,
+				0B229F83296D3A32005DECC1 /* HiddenAssignmentView.swift */,
 				0BD7D4212944449F000393A5 /* ClassroomView.swift */,
+				0B229F85296D3DDB005DECC1 /* LoadingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -120,6 +169,8 @@
 			isa = PBXGroup;
 			children = (
 				B81074692DF533F538F01F52 /* libPods-Linker.a */,
+				0B229F69296D1F67005DECC1 /* WidgetKit.framework */,
+				0B229F6B296D1F67005DECC1 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -136,6 +187,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0B229F67296D1F67005DECC1 /* Linke WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B229F80296D1F69005DECC1 /* Build configuration list for PBXNativeTarget "Linke WidgetExtension" */;
+			buildPhases = (
+				0B229F64296D1F67005DECC1 /* Sources */,
+				0B229F65296D1F67005DECC1 /* Frameworks */,
+				0B229F66296D1F67005DECC1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Linke WidgetExtension";
+			productName = "Linke WidgetExtension";
+			productReference = 0B229F68296D1F67005DECC1 /* Linke WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		0BD150E32940485400256154 /* Linker */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0BD150F22940485700256154 /* Build configuration list for PBXNativeTarget "Linker" */;
@@ -145,10 +213,12 @@
 				0BD150E12940485400256154 /* Frameworks */,
 				0BD150E22940485400256154 /* Resources */,
 				B9D567BD2D85793F3E6D68BA /* [CP] Copy Pods Resources */,
+				0B229F7D296D1F69005DECC1 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0B229F7B296D1F69005DECC1 /* PBXTargetDependency */,
 			);
 			name = Linker;
 			productName = Linker;
@@ -165,6 +235,9 @@
 				LastSwiftUpdateCheck = 1410;
 				LastUpgradeCheck = 1410;
 				TargetAttributes = {
+					0B229F67296D1F67005DECC1 = {
+						CreatedOnToolsVersion = 14.1;
+					};
 					0BD150E32940485400256154 = {
 						CreatedOnToolsVersion = 14.1;
 					};
@@ -184,11 +257,19 @@
 			projectRoot = "";
 			targets = (
 				0BD150E32940485400256154 /* Linker */,
+				0B229F67296D1F67005DECC1 /* Linke WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0B229F66296D1F67005DECC1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0BD150E22940485400256154 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -243,6 +324,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0B229F64296D1F67005DECC1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0BD150E02940485400256154 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -252,17 +340,82 @@
 				0BD151032940739E00256154 /* HomeView.swift in Sources */,
 				0BD150FB29406B9D00256154 /* GoogleSignInView.swift in Sources */,
 				0BD150FF29406C6400256154 /* ReminderAccessView.swift in Sources */,
+				0B229F84296D3A32005DECC1 /* HiddenAssignmentView.swift in Sources */,
 				0BD150EA2940485400256154 /* ContentView.swift in Sources */,
+				0B229F82296D3411005DECC1 /* HiddenClassroomView.swift in Sources */,
 				0BBDBB3C2941752F00EB94C6 /* Classroom.swift in Sources */,
 				0BD7D4222944449F000393A5 /* ClassroomView.swift in Sources */,
 				0BD151052940820A00256154 /* ClassroomAPI.swift in Sources */,
+				0B229F86296D3DDB005DECC1 /* LoadingView.swift in Sources */,
 				0BD150E82940485400256154 /* LinkerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		0B229F7B296D1F69005DECC1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0B229F67296D1F67005DECC1 /* Linke WidgetExtension */;
+			targetProxy = 0B229F7A296D1F69005DECC1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		0B229F7E296D1F69005DECC1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9RC5A2595F;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Linke Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Linke Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.hanyiliu.Linker.Linke-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0B229F7F296D1F69005DECC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9RC5A2595F;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Linke Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Linke Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.hanyiliu.Linker.Linke-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		0BD150F02940485700256154 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -446,6 +599,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0B229F80296D1F69005DECC1 /* Build configuration list for PBXNativeTarget "Linke WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B229F7E296D1F69005DECC1 /* Debug */,
+				0B229F7F296D1F69005DECC1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0BD150DF2940485400256154 /* Build configuration list for PBXProject "Linker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

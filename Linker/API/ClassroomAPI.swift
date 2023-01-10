@@ -103,6 +103,17 @@ class ClassroomAPI: ObservableObject {
         return visible
     }
     
+    func getHiddenClassrooms() -> [Classroom] {
+        var hidden: [Classroom] = []
+        
+        for classroom in classrooms {
+            if(classroom.getHiddenStatus() == true) {
+                hidden.append(classroom)
+            }
+        }
+        return hidden
+    }
+    
 
     
 }

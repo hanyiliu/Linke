@@ -10,7 +10,7 @@ import GoogleSignInSwift
 import SwiftyJSON
 import EventKit
 
-class Classroom: Identifiable {
+class Classroom: Identifiable, ObservableObject {
     private var name: String
     private var courseID: String
     private var assignments: [Assignment] = []
@@ -278,6 +278,17 @@ class Classroom: Identifiable {
             }
         }
         return visible
+    }
+    
+    func getHiddenAssignments() -> [Assignment] {
+        var hidden: [Assignment] = []
+        
+        for assignment in assignments {
+            if(assignment.getHiddenStatus()) {
+                hidden.append(assignment)
+            }
+        }
+        return hidden
     }
     
     

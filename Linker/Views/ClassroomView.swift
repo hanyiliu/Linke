@@ -21,10 +21,6 @@ struct ClassroomView: View {
     @State private var addedAssignments = 0
     @State private var showAfterDismiss = false
     
-//    @State private var chosenTypes: [AssignmentType:Bool] = [AssignmentType.inProgress : false,
-//                                                             AssignmentType.missing : false,
-//                                                             AssignmentType.noDateDue : false,
-//                                                             AssignmentType.completed : false]
     @State private var isCompleted = [false, false, false, false]
     @State private var items = [AssignmentType.inProgress, .missing, .noDateDue, .completed]
 
@@ -133,7 +129,7 @@ struct ClassroomView: View {
                                 }
                             }
                         }
-                    }
+                    }.presentationDetents([PresentationDetent.medium])
                 }
                 )
                 HStack {
@@ -187,6 +183,12 @@ struct ClassroomView: View {
                     print("hiding assignment \(classroom.getVisibleAssignments(type: .completed)[indexSet.first!].getName())")
                     classroom.getVisibleAssignments(type: .completed)[indexSet.first!].setHiddenStatus(hidden: true)
                 }
+            }
+            Section {
+                NavigationLink(destination: HiddenAssignmentView(classrooms: classrooms, classroom: classroom)) {
+                    Text("Hidden Assignments")
+                }.foregroundColor(Color.gray)
+                
             }
         }.navigationTitle(classroom.getName())
         
@@ -260,6 +262,6 @@ struct ChooseListView: View {
                     
                 }
             }
-        }
+        }.navigationTitle(Text("Select List"))
     }
 }

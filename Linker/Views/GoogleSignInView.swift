@@ -42,26 +42,12 @@ struct GoogleSignInView: View {
             let grantedScopes = user?.grantedScopes
             if grantedScopes == nil || !grantedScopes!.contains(requestedScopes[0]) {
                 GIDSignIn.sharedInstance.addScopes(requestedScopes, presenting: rootViewController) { user, error in
-//                    guard error == nil else { return }
-//                    guard let user = user else { return }
-//                    print("Checking")
+
                 }
             } else {
                 viewRouter.currentPage = .reminderAccess
             }
         }
-        //print((GIDSignIn.sharedInstance.currentUser?.grantedScopes ?? "something went wrong"))
-        
-        
-       
-        
-        
-        
-        
-        
-        
-        
     }
-    
 }
 

@@ -14,10 +14,7 @@ struct ContentView: View {
     
     @StateObject var viewRouter: ViewRouter
     
-
-
     var body: some View {
-        
         switch viewRouter.currentPage {
         case .googleSignIn:
             GoogleSignInView(viewRouter: viewRouter)
@@ -25,15 +22,10 @@ struct ContentView: View {
             ReminderAccessView(viewRouter: viewRouter)
         case .home:
             let classrooms = ClassroomAPI()
-            
             HomeView(viewRouter: viewRouter, classrooms: classrooms)
-              
         }
-        
-       
     }
 }
-
 
 enum Page {
     case googleSignIn
