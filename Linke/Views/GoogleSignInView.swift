@@ -23,18 +23,14 @@ struct GoogleSignInView: View {
         
         
         VStack {
+            Image("Icon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: UIScreen.main.bounds.size.width/3)
             if(colorScheme == .light) {
-                Image("Icon")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: UIScreen.main.bounds.size.width/3)
                 GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .light, style: .standard, state: .normal), action: prepareSignIn)
                     .cornerRadius(25)
             } else {
-                Image("Icon")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: UIScreen.main.bounds.size.width/3)
                 GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .dark, style: .standard, state: .normal), action: prepareSignIn)
                     .cornerRadius(25)
             }

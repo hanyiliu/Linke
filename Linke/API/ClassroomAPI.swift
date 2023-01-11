@@ -81,10 +81,9 @@ class ClassroomAPI: ObservableObject {
         }
         
         print("ClassroomAPI finished loading")
-        self.update = .random()
         //print("please tell me this is synced")
-        
-        //print(classrooms.count)
+        self.update.toggle()
+        print(classrooms.count)
         
     }
     

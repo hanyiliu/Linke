@@ -11,6 +11,6 @@ import BackgroundTasks
 
 class ViewRouter: ObservableObject {
     
-    @Published var currentPage: Page = .googleSignIn
+    @Published var currentPage: Page = .loading
 
 }

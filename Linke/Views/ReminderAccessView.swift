@@ -17,9 +17,12 @@ struct ReminderAccessView: View {
     
     var body: some View {
         
-        Form {
+        VStack {
             
-            Text("what is going on???")
+            Image("Icon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: UIScreen.main.bounds.size.width/3)
             
             Button("Allow Access to Reminders") {
                 let store = EKEventStore();
@@ -35,6 +38,11 @@ struct ReminderAccessView: View {
                     
                 }
             }
+            .tint(.blue)
+            .buttonStyle(.borderedProminent)
+            .buttonBorderShape(.roundedRectangle(radius: 5))
+            .controlSize(.large)
+            
         }.onAppear() {
             if(EKEventStore.authorizationStatus(for: EKEntityType.reminder) == .authorized) {
                 viewRouter.currentPage = .home

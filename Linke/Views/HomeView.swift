@@ -173,7 +173,7 @@ struct HomeView: View {
                 .navigationTitle("Hello, \(profile.name)")
                 .navigationBarItems(trailing: Button(action: {
                     classrooms.refresh()
-                    classrooms.update.toggle()
+                    
                 }) {
                     Image(systemName: "arrow.clockwise").foregroundColor(.blue)
                 }

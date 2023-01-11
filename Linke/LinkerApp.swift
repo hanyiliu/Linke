@@ -23,12 +23,18 @@ struct LinkerApp: App {
                 }
             
                 .onAppear {
+
                     GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-                        
-                        print("User previously logged in")
-                        
-                        viewRouter.currentPage = .reminderAccess
-                        // Check if `user` exists; otherwise, do something with `error`
+                        if error != nil || user == nil {
+                            // Show the app's signed-out state.
+                            print("User not previously logged in")
+                            viewRouter.currentPage = .googleSignIn
+                        } else {
+                            // Show the app's signed-in state.
+                            
+                            print("User previously logged in")
+                            viewRouter.currentPage = .reminderAccess
+                        }
                     }
                 }
         }
@@ -37,4 +43,3 @@ struct LinkerApp: App {
 
     
 }
-
