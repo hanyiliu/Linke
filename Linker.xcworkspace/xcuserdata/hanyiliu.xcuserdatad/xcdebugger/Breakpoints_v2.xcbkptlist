@@ -32,8 +32,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "30"
             endingLineNumber = "30"
-            landmarkName = "body"
-            landmarkType = "24">
+            landmarkName = "HomeView"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -80,8 +80,40 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "29"
             endingLineNumber = "29"
-            landmarkName = "body"
-            landmarkType = "24">
+            landmarkName = "HomeView"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "A8A531A4-A2F0-4557-B44E-3020B3C06A58 - 22e3e89a1b213a01"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Linker.HomeView.body.getter : some"
+                  moduleName = "Linker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyiliu/Documents/GitHub/Linke/Linker/Views/HomeView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "1268">
+               </Location>
+               <Location
+                  uuid = "A8A531A4-A2F0-4557-B44E-3020B3C06A58 - 22e3e89a1b213a22"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Linker.HomeView.body.getter : some"
+                  moduleName = "Linker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyiliu/Documents/GitHub/Linke/Linker/Views/HomeView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "2324">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

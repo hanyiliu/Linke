@@ -16,6 +16,8 @@ struct ContentView: View {
     
     var body: some View {
         switch viewRouter.currentPage {
+        case .loading:
+            LoadingView()
         case .googleSignIn:
             GoogleSignInView(viewRouter: viewRouter)
         case .reminderAccess:
@@ -28,6 +30,7 @@ struct ContentView: View {
 }
 
 enum Page {
+    case loading
     case googleSignIn
     case reminderAccess
     case home

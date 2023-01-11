@@ -13,7 +13,7 @@ import GoogleSignInSwift
 struct GoogleSignInView: View {
     
     @StateObject var viewRouter: ViewRouter
-    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     
     let clientID = "102247840613-h0icqnch0ugvb4efp7vjob0d5ljkg90s.apps.googleusercontent.com"
     let requestedScopes = ["https://www.googleapis.com/auth/classroom.courses.readonly",
@@ -23,8 +23,21 @@ struct GoogleSignInView: View {
         
         
         VStack {
-            Text("What is going on")
-            GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(), action: prepareSignIn)
+            if(colorScheme == .light) {
+                Image("Icon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: UIScreen.main.bounds.size.width/3)
+                GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .light, style: .standard, state: .normal), action: prepareSignIn)
+                    .cornerRadius(25)
+            } else {
+                Image("Icon")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: UIScreen.main.bounds.size.width/3)
+                GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .dark, style: .standard, state: .normal), action: prepareSignIn)
+                    .cornerRadius(25)
+            }
         }
         .padding()
     }

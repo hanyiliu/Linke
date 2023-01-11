@@ -114,6 +114,11 @@ class ClassroomAPI: ObservableObject {
         return hidden
     }
     
+    func refresh() {
+        print("Recalling Google Classroom")
+        initializer(callback: initializeClassrooms)
+    }
+    
 
     
 }

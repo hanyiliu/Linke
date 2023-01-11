@@ -24,6 +24,8 @@ struct HomeView: View {
     @State private var isCompleted = [false, false, false, false]
     @State private var items = [AssignmentType.inProgress, .missing, .noDateDue, .completed]
     
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    
     let store = EKEventStore()
     
     var body: some View {
@@ -147,15 +149,37 @@ struct HomeView: View {
                         
                     }
                     
+                    Section {
+                        HStack(alignment: .bottom) {
+                            VStack {
+                                Image("GrayIcon")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: UIScreen.main.bounds.size.width/4)
+                                Text("Linke v1.0")
+                                    .foregroundColor(.gray)
+                                    .font(.system(size: 11.0))
+                                Text("Ⓒ Hanyi Liu 2023")
+                                    .foregroundColor(.gray)
+                                    .font(.system(size: 11.0))
+                            }
+                        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                            .listRowInsets(EdgeInsets())
+                            .background(Color(colorScheme == .light ? UIColor.white : UIColor.black))
+                    }
+                    
                     
                 }
                 .navigationTitle("Hello, \(profile.name)")
                 .navigationBarItems(trailing: Button(action: {
+                    classrooms.refresh()
                     classrooms.update.toggle()
                 }) {
                     Image(systemName: "arrow.clockwise").foregroundColor(.blue)
                 }
                 )
+                
+                
 
             }
             

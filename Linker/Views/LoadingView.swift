@@ -5,5 +5,17 @@
 //  Created by Hanyi Liu on 1/9/23.
 //
 
-import Foundation
-//Simply icon, shown while app loads when opened
+import SwiftUI
+import GoogleSignIn
+
+struct LoadingView: View {
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    var body: some View {
+        VStack {
+            Image("Icon")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: UIScreen.main.bounds.size.width/3)
+        }
+    }
+}
