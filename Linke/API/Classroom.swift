@@ -11,6 +11,9 @@ import SwiftyJSON
 import EventKit
 
 class Classroom: Identifiable, ObservableObject {
+    
+    @Published var update = false
+    
     private var name: String
     private var courseID: String
     private var assignments: [Assignment] = []
@@ -38,7 +41,7 @@ class Classroom: Identifiable, ObservableObject {
             }
         }
 
-        queryAssignments(courseID: courseID, callback: initializeAssignments)
+        //queryAssignments(courseID: courseID, callback: initializeAssignments)
         
         
     }
@@ -81,7 +84,7 @@ class Classroom: Identifiable, ObservableObject {
         }
     }
     
-    private func queryAssignments(courseID: String, callback: ((_: JSON, _: String) -> Void)?) {
+    func queryAssignments(courseID: String, callback: ((_: JSON, _: String) -> Void)?) {
         if let user = GIDSignIn.sharedInstance.currentUser {
             user.authentication.do { authentication, error in
                 guard error == nil else { return }
@@ -133,7 +136,7 @@ class Classroom: Identifiable, ObservableObject {
         return Date(timeInterval: timeInterval, since: date)
     }
     
-    private func initializeAssignments(assignmentsJSON: JSON, accessToken: String) {
+    func initializeAssignments(assignmentsJSON: JSON, accessToken: String) {
 
         
         for (_,courseWork):(String, JSON) in assignmentsJSON["courseWork"] {
@@ -231,6 +234,9 @@ class Classroom: Identifiable, ObservableObject {
             task.resume()
             
             
+            
+            
+            
 
             
             
@@ -319,6 +325,9 @@ class Classroom: Identifiable, ObservableObject {
         return hidden
     }
     
+    func getCourseID() -> String {
+        return courseID
+    }
     
     
 }

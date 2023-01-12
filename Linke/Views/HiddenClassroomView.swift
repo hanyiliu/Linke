@@ -23,6 +23,7 @@ struct HiddenClassroomView: View {
                     
                 }
             }
+
         }.navigationTitle(Text("Hidden Classrooms"))
         
     }

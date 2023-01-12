@@ -37,6 +37,8 @@ class Assignment: Identifiable {
                             if (reminder.title == self.name){
                                 print("Assignment \"\(self.name)\" exists in Reminder.")
                                 self.added = true
+                                
+                                
                                 return
                             }
                         }
@@ -53,7 +55,7 @@ class Assignment: Identifiable {
             }
         }
         
-
+        classroom.update.toggle()
         
                              
             

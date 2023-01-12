@@ -28,7 +28,7 @@ struct ClassroomView: View {
     
     
     @State private var cont = false
-    var classroom: Classroom
+    @StateObject var classroom: Classroom
     var classrooms: ClassroomAPI
     var store = EKEventStore()
     
@@ -190,7 +190,15 @@ struct ClassroomView: View {
                 }.foregroundColor(Color.gray)
                 
             }
+            Logo()
         }.navigationTitle(classroom.getName())
+        
+            .onAppear() {
+                if(classroom.getAssignments().count == 0) {
+                    classroom.queryAssignments(courseID: classroom.getCourseID(), callback: classroom.initializeAssignments)
+                }
+            }
+        
         
     }
 }
@@ -224,7 +232,9 @@ struct ChooseListView: View {
             
             Section {
                 Button("Create New List Under Current Classroom Name") {
-                    if (classroom.getIdentifier() != nil && store.calendar(withIdentifier: classroom.getIdentifier()!) != nil) {
+                    if (classroom.getIdentifier() != nil &&
+                        store.calendar(withIdentifier: classroom.getIdentifier()!) != nil &&
+                        store.calendar(withIdentifier: classroom.getIdentifier()!)?.title == classroom.getName()) {
                         alertType = .failure
                         showAlert = true
                         print("There already is an existing list under this classroom's name.")
@@ -262,6 +272,8 @@ struct ChooseListView: View {
                     
                 }
             }
+            
+            Logo()
         }.navigationTitle(Text("Select List"))
     }
 }

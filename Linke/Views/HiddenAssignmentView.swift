@@ -25,6 +25,7 @@ struct HiddenAssignmentView: View {
                     
                 }
             }
+
         }.navigationTitle(Text("Hidden Assignments"))
         
     }

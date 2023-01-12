@@ -59,12 +59,15 @@ class ClassroomAPI: ObservableObject {
                         print(error?.localizedDescription ?? "No data")
                         return
                     }
-                    
+                    print("data")
+                    print(data)
                     let json = try? JSON(data: data)
                     guard let json = json else {
                         print("JSON file invalid")
                         return
                     }
+                    print("json")
+                    print(json)
                     
                     callback!(json)
                     
@@ -115,6 +118,8 @@ class ClassroomAPI: ObservableObject {
     
     func refresh() {
         print("Recalling Google Classroom")
+        
+        classrooms = []
         initializer(callback: initializeClassrooms)
     }
     

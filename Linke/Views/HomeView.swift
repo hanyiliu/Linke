@@ -149,24 +149,9 @@ struct HomeView: View {
                         
                     }
                     
-                    Section {
-                        HStack(alignment: .bottom) {
-                            VStack {
-                                Image("GrayIcon")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: UIScreen.main.bounds.size.width/4)
-                                Text("Linke v1.0")
-                                    .foregroundColor(.gray)
-                                    .font(.system(size: 11.0))
-                                Text("Ⓒ Hanyi Liu 2023")
-                                    .foregroundColor(.gray)
-                                    .font(.system(size: 11.0))
-                            }
-                        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                            .listRowInsets(EdgeInsets())
-                            .background(Color(colorScheme == .light ? UIColor.white : UIColor.black))
-                    }
+                
+                    Logo()
+                    
                     
                     
                 }
@@ -194,4 +179,28 @@ struct HomeView: View {
 
     
 
+}
+
+struct Logo: View {
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    var body: some View {
+        Section {
+            HStack(alignment: .bottom) {
+                VStack {
+                    Image("GrayIcon")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: UIScreen.main.bounds.size.width/4)
+                    Text("Linke v1.0")
+                        .foregroundColor(.gray)
+                        .font(.system(size: 11.0))
+                    Text("Ⓒ Hanyi Liu 2023")
+                        .foregroundColor(.gray)
+                        .font(.system(size: 11.0))
+                }
+            }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                .listRowInsets(EdgeInsets())
+                .background(Color(colorScheme == .light ? UIColor.gray : UIColor.black))
+        }
+    }
 }
