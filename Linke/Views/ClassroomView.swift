@@ -193,11 +193,24 @@ struct ClassroomView: View {
             Logo()
         }.navigationTitle(classroom.getName())
         
-            .onAppear() {
-                if(classroom.getAssignments().count == 0) {
-                    classroom.queryAssignments(courseID: classroom.getCourseID(), callback: classroom.initializeAssignments)
+        .onAppear() {
+            if(classroom.getAssignments().count == 0) {
+                Task {
+                    await classroom.setAssignments(assignments: classroom.queryAssignments())
                 }
             }
+        }
+        .navigationBarItems(trailing: Button(action: {
+            
+            print(classroom.getAssignments().count)
+            
+            print("running")
+            classroom.toggleUpdate()
+            
+        }) {
+            Image(systemName: "arrow.clockwise").foregroundColor(.blue)
+        }
+        )
         
         
     }

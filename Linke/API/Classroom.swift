@@ -40,8 +40,12 @@ class Classroom: Identifiable, ObservableObject {
                 hidden = decoded
             }
         }
-
-        //queryAssignments(courseID: courseID, callback: initializeAssignments)
+        if(!hidden) {
+            Task {
+                print("Starting to loading assignments for class \(name)")
+                assignments = await queryAssignments()
+            }
+        }
         
         
     }
@@ -84,49 +88,19 @@ class Classroom: Identifiable, ObservableObject {
         }
     }
     
-    func queryAssignments(courseID: String, callback: ((_: JSON, _: String) -> Void)?) {
-        if let user = GIDSignIn.sharedInstance.currentUser {
-            user.authentication.do { authentication, error in
-                guard error == nil else { return }
-                guard let authentication = authentication else { return }
-                
-                // Get the access token to attach it to a REST or gRPC request.
-                let accessToken = authentication.accessToken
-                
-                guard let url = URL(string: "https://classroom.googleapis.com/v1/courses/\(courseID)/courseWork") else{
-                    return
+    func queryAssignments() async -> [Assignment] {
+        await withCheckedContinuation { continuation in
+            initializeAssignments { assignments in
+                continuation.resume(returning: assignments)
+                DispatchQueue.main.async {
+                    self.toggleUpdate()
                 }
+                print("Finished loading for \(self.name)")
                 
-                
-                
-                
-                
-                // create get request
-                
-                
-                var request = URLRequest(url: url)
-                request.httpMethod = "GET"
-                
-                request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                
-                let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                    guard let data = data, error == nil else {
-                        print(error?.localizedDescription ?? "No data")
-                        return
-                    }
-                    
-                    let json = try? JSON(data: data)
-                    guard let json = json else {
-                        print("JSON file invalid")
-                        return
-                    }
-                    
-                    callback!(json, accessToken)
-                    
-                }
-                task.resume()
             }
+           
         }
+        
     }
     
     func changeToSystemTimeZone(_ date: Date, from: TimeZone, to: TimeZone = TimeZone.current) -> Date {
@@ -136,113 +110,117 @@ class Classroom: Identifiable, ObservableObject {
         return Date(timeInterval: timeInterval, since: date)
     }
     
-    func initializeAssignments(assignmentsJSON: JSON, accessToken: String) {
-
-        
-        for (_,courseWork):(String, JSON) in assignmentsJSON["courseWork"] {
-//            print("COURSEWORK")
-//            print(courseWork)
-            let dateJSON = courseWork["dueDate"].dictionaryValue
-            let timeJSON = courseWork["dueTime"].dictionaryValue
-            var date: Date?
-            if(dateJSON.count == 0) {
-                date = nil
-            } else {
-                let calendar = Calendar.current
-                if(timeJSON.count == 0) {
-                    let dateComponents = DateComponents(year: dateJSON["year"]?.intValue,
-                                                        month: dateJSON["month"]?.intValue,
-                                                        day: dateJSON["day"]?.intValue
-                    )
-                    date = calendar.date(from: dateComponents)!
-                } else {
-                    let dateComponents = DateComponents(year: dateJSON["year"]?.intValue,
-                                                        month: dateJSON["month"]?.intValue,
-                                                        day: dateJSON["day"]?.intValue,
-                                                        hour: timeJSON["hours"]?.intValue,
-                                                        minute: timeJSON["minutes"]?.intValue
-                    )
-                    date = calendar.date(from: dateComponents)!
-
-
-                    let sourceOffset = TimeZone(abbreviation: "UTC")!.secondsFromGMT(for: date!)
-                    let destinationOffset = TimeZone.current.secondsFromGMT(for: date!)
-                    let timeInterval = TimeInterval(destinationOffset - sourceOffset)
-
-                    date = Date(timeInterval: timeInterval, since: date!)
-//
-//                    print("Final date:")
-
-                }
-                
-
-            }
-            
-            
-            
-            
-            
-            guard let url = URL(string: "https://classroom.googleapis.com/v1/courses/\(courseID)/courseWork/\(courseWork["id"].stringValue)/studentSubmissions") else{
-                return
-            }
-            
-            var request = URLRequest(url: url)
-            request.httpMethod = "GET"
-            
-            request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                var assignmentType: AssignmentType
-                if let d = date {
-                    guard let data = data, error == nil else {
-                        print(error?.localizedDescription ?? "No data")
+    func initializeAssignments(completion: @escaping ([Assignment]) -> Void) {
+        if let user = GIDSignIn.sharedInstance.currentUser {
+            user.authentication.do { authentication, error in
+                Task {
+                    guard error == nil else { return }
+                    guard let authentication = authentication else { return }
+                    // Get the access token to attach it to a REST or gRPC request.
+                    let accessToken = authentication.accessToken
+                    guard let url = URL(string: "https://classroom.googleapis.com/v1/courses/\(self.courseID)/courseWork") else{
                         return
                     }
                     
-                    let json = try? JSON(data: data)
-                    guard let json = json else {
-                        print("JSON file invalid")
-                        return
+                    
+                                       
+                    var request = URLRequest(url: url)
+                    request.httpMethod = "GET"
+                    request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+                    var data: Data
+                    
+                    do {
+                        (data,_) = try await URLSession.shared.data(for: request)
+                        let json = try? JSON(data: data)
+                        guard let json = json else {
+                            print("JSON file invalid")
+                            completion([])
+                            return
+                        }
+                        //start of old initializeAssignemnts
+                        let assignmentsJSON = json
+                        var assignments: [Assignment] = []
+                        for (_,courseWork):(String, JSON) in assignmentsJSON["courseWork"] {
+                //            print("COURSEWORK")
+                //            print(courseWork)
+                            let dateJSON = courseWork["dueDate"].dictionaryValue
+                            let timeJSON = courseWork["dueTime"].dictionaryValue
+                            var date: Date?
+                            if(dateJSON.count == 0) {
+                                date = nil
+                            } else {
+                                let calendar = Calendar.current
+                                if(timeJSON.count == 0) {
+                                    let dateComponents = DateComponents(year: dateJSON["year"]?.intValue,
+                                                                        month: dateJSON["month"]?.intValue,
+                                                                        day: dateJSON["day"]?.intValue
+                                    )
+                                    date = calendar.date(from: dateComponents)!
+                                } else {
+                                    let dateComponents = DateComponents(year: dateJSON["year"]?.intValue,
+                                                                        month: dateJSON["month"]?.intValue,
+                                                                        day: dateJSON["day"]?.intValue,
+                                                                        hour: timeJSON["hours"]?.intValue,
+                                                                        minute: timeJSON["minutes"]?.intValue
+                                    )
+                                    date = calendar.date(from: dateComponents)!
+                                    let sourceOffset = TimeZone(abbreviation: "UTC")!.secondsFromGMT(for: date!)
+                                    let destinationOffset = TimeZone.current.secondsFromGMT(for: date!)
+                                    let timeInterval = TimeInterval(destinationOffset - sourceOffset)
+                                    date = Date(timeInterval: timeInterval, since: date!)
+                                }
+                            }
+                            var assignmentType: AssignmentType
+                            if let d = date {
+                                guard let url = URL(string: "https://classroom.googleapis.com/v1/courses/\(self.courseID)/courseWork/\(courseWork["id"].stringValue)/studentSubmissions") else{
+                                    completion([])
+                                    return
+                                }
+                                var request = URLRequest(url: url)
+                                request.httpMethod = "GET"
+                                request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+                                var data: Data
+                                do {
+                                    (data,_) = try await URLSession.shared.data(for: request)
+                                    
+                                    let json = try? JSON(data: data)
+                                    guard let json = json else {
+                                        print("JSON file invalid")
+                                        completion([])
+                                        return
+                                    }
+                                    let submissionState = json["studentSubmissions"][0]["state"]
+                                    switch submissionState {
+                                    case "NEW", "CREATED", "RECLAIMED_BY_STUDENT":
+                                        assignmentType = .inProgress
+                                        break
+                                    case "TURNED_IN", "RETURNED":
+                                        assignmentType = .completed
+                                        break
+                                    default:
+                                        assignmentType = .completed
+                                    }
+                                    if (assignmentType == .inProgress && d.compare(Date()) == .orderedAscending) {
+                                        assignmentType = .missing
+                                    }
+                                } catch {
+                                    print("Invalid data")
+                                    assignmentType = .noDateDue
+                                }
+                            } else {
+                                assignmentType = .noDateDue
+                            }
+                            assignments.append(await Assignment(name: courseWork["title"].stringValue, id: courseWork["id"].stringValue, dueDate: date, classroom: self, type: assignmentType, store: self.store))
+                        }
+                        
+                        //end of old initializeAssignments
+                        completion(assignments)
+                    } catch {
+                        completion([])
                     }
-
-                    
-                    let submissionState = json["studentSubmissions"][0]["state"]
-                    
-                    
-                    switch submissionState {
-                    case "NEW", "CREATED", "RECLAIMED_BY_STUDENT":
-                        assignmentType = .inProgress
-                        break
-                    case "TURNED_IN", "RETURNED":
-                        assignmentType = .completed
-                        break
-                    default:
-                        assignmentType = .completed
-                    }
-                    
-                    if (assignmentType == .inProgress && d.compare(Date()) == .orderedAscending) {
-                        assignmentType = .missing
-                    }
-                } else {
-                    assignmentType = .noDateDue
                 }
-                
-                self.assignments.append(Assignment(name: courseWork["title"].stringValue, id: courseWork["id"].stringValue, dueDate: date, classroom: self, type: assignmentType, store: self.store))
-                
-                
             }
-            task.resume()
-            
-            
-            
-            
-            
-
-            
-            
-            
         }
-        
     }
     
     
@@ -250,17 +228,31 @@ class Classroom: Identifiable, ObservableObject {
         return name
     }
     
-    func getAssignments() -> [Assignment] {
+    func getAssignments() async -> [Assignment] {
+        if(assignments.count == 0) {
+            assignments = await queryAssignments()
+            
+        }
         return assignments
     }
     
-    func getAssignments(type: AssignmentType) -> [Assignment]{
+    func getAssignments() -> [Assignment] {
+
+        return assignments
+    }
+
+    func getAssignments(type: AssignmentType) async -> [Assignment]{
+        if(assignments.count == 0) {
+            assignments = await queryAssignments()
+        }
         var matches: [Assignment] = []
         for assigned in assignments {
             if(assigned.getType() == type) {
                 matches.append(assigned)
             }
         }
+        print("Matches size:")
+        print(matches.count)
         return matches
     }
     
@@ -297,7 +289,6 @@ class Classroom: Identifiable, ObservableObject {
         return hidden
     }
     
-    
     func getIdentifier() -> String? {
         return calendarIdentifier
     }
@@ -327,6 +318,16 @@ class Classroom: Identifiable, ObservableObject {
     
     func getCourseID() -> String {
         return courseID
+    }
+    
+    func setAssignments(assignments: [Assignment]) {
+        self.assignments = assignments
+    }
+    
+    func toggleUpdate() {
+        print("Toggling")
+        print(self.getName())
+        update.toggle()
     }
     
     

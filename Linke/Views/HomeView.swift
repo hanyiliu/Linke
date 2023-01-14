@@ -83,28 +83,32 @@ struct HomeView: View {
                             Form {
                                 Section {
                                     Button(action: {
-                                        addedAssignments = 0
-                                        var matchedAssignments: [Assignment] = []
-                                        
-                                        for i in 0...isCompleted.count-1 {
-                                            for classroom in classrooms.getVisibleClassrooms(){
+                                        Task {
+                                            addedAssignments = 0
+                                            let chosenTypes = items
+                                            var matchedAssignments: [Assignment] = []
+                                            
+                                            for i in 0...isCompleted.count-1 {
                                                 if(isCompleted[i]) {
-                                                    matchedAssignments += classroom.getAssignments(type: items[i])
+                                                    for classroom in classrooms.getVisibleClassrooms(){
+                                                        print(classroom.getName())
+                                                        matchedAssignments += await classroom.getAssignments(type: chosenTypes[i])
+                                                        
+                                                    }
                                                 }
                                             }
-                                        }
-                                        
-                                        for assigned in matchedAssignments {
-                                            if(!assigned.isAdded()) {
-                                                assigned.addToReminders(store: store)
-                                                addedAssignments += 1
-                                                
+                                            for assigned in matchedAssignments {
+                                                if(!assigned.isAdded()) {
+                                                    assigned.addToReminders(store: store)
+                                                    addedAssignments += 1
+                                                    
+                                                }
                                             }
+                                            print("addedAssignments:")
+                                            print(addedAssignments)
+                                            chooseAssignments = false
+                                            showAfterDismiss = true
                                         }
-                                        
-                                        chooseAssignments = false
-                                        showAfterDismiss = true
-                                        
                                     }) {
                                         Text("Add Assignments")
                                     }

@@ -19,7 +19,7 @@ class Assignment: Identifiable {
     private var hidden = false
     
     
-    init(name: String, id: String, dueDate: Date?, classroom: Classroom, type: AssignmentType, store: EKEventStore) {
+    init(name: String, id: String, dueDate: Date?, classroom: Classroom, type: AssignmentType, store: EKEventStore) async {
         self.store = store
         self.name = name
         self.dueDate = dueDate
@@ -47,16 +47,13 @@ class Assignment: Identifiable {
             }
             
         }
-        
         if let savedHidden = UserDefaults.standard.data(forKey: "\(assignmentID)_IS_HIDDEN") {
             if let decoded = try? JSONDecoder().decode(Bool.self, from: savedHidden
             ) {
                 hidden = decoded
             }
         }
-        
-        classroom.update.toggle()
-        
+
                              
             
         
