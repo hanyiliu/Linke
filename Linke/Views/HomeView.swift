@@ -11,7 +11,7 @@ import EventKit
 
 
 struct HomeView: View {
-    
+    @State public var update: Bool = false
     @StateObject var viewRouter: ViewRouter
     @StateObject var classrooms: ClassroomAPI
     @State var showAlert = false
@@ -38,7 +38,7 @@ struct HomeView: View {
                         Button("Add All Assignments to Reminders") {
                             
                             for classroom in classrooms.getVisibleClassrooms() {
-                                guard (classroom.getIdentifier() != nil && store.calendar(withIdentifier: classroom.getIdentifier()!) != nil) else {
+                                guard (classroom.getIdentifier() != nil && store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) != nil) else {
                                     print("\(classroom.getName()) has no active list.")
                                     missingListForClassroom = classroom.getName()
                                     alertType = .noList
@@ -84,6 +84,14 @@ struct HomeView: View {
                                 Section {
                                     Button(action: {
                                         Task {
+                                            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                                                if success {
+                                                    print("All set!")
+                                                } else if let error = error {
+                                                    print(error.localizedDescription)
+                                                }
+                                            }
+                                            
                                             addedAssignments = 0
                                             let chosenTypes = items
                                             var matchedAssignments: [Assignment] = []
@@ -104,10 +112,28 @@ struct HomeView: View {
                                                     
                                                 }
                                             }
-                                            print("addedAssignments:")
-                                            print(addedAssignments)
+                                            print("addedAssignments: \(addedAssignments)")
                                             chooseAssignments = false
                                             showAfterDismiss = true
+//                                            
+//                                            let content = UNMutableNotificationContent()
+//                                            content.title = "Finished Adding Assignments"
+//                                            content.subtitle = "Added \(addedAssignments) assignments"
+//                                            content.sound = UNNotificationSound.default
+//
+//                                            // show this notification five seconds from now
+//                                            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+//                                            
+//                                            // choose a random identifier
+//                                            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+//
+//                                            // add our notification request
+//                                            do {
+//                                                try await UNUserNotificationCenter.current().add(request)
+//                                            } catch {
+//                                                print("Notification error")
+//                                                print(error)
+//                                            }
                                         }
                                     }) {
                                         Text("Add Assignments")
@@ -130,8 +156,9 @@ struct HomeView: View {
                     Section(header: Text("Your Classrooms")) {
                         ForEach(classrooms.getVisibleClassrooms()) { classroom in
                             NavigationLink(destination: ClassroomView(classroom: classroom, classrooms: classrooms)) {
-                                Text(classroom.getName())
-                                
+                                Text(classroom.getName()) /*systemImage: classroom.statusImage).onAppear() {
+                                    //print("CLassroom image changed: \(classroom.statusImage)")
+                                }*/
                                 
                             }
                         }.onDelete { indexSet in
@@ -167,11 +194,7 @@ struct HomeView: View {
                     Image(systemName: "arrow.clockwise").foregroundColor(.blue)
                 }
                 )
-                
-                
-
             }
-            
         } else {
             NavigationView {}.onAppear() {
                 viewRouter.currentPage = .googleSignIn

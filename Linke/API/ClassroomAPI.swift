@@ -32,7 +32,7 @@ class ClassroomAPI: ObservableObject {
         
     }
     
-    private func initializer(callback: ((_: JSON) -> Void)?) {
+    private func initializer(callback: ((_: JSON, _: Bool) -> Void)?, manualRefresh: Bool = false) {
         if let user = GIDSignIn.sharedInstance.currentUser {
             user.authentication.do { authentication, error in
                 guard error == nil else { return }
@@ -59,17 +59,20 @@ class ClassroomAPI: ObservableObject {
                         print(error?.localizedDescription ?? "No data")
                         return
                     }
-                    print("data")
-                    print(data)
+                    //print("data")
+                    //print(data)
                     let json = try? JSON(data: data)
                     guard let json = json else {
                         print("JSON file invalid")
                         return
                     }
-                    print("json")
-                    print(json)
-                    
-                    callback!(json)
+                    //print("json")
+                    //print(json)
+                    if manualRefresh {
+                        callback!(json, true)
+                    } else {
+                        callback!(json, false)
+                    }
                     
                 }
                 task.resume()
@@ -77,16 +80,22 @@ class ClassroomAPI: ObservableObject {
         }
     }
     
-    private func initializeClassrooms(classroomJson: JSON) {
+    private func initializeClassrooms(classroomJson: JSON, manualRefresh: Bool) { //manualRefresh = false by default
         let store = EKEventStore()
         for (_,subJson):(String, JSON) in classroomJson["courses"] {
-            classrooms.append(Classroom(name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store))
+            
+            if manualRefresh {
+                classrooms.append(Classroom(name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, manualRefresh: true))
+            } else {
+                classrooms.append(Classroom(name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store))
+            }
         }
         
         print("ClassroomAPI finished loading")
+        
+        print("Classrooms count: \(classrooms.count)")
         //print("please tell me this is synced")
         self.update.toggle()
-        print(classrooms.count)
         
     }
     
@@ -120,7 +129,7 @@ class ClassroomAPI: ObservableObject {
         print("Recalling Google Classroom")
         
         classrooms = []
-        initializer(callback: initializeClassrooms)
+        initializer(callback: initializeClassrooms, manualRefresh: true)
     }
     
     

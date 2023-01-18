@@ -9,11 +9,12 @@ import GoogleSignIn
 import GoogleSignInSwift
 import SwiftyJSON
 import EventKit
+import UserNotifications
 
 class Classroom: Identifiable, ObservableObject {
     
     @Published var update = false
-    
+    //@Published var statusImage: String
     private var name: String
     private var courseID: String
     private var assignments: [Assignment] = []
@@ -21,29 +22,32 @@ class Classroom: Identifiable, ObservableObject {
     private var hidden = false
     private var store: EKEventStore
     
-    init(name: String, courseID: String, placeholder: Bool = false, store: EKEventStore) {
+    init(name: String, courseID: String, placeholder: Bool = false, store: EKEventStore, manualRefresh: Bool = false) {
         self.store = store
         self.name = name
         self.courseID = courseID
-        print("Initializing class \(name)")
+        //self.statusImage = "minus.circle.fill"
+        print("CLASSROOM: Initializing class \(name)")
+
         
-        if let savedCalendarIdentifier = UserDefaults.standard.data(forKey: "\(courseID)_CALENDAR_IDENTIFIER") {
-            if let decoded = try? JSONDecoder().decode(String.self, from: savedCalendarIdentifier
-            ) {
-                calendarIdentifier = decoded
-            }
+        calendarIdentifier = UpdateValue.loadFromLocal(key: "\(courseID)_CALENDAR_IDENTIFIER", type: "String") as? String
+        print("CLASSROOM: Classroom \(name) courseID is \(courseID)")
+        if let status = UpdateValue.loadFromLocal(key: "\(courseID)_IS_HIDDEN", type: "Bool") as? Bool {
+            
+            print("CLASSROOM: hidden status is \(status)")
+            hidden = status
+        } else {
+            print("CLASSROOM: something went wrong")
         }
-        
-        if let savedHidden = UserDefaults.standard.data(forKey: "\(courseID)_IS_HIDDEN") {
-            if let decoded = try? JSONDecoder().decode(Bool.self, from: savedHidden
-            ) {
-                hidden = decoded
-            }
-        }
+
         if(!hidden) {
             Task {
-                print("Starting to loading assignments for class \(name)")
-                assignments = await queryAssignments()
+                print("CLASSROOM: Starting to loading assignments for class \(name)")
+                if manualRefresh {
+                    assignments = await queryAssignments(manualRefresh: true)
+                } else {
+                    assignments = await queryAssignments()
+                }
             }
         }
         
@@ -58,7 +62,7 @@ class Classroom: Identifiable, ObservableObject {
         for calendar in store.calendars(for: .reminder) {
             if(calendar.title == name) {
                 existingCalendar = calendar
-                print("\(name)'s Reminders list already exists.")
+                print("CLASSROOM: \(name)'s Reminders list already exists.")
                 // Skip the remainder of the current iteration and move on to the next iteration
                 continue
             }
@@ -80,7 +84,7 @@ class Classroom: Identifiable, ObservableObject {
             do {
                 try store.saveCalendar(classCalendar, commit: true)
             }  catch {
-                print("Error while trying to save new Reminder List")
+                print("CLASSROOM: Error while trying to save new Reminder List")
                 print(error)
             }
         } else {
@@ -88,14 +92,18 @@ class Classroom: Identifiable, ObservableObject {
         }
     }
     
-    func queryAssignments() async -> [Assignment] {
+    func queryAssignments(manualRefresh: Bool = false) async -> [Assignment] {
         await withCheckedContinuation { continuation in
-            initializeAssignments { assignments in
+            initializeAssignments(manualRefresh: manualRefresh) { assignments in
                 continuation.resume(returning: assignments)
                 DispatchQueue.main.async {
                     self.toggleUpdate()
                 }
-                print("Finished loading for \(self.name)")
+                //self.setStatusImage(statusImage: "checkmark.circle.fill")
+                
+                
+                
+                print("CLASSROOM: Finished loading for \(self.name)")
                 
             }
            
@@ -110,7 +118,7 @@ class Classroom: Identifiable, ObservableObject {
         return Date(timeInterval: timeInterval, since: date)
     }
     
-    func initializeAssignments(completion: @escaping ([Assignment]) -> Void) {
+    func initializeAssignments(manualRefresh: Bool = false, completion: @escaping ([Assignment]) -> Void) {
         if let user = GIDSignIn.sharedInstance.currentUser {
             user.authentication.do { authentication, error in
                 Task {
@@ -118,7 +126,7 @@ class Classroom: Identifiable, ObservableObject {
                     guard let authentication = authentication else { return }
                     // Get the access token to attach it to a REST or gRPC request.
                     let accessToken = authentication.accessToken
-                    guard let url = URL(string: "https://classroom.googleapis.com/v1/courses/\(self.courseID)/courseWork") else{
+                    guard let url = URL(string: "https://classroom.googleapis.com/v1/courses/\(self.courseID)/courseWork") else{ //For entire classroom. Queried once for every classroom.
                         return
                     }
                     
@@ -133,7 +141,7 @@ class Classroom: Identifiable, ObservableObject {
                         (data,_) = try await URLSession.shared.data(for: request)
                         let json = try? JSON(data: data)
                         guard let json = json else {
-                            print("JSON file invalid")
+                            print("CLASSROOM: JSON file invalid")
                             completion([])
                             return
                         }
@@ -146,6 +154,7 @@ class Classroom: Identifiable, ObservableObject {
                             let dateJSON = courseWork["dueDate"].dictionaryValue
                             let timeJSON = courseWork["dueTime"].dictionaryValue
                             var date: Date?
+                            
                             if(dateJSON.count == 0) {
                                 date = nil
                             } else {
@@ -171,8 +180,13 @@ class Classroom: Identifiable, ObservableObject {
                                 }
                             }
                             var assignmentType: AssignmentType
-                            if let d = date {
-                                guard let url = URL(string: "https://classroom.googleapis.com/v1/courses/\(self.courseID)/courseWork/\(courseWork["id"].stringValue)/studentSubmissions") else{
+                            
+                            //TODO: Add check for if type is already stored
+                            if !manualRefresh, let data = UpdateValue.loadFromLocal(key: "\(courseWork["id"])_TYPE", type: "AssignmentType") as? AssignmentType {
+                                print("CLASSROOM: Assignment \"\(courseWork["title"].stringValue)\" from classroom \(self.name) already has a stored type")
+                                assignmentType = data
+                            } else if let d = date {
+                                guard let url = URL(string: "https://classroom.googleapis.com/v1/courses/\(self.courseID)/courseWork/\(courseWork["id"].stringValue)/studentSubmissions") else{ //For every assignment. Queried once for every assignment.
                                     completion([])
                                     return
                                 }
@@ -181,11 +195,12 @@ class Classroom: Identifiable, ObservableObject {
                                 request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
                                 var data: Data
                                 do {
+                                    print("CLASSROOM: Querying request for assignment \"\(courseWork["title"].stringValue)\" from classroom \(self.name)")
                                     (data,_) = try await URLSession.shared.data(for: request)
                                     
                                     let json = try? JSON(data: data)
                                     guard let json = json else {
-                                        print("JSON file invalid")
+                                        print("CLASSROOM: JSON file invalid")
                                         completion([])
                                         return
                                     }
@@ -204,7 +219,7 @@ class Classroom: Identifiable, ObservableObject {
                                         assignmentType = .missing
                                     }
                                 } catch {
-                                    print("Invalid data")
+                                    print("CLASSROOM: Invalid data")
                                     assignmentType = .noDateDue
                                 }
                             } else {
@@ -216,6 +231,7 @@ class Classroom: Identifiable, ObservableObject {
                         //end of old initializeAssignments
                         completion(assignments)
                     } catch {
+                        print("CLASSROOM: Interesting")
                         completion([])
                     }
                 }
@@ -251,7 +267,7 @@ class Classroom: Identifiable, ObservableObject {
                 matches.append(assigned)
             }
         }
-        print("Matches size:")
+        print("CLASSROOM: Matches size:")
         print(matches.count)
         return matches
     }
@@ -294,20 +310,15 @@ class Classroom: Identifiable, ObservableObject {
     }
     
     func setIdentifier(calendarIdentifier: String) {
-        
-        if let encoded = try? JSONEncoder().encode(calendarIdentifier) {
-            UserDefaults.standard.set(encoded, forKey: "\(courseID)_CALENDAR_IDENTIFIER")
-        }
+
+        UpdateValue.saveToLocal(key: "\(courseID)_CALENDAR_IDENTIFIER", value: calendarIdentifier)
         
         self.calendarIdentifier = calendarIdentifier
     }
     
     func setHiddenStatus(hidden: Bool) {
 
-        if let encoded = try? JSONEncoder().encode(hidden) {
-
-            UserDefaults.standard.set(encoded, forKey: "\(courseID)_IS_HIDDEN")
-        }
+        UpdateValue.saveToLocal(key: "\(courseID)_IS_HIDDEN", value: hidden)
         
         self.hidden = hidden
     }
@@ -315,6 +326,7 @@ class Classroom: Identifiable, ObservableObject {
     func getHiddenStatus() -> Bool {
         return hidden
     }
+
     
     func getCourseID() -> String {
         return courseID
@@ -325,10 +337,14 @@ class Classroom: Identifiable, ObservableObject {
     }
     
     func toggleUpdate() {
-        print("Toggling")
-        print(self.getName())
         update.toggle()
     }
+    
+//    func setStatusImage(statusImage: String) {
+//        print("Status image changed to \(statusImage)")
+//        self.statusImage = statusImage
+//        //HomeView.update.toggle()
+//    }
     
     
 }

@@ -43,3 +43,68 @@ struct LinkerApp: App {
 
     
 }
+
+struct UpdateValue: Any {
+    static func saveToLocal(key: String, value: Bool) {
+        if let encoded = try? JSONEncoder().encode(value) {
+            UserDefaults.standard.set(encoded, forKey: key)
+        }
+    }
+    
+    static func saveToLocal(key: String, value: String) {
+        if let encoded = try? JSONEncoder().encode(value) {
+            UserDefaults.standard.set(encoded, forKey: key)
+        }
+    }
+    
+    static func saveToLocal(key: String, value: AssignmentType) {
+        if let encoded = try? JSONEncoder().encode(value) {
+            UserDefaults.standard.set(encoded, forKey: key)
+        }
+    }
+    
+    
+    static func loadFromLocal(key: String, type: String) -> Any? {
+        if let data = UserDefaults.standard.data(forKey: key) {
+            switch(type) {
+            case "String":
+                if let decoded = try? JSONDecoder().decode(String.self, from: data
+                ) {
+                    return decoded
+                } else {
+                    return nil
+                }
+            case "Bool":
+                if let decoded = try? JSONDecoder().decode(Bool.self, from: data
+                ) {
+                    return decoded
+                } else {
+                    return nil
+                }
+            case "AssignmentType":
+                if let decoded = try? JSONDecoder().decode(AssignmentType.self, from: data
+                ) {
+                    return decoded
+                } else {
+                    return nil
+                }
+            default:
+                return nil
+            
+            }
+        } else {
+            
+            
+            return nil
+        }
+    }
+    
+    static func getCalendar(store: EKEventStore, identifier: String) -> EKCalendar? {
+        for calendar in store.calendars(for: .reminder) {
+            if calendar.calendarIdentifier == identifier {
+                return calendar
+            }
+        }
+        return nil
+    }
+}

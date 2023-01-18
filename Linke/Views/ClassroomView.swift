@@ -37,7 +37,7 @@ struct ClassroomView: View {
             Section {
                 
                 Button("Add Assignments to Reminders") {
-                    if(classroom.getIdentifier() == nil || store.calendar(withIdentifier: classroom.getIdentifier()!) == nil) {
+                    if(classroom.getIdentifier() == nil || store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) == nil) {
                         print("No list found")
                         alertType = .noList
                         showAlert = true
@@ -141,7 +141,8 @@ struct ClassroomView: View {
                     }.foregroundColor(Color.gray)
                     .onAppear() {
                         if let listIdentiifer = classroom.getIdentifier() {
-                            if let calendar = store.calendar(withIdentifier: listIdentiifer) {
+                            //if let calendar = store.calendar(withIdentifier: listIdentiifer) {
+                            if let calendar = store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == listIdentiifer }){
                                 classroomListName = calendar.title
                             } else {
                                 print("Invalid calendar identifier")
@@ -246,8 +247,8 @@ struct ChooseListView: View {
             Section {
                 Button("Create New List Under Current Classroom Name") {
                     if (classroom.getIdentifier() != nil &&
-                        store.calendar(withIdentifier: classroom.getIdentifier()!) != nil &&
-                        store.calendar(withIdentifier: classroom.getIdentifier()!)?.title == classroom.getName()) {
+                        store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) != nil &&
+                        store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! })?.title == classroom.getName()) {
                         alertType = .failure
                         showAlert = true
                         print("There already is an existing list under this classroom's name.")
@@ -255,7 +256,7 @@ struct ChooseListView: View {
                         classroom.initializeList(store: store)
                         
                         if let listIdentiifer = classroom.getIdentifier() {
-                            if let calendar = store.calendar(withIdentifier: listIdentiifer) {
+                            if let calendar = store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == listIdentiifer }) {
                                 classroomListName = calendar.title
                                 alertType = .success
                                 showAlert = true

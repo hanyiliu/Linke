@@ -28,8 +28,10 @@ class Assignment: Identifiable {
         self.added = false
         self.assignmentID = id
         
+        UpdateValue.saveToLocal(key: "\(assignmentID)_TYPE", value: type)
+        
         if let identifier = classroom.getIdentifier() {
-            if let calendar = store.calendar(withIdentifier: identifier) {
+            if let calendar = store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == identifier }) {
                 let eventsPredicate = store.predicateForReminders(in: [calendar])
                 store.fetchReminders(matching: eventsPredicate, completion: {(_ reminders: [Any]?) -> Void in
                     for reminder: EKReminder? in reminders as? [EKReminder?] ?? [EKReminder?]() {
@@ -47,11 +49,9 @@ class Assignment: Identifiable {
             }
             
         }
-        if let savedHidden = UserDefaults.standard.data(forKey: "\(assignmentID)_IS_HIDDEN") {
-            if let decoded = try? JSONDecoder().decode(Bool.self, from: savedHidden
-            ) {
-                hidden = decoded
-            }
+        
+        if let data = UpdateValue.loadFromLocal(key: "\(assignmentID)_IS_HIDDEN", type: "Bool") as? Bool {
+            hidden = data
         }
 
                              
@@ -85,7 +85,7 @@ class Assignment: Identifiable {
 //            classroom.initializeList(store: store)
 //        }
         var classCalendar: EKCalendar
-        if let calendar = store.calendar(withIdentifier: classroom.getIdentifier()!) {
+        if let calendar = store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) {
             classCalendar = calendar
         } else {
             print("Invalid calendar identifier while trying to add reminder \(name) from classroom \(classroom.getName())")
@@ -138,12 +138,7 @@ class Assignment: Identifiable {
     
     
     func setHiddenStatus(hidden: Bool) {
-
-        if let encoded = try? JSONEncoder().encode(hidden) {
-
-            UserDefaults.standard.set(encoded, forKey: "\(assignmentID)_IS_HIDDEN")
-        }
-        
+        UpdateValue.saveToLocal(key: "\(assignmentID)_IS_HIDDEN", value: hidden)
         self.hidden = hidden
     }
     
@@ -155,7 +150,7 @@ class Assignment: Identifiable {
     
 }
 
-enum AssignmentType : CustomStringConvertible, Identifiable {
+enum AssignmentType : CustomStringConvertible, Identifiable, Encodable, Decodable {
     case missing
     case inProgress
     case noDateDue
