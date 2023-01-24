@@ -7,6 +7,7 @@
 
 import SwiftUI
 import GoogleSignIn
+import GoogleMobileAds
 import EventKit
 
 struct HomeView: View {
@@ -119,6 +120,7 @@ struct HomeView: View {
                     }
                     Logo()
                 }
+                
                 .navigationTitle("Hello, \(profile.name)")
                 .navigationBarItems(trailing: Button(action: {
                     classrooms.refresh()
@@ -127,6 +129,8 @@ struct HomeView: View {
                 }
                 )
             }
+            Banner()
+            
         } else {
             NavigationView {}.onAppear() {
                 viewRouter.currentPage = .googleSignIn

@@ -1,6 +1,7 @@
 platform :ios, '16.0'
-target 'Linker' do
+target 'Linke' do
     pod 'GoogleSignIn'
     pod 'GoogleSignInSwiftSupport'
     pod 'SwiftyJSON'
+    pod 'Google-Mobile-Ads-SDK'
 end

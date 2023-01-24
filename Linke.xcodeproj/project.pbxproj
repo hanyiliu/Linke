@@ -10,8 +10,9 @@
 		0B229F82296D3411005DECC1 /* HiddenClassroomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B229F81296D3411005DECC1 /* HiddenClassroomView.swift */; };
 		0B229F84296D3A32005DECC1 /* HiddenAssignmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B229F83296D3A32005DECC1 /* HiddenAssignmentView.swift */; };
 		0B229F86296D3DDB005DECC1 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B229F85296D3DDB005DECC1 /* LoadingView.swift */; };
+		0B2BEBD3297F89A700E19E3B /* GoogleBannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2BEBD2297F89A700E19E3B /* GoogleBannerAdView.swift */; };
 		0BBDBB3C2941752F00EB94C6 /* Classroom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBDBB3B2941752F00EB94C6 /* Classroom.swift */; };
-		0BD150E82940485400256154 /* LinkerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD150E72940485400256154 /* LinkerApp.swift */; };
+		0BD150E82940485400256154 /* LinkeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD150E72940485400256154 /* LinkeApp.swift */; };
 		0BD150EA2940485400256154 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD150E92940485400256154 /* ContentView.swift */; };
 		0BD150EC2940485700256154 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BD150EB2940485700256154 /* Assets.xcassets */; };
 		0BD150EF2940485700256154 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BD150EE2940485700256154 /* Preview Assets.xcassets */; };
@@ -22,7 +23,7 @@
 		0BD151052940820A00256154 /* ClassroomAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD151042940820A00256154 /* ClassroomAPI.swift */; };
 		0BD7D42029431B11000393A5 /* Assignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7D41F29431B11000393A5 /* Assignment.swift */; };
 		0BD7D4222944449F000393A5 /* ClassroomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7D4212944449F000393A5 /* ClassroomView.swift */; };
-		0F419D14D52F14414E18E909 /* libPods-Linker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B81074692DF533F538F01F52 /* libPods-Linker.a */; };
+		CA7DDE6D54A9E36332B4211E /* libPods-Linke.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB452289B1D264AADDF6BE08 /* libPods-Linke.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,9 +45,10 @@
 		0B229F81296D3411005DECC1 /* HiddenClassroomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenClassroomView.swift; sourceTree = "<group>"; };
 		0B229F83296D3A32005DECC1 /* HiddenAssignmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenAssignmentView.swift; sourceTree = "<group>"; };
 		0B229F85296D3DDB005DECC1 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		0B2BEBD2297F89A700E19E3B /* GoogleBannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleBannerAdView.swift; sourceTree = "<group>"; };
 		0BBDBB3B2941752F00EB94C6 /* Classroom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classroom.swift; sourceTree = "<group>"; };
 		0BD150E42940485400256154 /* Linke.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linke.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0BD150E72940485400256154 /* LinkerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkerApp.swift; sourceTree = "<group>"; };
+		0BD150E72940485400256154 /* LinkeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkeApp.swift; sourceTree = "<group>"; };
 		0BD150E92940485400256154 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0BD150EB2940485700256154 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0BD150EE2940485700256154 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -59,8 +61,10 @@
 		0BD7D41F29431B11000393A5 /* Assignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assignment.swift; sourceTree = "<group>"; };
 		0BD7D4212944449F000393A5 /* ClassroomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassroomView.swift; sourceTree = "<group>"; };
 		0C385047D38C5108BCEBB58F /* Pods-Linker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Linker.debug.xcconfig"; path = "Target Support Files/Pods-Linker/Pods-Linker.debug.xcconfig"; sourceTree = "<group>"; };
+		4C9FB0EC32096DA4D8305673 /* Pods-Linke.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Linke.release.xcconfig"; path = "Target Support Files/Pods-Linke/Pods-Linke.release.xcconfig"; sourceTree = "<group>"; };
 		A41E2733CAF317B060BC406E /* Pods-Linker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Linker.release.xcconfig"; path = "Target Support Files/Pods-Linker/Pods-Linker.release.xcconfig"; sourceTree = "<group>"; };
-		B81074692DF533F538F01F52 /* libPods-Linker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Linker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB452289B1D264AADDF6BE08 /* libPods-Linke.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Linke.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F088C5990383D19FE4ED92C1 /* Pods-Linke.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Linke.debug.xcconfig"; path = "Target Support Files/Pods-Linke/Pods-Linke.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F419D14D52F14414E18E909 /* libPods-Linker.a in Frameworks */,
+				CA7DDE6D54A9E36332B4211E /* libPods-Linke.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,7 +103,7 @@
 				0BD151012940701A00256154 /* Views */,
 				0BD1510029406FDC00256154 /* Info.plist */,
 				0BD150F5294059BD00256154 /* API */,
-				0BD150E72940485400256154 /* LinkerApp.swift */,
+				0BD150E72940485400256154 /* LinkeApp.swift */,
 				0BD150FC29406C0C00256154 /* ViewRouter.swift */,
 				0BD150EB2940485700256154 /* Assets.xcassets */,
 				0BD150ED2940485700256154 /* Preview Content */,
@@ -136,6 +140,7 @@
 				0B229F83296D3A32005DECC1 /* HiddenAssignmentView.swift */,
 				0BD7D4212944449F000393A5 /* ClassroomView.swift */,
 				0B229F85296D3DDB005DECC1 /* LoadingView.swift */,
+				0B2BEBD2297F89A700E19E3B /* GoogleBannerAdView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -143,9 +148,9 @@
 		142F5764C5794AD6DA722635 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B81074692DF533F538F01F52 /* libPods-Linker.a */,
 				0B229F69296D1F67005DECC1 /* WidgetKit.framework */,
 				0B229F6B296D1F67005DECC1 /* SwiftUI.framework */,
+				EB452289B1D264AADDF6BE08 /* libPods-Linke.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -155,6 +160,8 @@
 			children = (
 				0C385047D38C5108BCEBB58F /* Pods-Linker.debug.xcconfig */,
 				A41E2733CAF317B060BC406E /* Pods-Linker.release.xcconfig */,
+				F088C5990383D19FE4ED92C1 /* Pods-Linke.debug.xcconfig */,
+				4C9FB0EC32096DA4D8305673 /* Pods-Linke.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -234,15 +241,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Linker/Pods-Linker-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Linke/Pods-Linke-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Linker/Pods-Linker-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Linke/Pods-Linke-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Linker/Pods-Linker-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Linke/Pods-Linke-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BAF67F059AFB04CD344BC693 /* [CP] Check Pods Manifest.lock */ = {
@@ -260,7 +267,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Linker-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Linke-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -284,9 +291,10 @@
 				0B229F82296D3411005DECC1 /* HiddenClassroomView.swift in Sources */,
 				0BBDBB3C2941752F00EB94C6 /* Classroom.swift in Sources */,
 				0BD7D4222944449F000393A5 /* ClassroomView.swift in Sources */,
+				0B2BEBD3297F89A700E19E3B /* GoogleBannerAdView.swift in Sources */,
 				0BD151052940820A00256154 /* ClassroomAPI.swift in Sources */,
 				0B229F86296D3DDB005DECC1 /* LoadingView.swift in Sources */,
-				0BD150E82940485400256154 /* LinkerApp.swift in Sources */,
+				0BD150E82940485400256154 /* LinkeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,7 +417,7 @@
 		};
 		0BD150F32940485700256154 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0C385047D38C5108BCEBB58F /* Pods-Linker.debug.xcconfig */;
+			baseConfigurationReference = F088C5990383D19FE4ED92C1 /* Pods-Linke.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -442,7 +450,7 @@
 		};
 		0BD150F42940485700256154 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A41E2733CAF317B060BC406E /* Pods-Linker.release.xcconfig */;
+			baseConfigurationReference = 4C9FB0EC32096DA4D8305673 /* Pods-Linke.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
