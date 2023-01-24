@@ -32,10 +32,7 @@ struct ReminderAccessView: View {
                         print(error!)
                     } else {
                         viewRouter.currentPage = .home
-                    }
-                    
-                    
-                    
+                    } 
                 }
             }
             .tint(.blue)

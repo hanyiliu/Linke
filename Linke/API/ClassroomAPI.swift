@@ -132,6 +132,34 @@ class ClassroomAPI: ObservableObject {
         initializer(callback: initializeClassrooms, manualRefresh: true)
     }
     
+    func clear() {
+        print("Clearing Google Classroom API")
+        
+        classrooms = []
+        ClassroomAPI.started = false
+    }
+    
+    func addAllAssignments(store: EKEventStore, isCompleted: [Bool], chosenTypes: [AssignmentType]) async -> Int{
+        var matchedAssignments: [Assignment] = []
+        var count = 0
+        for i in 0...isCompleted.count-1 {
+            if(isCompleted[i]) {
+                for classroom in self.getVisibleClassrooms(){
+                    print(classroom.getName())
+                    matchedAssignments += await classroom.getAssignments(type: chosenTypes[i])
+                }
+            }
+        }
+        for assigned in matchedAssignments {
+            if(!assigned.isAdded()) {
+                assigned.addToReminders(store: store)
+                count += 1
+            }
+        }
+        print("addedAssignments: \(count)")
+        return count
+    }
+    
     
     
     

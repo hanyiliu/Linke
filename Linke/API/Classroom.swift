@@ -340,6 +340,22 @@ class Classroom: Identifiable, ObservableObject {
         update.toggle()
     }
     
+    func addAssignments(isCompleted: [Bool], items: [AssignmentType]) -> Int {
+        var count = 0
+        var matchedAssignments: [Assignment] = []
+        for i in 0...isCompleted.count-1 {
+            if(isCompleted[i]) {
+                matchedAssignments += self.getVisibleAssignments(type: items[i])
+            }
+        }
+        for assigned in matchedAssignments {
+            if(!assigned.isAdded()) {
+                assigned.addToReminders(store: store)
+                count += 1
+            }
+        }
+        return count
+    }
 //    func setStatusImage(statusImage: String) {
 //        print("Status image changed to \(statusImage)")
 //        self.statusImage = statusImage

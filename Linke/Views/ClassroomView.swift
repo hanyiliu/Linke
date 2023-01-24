@@ -11,76 +11,55 @@ import EventKit
 struct ClassroomView: View {
     @State private var chooseAssignments = false
     @State private var setList = false
-    
+
     @State private var showAlert = false
     @State private var statusReport = false
-    
+
     @State private var alertType = AlertType.noList
-    
+
     @State private var classroomListName = "None"
     @State private var addedAssignments = 0
     @State private var showAfterDismiss = false
-    
+
     @State private var isCompleted = [false, false, false, false]
     @State private var items = [AssignmentType.inProgress, .missing, .noDateDue, .completed]
 
-
-    
-    
     @State private var cont = false
     @StateObject var classroom: Classroom
     var classrooms: ClassroomAPI
     var store = EKEventStore()
-    
     var body: some View {
         Form {
             Section {
-                
                 Button("Add Assignments to Reminders") {
                     if(classroom.getIdentifier() == nil || store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) == nil) {
                         print("No list found")
                         alertType = .noList
                         showAlert = true
                         cont = false
-                        
                     } else {
-                        
                         chooseAssignments = true
                     }
-
-                    
-                    
-                    
-                    
-
                 }
-                
                 .alert(isPresented: $showAlert) {
                     switch alertType {
-                        
                     case .noList:
                         return Alert(
                             title: Text(""),
                             message: Text("There is no chosen list. Please select a list, then try again.")
                             )
-                        
                     case .statusReport:
-                        
                         return Alert(
                             title: Text(""),
                             message: Text("Finished adding assignments. \n Added \(addedAssignments) new assignments out of \(classroom.getAssignments().count) assignments"),
                             dismissButton: .default(Text("Cool!"), action: {
                                 statusReport.toggle()
                             })
-                        
                         )
                     default:
                         return Alert(title: Text("You found a secret!"))
-                        
                     }
-                    
                 }
-                
                 .sheet(isPresented: $chooseAssignments, onDismiss: {
                     if(showAfterDismiss) {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -89,33 +68,14 @@ struct ClassroomView: View {
                             showAfterDismiss = false
                             isCompleted = [false, false, false, false]
                         }
-                        
                     }
                 }, content: {
-                    
                     Form {
                         Section {
                             Button(action: {
-                                addedAssignments = 0
-                                var matchedAssignments: [Assignment] = []
-                                
-                                for i in 0...isCompleted.count-1 {
-                                    if(isCompleted[i]) {
-                                        matchedAssignments += classroom.getVisibleAssignments(type: items[i])
-                                    }
-                                }
-                                
-                                for assigned in matchedAssignments {
-                                    if(!assigned.isAdded()) {
-                                        assigned.addToReminders(store: store)
-                                        addedAssignments += 1
-                                        
-                                    }
-                                }
-                                
+                                addedAssignments = classroom.addAssignments(isCompleted: isCompleted, items: items)
                                 chooseAssignments = false
                                 showAfterDismiss = true
-                                
                             }) {
                                 Text("Add Assignments")
                             }
@@ -135,7 +95,6 @@ struct ClassroomView: View {
                 HStack {
                     Text("Reminder List")
                     Spacer()
-                    
                     NavigationLink(destination: ChooseListView(classroomListName: classroomListName, classroom: classroom)) {
                         Text(classroomListName)
                     }.foregroundColor(Color.gray)
@@ -147,12 +106,10 @@ struct ClassroomView: View {
                             } else {
                                 print("Invalid calendar identifier")
                             }
-                                
                         }
                     }
                 }
             }
-            
             Section(header: Text("In Progress")){
                 ForEach(classroom.getVisibleAssignments(type: .inProgress)) { assigned in
                     Text(assigned.getName())
@@ -189,11 +146,9 @@ struct ClassroomView: View {
                 NavigationLink(destination: HiddenAssignmentView(classrooms: classrooms, classroom: classroom)) {
                     Text("Hidden Assignments")
                 }.foregroundColor(Color.gray)
-                
             }
             Logo()
         }.navigationTitle(classroom.getName())
-        
         .onAppear() {
             if(classroom.getAssignments().count == 0) {
                 Task {
@@ -202,18 +157,13 @@ struct ClassroomView: View {
             }
         }
         .navigationBarItems(trailing: Button(action: {
-            
             print(classroom.getAssignments().count)
-            
             print("running")
             classroom.toggleUpdate()
-            
         }) {
             Image(systemName: "arrow.clockwise").foregroundColor(.blue)
         }
         )
-        
-        
     }
 }
 
@@ -227,8 +177,7 @@ struct ChooseListView: View {
     @State var showAlert = false
     @State var alertType = AlertType.failure
     @State private var refresh = false
-    
-    
+
     var classroom: Classroom
     var store = EKEventStore()
     var body: some View {
@@ -239,11 +188,10 @@ struct ChooseListView: View {
                         classroom.setIdentifier(calendarIdentifier: list.calendarIdentifier)
                         classroomListName = list.title
                         self.mode.wrappedValue.dismiss()
-                        
+
                     }
                 }
             }
-            
             Section {
                 Button("Create New List Under Current Classroom Name") {
                     if (classroom.getIdentifier() != nil &&
@@ -254,25 +202,19 @@ struct ChooseListView: View {
                         print("There already is an existing list under this classroom's name.")
                     } else {
                         classroom.initializeList(store: store)
-                        
                         if let listIdentiifer = classroom.getIdentifier() {
                             if let calendar = store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == listIdentiifer }) {
                                 classroomListName = calendar.title
                                 alertType = .success
                                 showAlert = true
-                                
                             } else {
                                 print("Invalid calendar identifier")
-                                
                             }
-                            
                         }
                     }
-                    
                 }.alert(isPresented: $showAlert) {
                     switch alertType {
                     case .failure:
-                        
                         return Alert(title: Text(""),
                                      message: Text("There already is an existing list under this classroom's name."))
                     case .success:
@@ -281,12 +223,8 @@ struct ChooseListView: View {
                     default:
                         return Alert(title: Text("You found a secret!"))
                     }
-                    
-                        
-                    
                 }
             }
-            
             Logo()
         }.navigationTitle(Text("Select List"))
     }
