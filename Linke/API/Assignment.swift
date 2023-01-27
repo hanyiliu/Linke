@@ -76,7 +76,7 @@ class Assignment: Identifiable {
         return added
     }
     
-    func addToReminders(store: EKEventStore){
+    func addToReminders(store: EKEventStore) -> Bool {
         
         store.requestAccess(to: .event) { (granted, error) in
             // handle the response here
@@ -89,7 +89,7 @@ class Assignment: Identifiable {
             classCalendar = calendar
         } else {
             print("Invalid calendar identifier while trying to add reminder \(name) from classroom \(classroom.getName())")
-            return
+            return false
         }
         let eventsPredicate = store.predicateForReminders(in: [classCalendar])
         store.fetchReminders(matching: eventsPredicate, completion: {(_ reminders: [Any]?) -> Void in
@@ -132,7 +132,12 @@ class Assignment: Identifiable {
         })
         
         
-        
+        if(added == true) {
+            return true
+        }
+        return false
+            
+    
         
     }
     

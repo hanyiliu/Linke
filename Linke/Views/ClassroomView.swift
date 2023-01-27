@@ -23,6 +23,8 @@ struct ClassroomView: View {
 
     @State private var isCompleted = [false, false, false, false]
     @State private var items = [AssignmentType.inProgress, .missing, .noDateDue, .completed]
+    
+    @State private var selectedList: String?
 
     @State private var cont = false
     @StateObject var classroom: Classroom
@@ -95,8 +97,9 @@ struct ClassroomView: View {
                 HStack {
                     Text("Reminder List")
                     Spacer()
-                    NavigationLink(destination: ChooseListView(classroomListName: classroomListName, classroom: classroom)) {
-                        Text(classroomListName)
+                    Button(classroomListName) {
+                        print("hey")
+                        setList = true
                     }.foregroundColor(Color.gray)
                     .onAppear() {
                         if let listIdentiifer = classroom.getIdentifier() {
@@ -108,6 +111,65 @@ struct ClassroomView: View {
                             }
                         }
                     }
+                    .sheet(isPresented: $setList, onDismiss: {
+                        //print("Dismissed")
+                    }, content: {
+                        Form {
+                            Section {
+                                ForEach(store.calendars(for: .reminder), id: \.self) { list in
+                                    Button(list.title) {
+                                        classroom.setIdentifier(calendarIdentifier: list.calendarIdentifier)
+                                        classroomListName = list.title
+                                        
+                                        setList = false
+                                    }
+                                }
+                            
+//                                ForEach(classrooms.getCalendarNames(store: store), id: \.self) { list in
+//                                        Text(list).onTapGesture {
+//                                            classroom.setIdentifier(calendarIdentifier: list.calendarIdentifier)
+//                                            classroomListName = list
+//                                            setList = false
+//                                        }
+//                                }
+                                
+                            }
+                            Section {
+                                Button("Create New List Under Current Classroom Name") {
+                                    if (classroom.getIdentifier() != nil &&
+                                        store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) != nil &&
+                                        store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! })?.title == classroom.getName()) {
+                                        alertType = .failure
+                                        showAlert = true
+                                        print("There already is an existing list under this classroom's name.")
+                                    } else {
+                                        classroom.initializeList(store: store)
+                                        if let listIdentiifer = classroom.getIdentifier() {
+                                            if let calendar = store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == listIdentiifer }) {
+                                                classroomListName = calendar.title
+                                                alertType = .success
+                                                showAlert = true
+                                            } else {
+                                                print("Invalid calendar identifier")
+                                            }
+                                        }
+                                    }
+                                }.alert(isPresented: $showAlert) {
+                                    switch alertType {
+                                    case .failure:
+                                        return Alert(title: Text(""),
+                                                     message: Text("There already is an existing list under this classroom's name."))
+                                    case .success:
+                                        return Alert(title: Text(""),
+                                                     message: Text("Successfully created new list named \(classroomListName)."))
+                                    default:
+                                        return Alert(title: Text("You found a secret!"))
+                                    }
+                                }
+                            }
+                        }.presentationDetents([PresentationDetent.medium])
+                    })
+                    Image(systemName: "chevron.right") .font(.system(size: UIFont.systemFontSize, weight: .medium)) .opacity(0.35)
                 }
             }
             Section(header: Text("In Progress")){

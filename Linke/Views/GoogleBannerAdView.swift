@@ -3,6 +3,7 @@
 //  Linke
 //
 //  Created by Hanyi Liu on 1/23/23.
+//  Code taken from: https://medium.com/@michaelbarneyjr/how-to-integrate-admob-ads-in-swiftui-fbfd3d774c50
 //
 
 import SwiftUI
@@ -15,7 +16,7 @@ private struct BannerVC: UIViewControllerRepresentable  {
         let view = GADBannerView(adSize: GADAdSizeBanner)
 
         let viewController = UIViewController()
-        view.adUnitID = "ca-app-pub-3940256099942544/2934735716" //CHANGE TO ACTUAL ID
+        view.adUnitID = "ca-app-pub-6517381768603549/5708589260" //ca-app-pub-6517381768603549/5708589260
         view.rootViewController = viewController
         viewController.view.addSubview(view)
         viewController.view.frame = CGRect(origin: .zero, size: GADAdSizeBanner.size)

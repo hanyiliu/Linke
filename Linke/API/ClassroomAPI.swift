@@ -152,12 +152,21 @@ class ClassroomAPI: ObservableObject {
         }
         for assigned in matchedAssignments {
             if(!assigned.isAdded()) {
-                assigned.addToReminders(store: store)
-                count += 1
+                if(assigned.addToReminders(store: store)){
+                    count += 1
+                }
             }
         }
         print("addedAssignments: \(count)")
         return count
+    }
+    
+    func getCalendarNames(store: EKEventStore) -> [String] {
+        var list: [String] = []
+        for cal in store.calendars(for: .reminder) {
+            list.append(cal.title)
+        }
+        return list
     }
     
     

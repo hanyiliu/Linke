@@ -2,17 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BGTaskSchedulerPermittedIdentifiers</key>
-	<array>
-		<string>com.hanyiliu.Linker.refreshAssignments</string>
-	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.hanyiliu.Linker</string>
+			<string>com.hanyiliu.Linke</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.102247840613-h0icqnch0ugvb4efp7vjob0d5ljkg90s</string>

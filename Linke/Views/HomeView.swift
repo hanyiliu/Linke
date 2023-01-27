@@ -118,7 +118,10 @@ struct HomeView: View {
                             viewRouter.currentPage = .googleSignIn
                         }.foregroundColor(Color.red)
                     }
+                    
+                    
                     Logo()
+                
                 }
                 
                 .navigationTitle("Hello, \(profile.name)")
@@ -128,7 +131,8 @@ struct HomeView: View {
                     Image(systemName: "arrow.clockwise").foregroundColor(.blue)
                 }
                 )
-            }
+                
+            }.navigationViewStyle(StackNavigationViewStyle())
             Banner()
             
         } else {
@@ -156,9 +160,10 @@ struct Logo: View {
                         .foregroundColor(.gray)
                         .font(.system(size: 11.0))
                 }
-            }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            }
+        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 .listRowInsets(EdgeInsets())
-                .background(Color(colorScheme == .light ? UIColor.lightGray : UIColor.black))
-        }
+                .background(Color(.systemGroupedBackground))
+        
     }
 }
