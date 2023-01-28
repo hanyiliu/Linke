@@ -100,9 +100,15 @@ struct HomeView: View {
                     Section(header: Text("Your Classrooms")) {
                         ForEach(classrooms.getVisibleClassrooms()) { classroom in
                             NavigationLink(destination: ClassroomView(classroom: classroom, classrooms: classrooms)) {
-                                Text(classroom.getName()) /*systemImage: classroom.statusImage).onAppear() {
-                                    //print("CLassroom image changed: \(classroom.statusImage)")
-                                }*/
+                                HStack {
+                                    
+                                    if(classroom.isReady()) {
+                                        Image(systemName: "checkmark.circle.fill").foregroundColor(.green)
+                                    } else {
+                                        Image(systemName: "minus.circle.fill").foregroundColor(.gray)
+                                    }
+                                    Text(classroom.getName())
+                                }
                             }
                         }.onDelete { indexSet in
                             classrooms.getVisibleClassrooms()[indexSet.first!].setHiddenStatus(hidden: true)

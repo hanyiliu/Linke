@@ -254,8 +254,8 @@
             filePath = "Linke/API/Classroom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "266"
-            endingLineNumber = "266"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "getAssignments(type:)"
             landmarkType = "7">
             <Locations>
@@ -302,8 +302,8 @@
             filePath = "Linke/API/Classroom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "264"
-            endingLineNumber = "264"
+            startingLineNumber = "268"
+            endingLineNumber = "268"
             landmarkName = "getAssignments(type:)"
             landmarkType = "7">
             <Locations>
@@ -365,9 +365,9 @@
             filePath = "Linke/API/Classroom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "init(name:courseID:placeholder:store:manualRefresh:archived:)"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "init(classrooms:name:courseID:placeholder:store:manualRefresh:archived:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -86,9 +86,9 @@ class ClassroomAPI: ObservableObject {
             print("JSON FILE:")
             print(subJson)
             if manualRefresh {
-                classrooms.append(Classroom(name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, manualRefresh: true, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil))
+                classrooms.append(Classroom(classrooms: self, name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, manualRefresh: true, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil))
             } else {
-                classrooms.append(Classroom(name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil))
+                classrooms.append(Classroom(classrooms: self, name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil))
             }
         }
         

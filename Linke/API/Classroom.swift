@@ -21,11 +21,14 @@ class Classroom: Identifiable, ObservableObject {
     private var calendarIdentifier: String?
     private var hidden = false
     private var store: EKEventStore
+    private var ready = false
+    private var classrooms: ClassroomAPI
     
-    init(name: String, courseID: String, placeholder: Bool = false, store: EKEventStore, manualRefresh: Bool = false, archived: Bool?) {
+    init(classrooms: ClassroomAPI, name: String, courseID: String, placeholder: Bool = false, store: EKEventStore, manualRefresh: Bool = false, archived: Bool?) {
         self.store = store
         self.name = name
         self.courseID = courseID
+        self.classrooms = classrooms
         //self.statusImage = "minus.circle.fill"
         print("CLASSROOM: Initializing class \(name)")
 
@@ -104,7 +107,8 @@ class Classroom: Identifiable, ObservableObject {
                 //self.setStatusImage(statusImage: "checkmark.circle.fill")
                 
                 
-                
+                self.ready = true
+                self.classrooms.update.toggle()
                 print("CLASSROOM: Finished loading for \(self.name)")
                 
             }
@@ -357,6 +361,10 @@ class Classroom: Identifiable, ObservableObject {
             }
         }
         return count
+    }
+    
+    func isReady() -> Bool {
+        return self.ready
     }
 //    func setStatusImage(statusImage: String) {
 //        print("Status image changed to \(statusImage)")
