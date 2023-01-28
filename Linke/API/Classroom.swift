@@ -22,7 +22,7 @@ class Classroom: Identifiable, ObservableObject {
     private var hidden = false
     private var store: EKEventStore
     
-    init(name: String, courseID: String, placeholder: Bool = false, store: EKEventStore, manualRefresh: Bool = false) {
+    init(name: String, courseID: String, placeholder: Bool = false, store: EKEventStore, manualRefresh: Bool = false, archived: Bool?) {
         self.store = store
         self.name = name
         self.courseID = courseID
@@ -36,6 +36,8 @@ class Classroom: Identifiable, ObservableObject {
             
             print("CLASSROOM: hidden status is \(status)")
             hidden = status
+        } else if let a = archived {
+            hidden = a
         } else {
             print("CLASSROOM: something went wrong")
         }

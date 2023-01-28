@@ -46,7 +46,8 @@ struct HomeView: View {
                                 }
                             }
                             chooseAssignments = true
-                        }.alert(isPresented: $showAlert) {
+                        }
+                        .alert(isPresented: $showAlert) {
                             switch alertType {
                             case .noList:
                                 return Alert(
@@ -68,7 +69,6 @@ struct HomeView: View {
                                     alertType = .statusReport
                                     showAlert = true
                                     showAfterDismiss = false
-                                    isCompleted = [false, false, false, false]
                                 }
                             }
                         }, content: {
@@ -82,7 +82,7 @@ struct HomeView: View {
                                         }
                                     }) {
                                         Text("Add Assignments")
-                                    }
+                                    }.disabled(isCompleted.allSatisfy({!$0}) ? true : false)
                                 }
                                 List {
                                     ForEach(0 ..< items.count, id: \.self) { index in
@@ -106,6 +106,7 @@ struct HomeView: View {
                             }
                         }.onDelete { indexSet in
                             classrooms.getVisibleClassrooms()[indexSet.first!].setHiddenStatus(hidden: true)
+                            classrooms.update.toggle()
                         }
                     }
                     Section {

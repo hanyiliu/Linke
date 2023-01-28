@@ -10,17 +10,17 @@ import SwiftUI
 struct HiddenClassroomView: View {
 
     @StateObject var classrooms: ClassroomAPI
-    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     var body: some View {
         Form {
             ForEach(classrooms.getHiddenClassrooms()) { classroom in
-                Text(classroom.getName()).swipeActions(edge: .leading) {
-                    Button{
+                HStack {
+                    Button(classroom.getName()) {
                         classroom.setHiddenStatus(hidden: false)
                         classrooms.update.toggle()
-                        
-                    } label: {Label("Add", systemImage: "plus.circle")}.tint(.green)
-                    
+                    }.foregroundColor((colorScheme == .light) ? Color.black : Color.white)
+                    Spacer()
+                    Image(uiImage: .add).renderingMode(.template).foregroundColor(.green)
                 }
             }
 

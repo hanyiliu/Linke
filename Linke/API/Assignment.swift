@@ -51,7 +51,7 @@ class Assignment: Identifiable {
         }
         
         if let data = UpdateValue.loadFromLocal(key: "\(assignmentID)_IS_HIDDEN", type: "Bool") as? Bool {
-            hidden = data
+            setHiddenStatus(hidden: data)
         }
 
                              
@@ -59,6 +59,7 @@ class Assignment: Identifiable {
         
         
     }
+
     
     func getName() -> String {
         return name

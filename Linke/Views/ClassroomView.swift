@@ -28,6 +28,8 @@ struct ClassroomView: View {
 
     @State private var cont = false
     @StateObject var classroom: Classroom
+    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     var classrooms: ClassroomAPI
     var store = EKEventStore()
     var body: some View {
@@ -80,7 +82,7 @@ struct ClassroomView: View {
                                 showAfterDismiss = true
                             }) {
                                 Text("Add Assignments")
-                            }
+                            }.disabled(isCompleted.allSatisfy({!$0}) ? true : false)
                         }
                         List {
                             ForEach(0 ..< items.count, id: \.self) { index in
@@ -117,14 +119,28 @@ struct ClassroomView: View {
                         Form {
                             Section {
                                 ForEach(store.calendars(for: .reminder), id: \.self) { list in
-                                    Button(list.title) {
-                                        classroom.setIdentifier(calendarIdentifier: list.calendarIdentifier)
-                                        classroomListName = list.title
+                                    HStack {
+                                        Button(list.title) {
+                                            classroom.setIdentifier(calendarIdentifier: list.calendarIdentifier)
+                                            classroomListName = list.title
+                                            
+                                            setList = false
+                                        }.foregroundColor((colorScheme == .light) ? Color.black : Color.white)
+                                        Spacer()
+                                        if(classroomListName == list.title) {
+                                            Image(systemName: "checkmark.circle.fill").resizable().aspectRatio(contentMode: ContentMode.fit)
+                                                .frame(width: UIScreen.main.bounds.size.width/18)
+                                                .foregroundColor(Color.blue)
+                                        } else {
+                                            Circle()
+                                                .strokeBorder(Color.gray, lineWidth: 1)
+                                                .aspectRatio(contentMode: ContentMode.fit)
+                                                .frame(width: UIScreen.main.bounds.size.width/18)
+                                                
+                                        }
                                         
-                                        setList = false
                                     }
                                 }
-                            
 //                                ForEach(classrooms.getCalendarNames(store: store), id: \.self) { list in
 //                                        Text(list).onTapGesture {
 //                                            classroom.setIdentifier(calendarIdentifier: list.calendarIdentifier)

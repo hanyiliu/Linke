@@ -9,7 +9,7 @@ import SwiftUI
 import GoogleSignIn
 
 struct LoadingView: View {
-    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    
     var body: some View {
         VStack {
             Image("Icon")

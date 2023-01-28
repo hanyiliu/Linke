@@ -11,18 +11,18 @@ struct HiddenAssignmentView: View {
 
     @StateObject var classrooms: ClassroomAPI
     @StateObject var classroom: Classroom
-    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     
     var body: some View {
         Form {
             ForEach(classroom.getHiddenAssignments()) { assign in
-                Text(assign.getName()).swipeActions(edge: .leading) {
-                    Button{
+                HStack {
+                    Button(assign.getName()) {
                         assign.setHiddenStatus(hidden: false)
                         classrooms.update.toggle()
-                        
-                    } label: {Label("Add", systemImage: "plus.circle")}.tint(.green)
-                    
+                    }.foregroundColor((colorScheme == .light) ? Color.black : Color.white)
+                    Spacer()
+                    Image(uiImage: .add).renderingMode(.template).foregroundColor(.green)
                 }
             }
 

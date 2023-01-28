@@ -83,11 +83,12 @@ class ClassroomAPI: ObservableObject {
     private func initializeClassrooms(classroomJson: JSON, manualRefresh: Bool) { //manualRefresh = false by default
         let store = EKEventStore()
         for (_,subJson):(String, JSON) in classroomJson["courses"] {
-            
+            print("JSON FILE:")
+            print(subJson)
             if manualRefresh {
-                classrooms.append(Classroom(name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, manualRefresh: true))
+                classrooms.append(Classroom(name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, manualRefresh: true, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil))
             } else {
-                classrooms.append(Classroom(name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store))
+                classrooms.append(Classroom(name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil))
             }
         }
         
