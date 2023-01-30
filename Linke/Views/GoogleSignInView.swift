@@ -23,10 +23,14 @@ struct GoogleSignInView: View {
         
         
         VStack {
+            Spacer()
             Image("Icon")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: UIScreen.main.bounds.size.width/3)
+            Spacer().frame(height: UIScreen.main.bounds.size.height/10)
+            Text("Welcome to Linke!").font(.title)
+            Text("Please sign in with your school account:")
             if(colorScheme == .light) {
                 GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .light, style: .standard, state: .normal), action: prepareSignIn)
                     .cornerRadius(25)
@@ -34,6 +38,7 @@ struct GoogleSignInView: View {
                 GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .dark, style: .standard, state: .normal), action: prepareSignIn)
                     .cornerRadius(25)
             }
+            Spacer()
         }
         .padding()
     }

@@ -707,5 +707,68 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "15E5BB37-A444-49C6-9FAB-5194065A6225"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Linke/API/Assignment.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "init(name:id:dueDate:classroom:type:store:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "15E5BB37-A444-49C6-9FAB-5194065A6225 - ec9d61d45fb6a0dd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Linke.Assignment.__allocating_init(name: Swift.String, id: Swift.String, dueDate: Swift.Optional&lt;Foundation.Date&gt;, classroom: Linke.Classroom, type: Linke.AssignmentType, store: __C.EKEventStore) async -&gt; Linke.Assignment"
+                  moduleName = "Linke"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyiliu/Documents/GitHub/Linke/Linke/API/Assignment.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "60">
+               </Location>
+               <Location
+                  uuid = "15E5BB37-A444-49C6-9FAB-5194065A6225 - b8df06c55d106253"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Linke.Assignment.init(name: Swift.String, id: Swift.String, dueDate: Swift.Optional&lt;Foundation.Date&gt;, classroom: Linke.Classroom, type: Linke.AssignmentType, store: __C.EKEventStore) async -&gt; Linke.Assignment"
+                  moduleName = "Linke"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyiliu/Documents/GitHub/Linke/Linke/API/Assignment.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "15E5BB37-A444-49C6-9FAB-5194065A6225 - e3f5e41c6ec0d1ea"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Linke.Assignment.init(name: Swift.String, id: Swift.String, dueDate: Swift.Optional&lt;Foundation.Date&gt;, classroom: Linke.Classroom, type: Linke.AssignmentType, store: __C.EKEventStore) async -&gt; Linke.Assignment"
+                  moduleName = "Linke"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyiliu/Documents/GitHub/Linke/Linke/API/Assignment.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "376">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

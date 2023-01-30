@@ -11,6 +11,7 @@
 		0B229F84296D3A32005DECC1 /* HiddenAssignmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B229F83296D3A32005DECC1 /* HiddenAssignmentView.swift */; };
 		0B229F86296D3DDB005DECC1 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B229F85296D3DDB005DECC1 /* LoadingView.swift */; };
 		0B2BEBD3297F89A700E19E3B /* GoogleBannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2BEBD2297F89A700E19E3B /* GoogleBannerAdView.swift */; };
+		0B2BEBD52986457B00E19E3B /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2BEBD42986457B00E19E3B /* HelpView.swift */; };
 		0BBDBB3C2941752F00EB94C6 /* Classroom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBDBB3B2941752F00EB94C6 /* Classroom.swift */; };
 		0BD150E82940485400256154 /* LinkeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD150E72940485400256154 /* LinkeApp.swift */; };
 		0BD150EA2940485400256154 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD150E92940485400256154 /* ContentView.swift */; };
@@ -46,6 +47,7 @@
 		0B229F83296D3A32005DECC1 /* HiddenAssignmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenAssignmentView.swift; sourceTree = "<group>"; };
 		0B229F85296D3DDB005DECC1 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		0B2BEBD2297F89A700E19E3B /* GoogleBannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleBannerAdView.swift; sourceTree = "<group>"; };
+		0B2BEBD42986457B00E19E3B /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		0BBDBB3B2941752F00EB94C6 /* Classroom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classroom.swift; sourceTree = "<group>"; };
 		0BD150E42940485400256154 /* Linke.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linke.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BD150E72940485400256154 /* LinkeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkeApp.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				0BD7D4212944449F000393A5 /* ClassroomView.swift */,
 				0B229F85296D3DDB005DECC1 /* LoadingView.swift */,
 				0B2BEBD2297F89A700E19E3B /* GoogleBannerAdView.swift */,
+				0B2BEBD42986457B00E19E3B /* HelpView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				0B2BEBD3297F89A700E19E3B /* GoogleBannerAdView.swift in Sources */,
 				0BD151052940820A00256154 /* ClassroomAPI.swift in Sources */,
 				0B229F86296D3DDB005DECC1 /* LoadingView.swift in Sources */,
+				0B2BEBD52986457B00E19E3B /* HelpView.swift in Sources */,
 				0BD150E82940485400256154 /* LinkeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,7 +446,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hanyiliu.Linke;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -478,7 +482,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hanyiliu.Linke;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

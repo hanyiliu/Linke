@@ -22,6 +22,8 @@ struct ContentView: View {
             GoogleSignInView(viewRouter: viewRouter)
         case .reminderAccess:
             ReminderAccessView(viewRouter: viewRouter)
+        case .help:
+            HelpView(viewRouter: viewRouter)
         case .home:
             let classrooms = ClassroomAPI()
             HomeView(viewRouter: viewRouter, classrooms: classrooms)
@@ -33,5 +35,6 @@ enum Page {
     case loading
     case googleSignIn
     case reminderAccess
+    case help
     case home
 }

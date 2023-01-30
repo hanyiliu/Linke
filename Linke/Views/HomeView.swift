@@ -11,7 +11,6 @@ import GoogleMobileAds
 import EventKit
 
 struct HomeView: View {
-    @State public var update: Bool = false
     @StateObject var viewRouter: ViewRouter
     @StateObject var classrooms: ClassroomAPI
     @State var showAlert = false
@@ -27,6 +26,7 @@ struct HomeView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     
     let store = EKEventStore()
+    
     
     var body: some View {
         let user = GIDSignIn.sharedInstance.currentUser
@@ -103,7 +103,11 @@ struct HomeView: View {
                                 HStack {
                                     
                                     if(classroom.isReady()) {
-                                        Image(systemName: "checkmark.circle.fill").foregroundColor(.green)
+                                        if(classroom.getIdentifier() == nil) {
+                                            Image(systemName: "exclamationmark.circle.fill").foregroundColor(.orange)
+                                        } else {
+                                            Image(systemName: "checkmark.circle.fill").foregroundColor(.green)
+                                        }
                                     } else {
                                         Image(systemName: "minus.circle.fill").foregroundColor(.gray)
                                     }
@@ -119,6 +123,12 @@ struct HomeView: View {
                         NavigationLink(destination: HiddenClassroomView(classrooms: classrooms)) {
                             Text("Hidden Classrooms")
                         }.foregroundColor(Color.gray)
+                        NavigationLink(destination: HelpView(viewRouter: viewRouter, fromHome: true)) {
+                            Text("Help").onTapGesture {
+                                viewRouter.currentPage = .help
+                            }
+                            
+                        }
                         Button("Sign Out") {
                             GIDSignIn.sharedInstance.signOut()
                             classrooms.clear()
@@ -160,7 +170,7 @@ struct Logo: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: UIScreen.main.bounds.size.width/4)
-                    Text("Linke v1.0")
+                    Text("Linke v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
                         .foregroundColor(.gray)
                         .font(.system(size: 11.0))
                     Text("Ⓒ Hanyi Liu 2023")

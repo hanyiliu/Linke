@@ -320,6 +320,7 @@ class Classroom: Identifiable, ObservableObject {
         UpdateValue.saveToLocal(key: "\(courseID)_CALENDAR_IDENTIFIER", value: calendarIdentifier)
         
         self.calendarIdentifier = calendarIdentifier
+        self.classrooms.update.toggle()
     }
     
     func setHiddenStatus(hidden: Bool) {
