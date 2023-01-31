@@ -31,7 +31,15 @@ struct ReminderAccessView: View {
                         print("Reminder access denied!")
                         print(error!)
                     } else {
-                        viewRouter.currentPage = .home
+                        if let data = UpdateValue.loadFromLocal(key: "SHOW_HELP", type: "Bool") as? Bool {
+                            if(data) {
+                                viewRouter.currentPage = .help
+                            } else {
+                                viewRouter.currentPage = .home
+                            }
+                        } else {
+                            viewRouter.currentPage = .help
+                        }
                     } 
                 }
             }

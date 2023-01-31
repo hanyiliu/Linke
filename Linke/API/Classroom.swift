@@ -347,7 +347,7 @@ class Classroom: Identifiable, ObservableObject {
         update.toggle()
     }
     
-    func addAssignments(isCompleted: [Bool], items: [AssignmentType]) -> Int {
+    func addAssignments(isCompleted: [Bool], items: [AssignmentType]) async -> Int {
         var count = 0
         var matchedAssignments: [Assignment] = []
         for i in 0...isCompleted.count-1 {
@@ -357,8 +357,9 @@ class Classroom: Identifiable, ObservableObject {
         }
         for assigned in matchedAssignments {
             if(!assigned.isAdded()) {
-                assigned.addToReminders(store: store)
-                count += 1
+                if(await assigned.addToReminders(store: store)) {
+                    count += 1
+                }
             }
         }
         return count

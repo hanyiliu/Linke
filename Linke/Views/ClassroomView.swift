@@ -77,9 +77,11 @@ struct ClassroomView: View {
                     Form {
                         Section {
                             Button(action: {
-                                addedAssignments = classroom.addAssignments(isCompleted: isCompleted, items: items)
-                                chooseAssignments = false
-                                showAfterDismiss = true
+                                Task {
+                                    addedAssignments = await classroom.addAssignments(isCompleted: isCompleted, items: items)
+                                    chooseAssignments = false
+                                    showAfterDismiss = true
+                                }
                             }) {
                                 Text("Add Assignments")
                             }.disabled(isCompleted.allSatisfy({!$0}) ? true : false)

@@ -77,7 +77,7 @@ class Assignment: Identifiable {
         return added
     }
     
-    func addToReminders(store: EKEventStore) -> Bool {
+    func addToReminders(store: EKEventStore) async -> Bool {
         
         store.requestAccess(to: .event) { (granted, error) in
             // handle the response here
@@ -93,12 +93,25 @@ class Assignment: Identifiable {
             return false
         }
         let eventsPredicate = store.predicateForReminders(in: [classCalendar])
+        return await withCheckedContinuation { continuation in
+            fetch(classCalendar: classCalendar, eventsPredicate: eventsPredicate, store: store) { success in
+                continuation.resume(returning: success)
+            }
+        }
+            
+    
+        
+    }
+    
+    func fetch(classCalendar: EKCalendar, eventsPredicate: NSPredicate, store: EKEventStore, completion: @escaping (Bool) -> Void) {
         store.fetchReminders(matching: eventsPredicate, completion: {(_ reminders: [Any]?) -> Void in
             for reminder: EKReminder? in reminders as? [EKReminder?] ?? [EKReminder?]() {
                 if let reminder = reminder {
                     if (reminder.title == self.name){
                         print("Assignment \"\(self.name)\" already exists in Reminder.")
                         self.added = true
+                        
+                        completion(false)
                         return
                     }
                 }
@@ -108,7 +121,7 @@ class Assignment: Identifiable {
             reminder.title = self.getName()
             
             if(!(self.getDueDate() == nil)) {
-
+                
                 let alarmTime = self.getDueDate()!
                 let alarm = EKAlarm(absoluteDate: alarmTime)
                 reminder.addAlarm(alarm)
@@ -123,24 +136,20 @@ class Assignment: Identifiable {
             } catch {
                 print("Cannot save reminder")
                 print(error)
+                completion(false)
                 return
             }
             print("Reminder for assignment \"\(self.name)\" created")
             
             self.added = true
+            completion(true)
             return
             
-        })
-        
-        
-        if(added == true) {
-            return true
-        }
-        return false
             
-    
-        
+        })
     }
+    
+    
     
     
     func setHiddenStatus(hidden: Bool) {

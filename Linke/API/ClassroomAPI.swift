@@ -153,7 +153,8 @@ class ClassroomAPI: ObservableObject {
         }
         for assigned in matchedAssignments {
             if(!assigned.isAdded()) {
-                if(assigned.addToReminders(store: store)){
+                
+                if(await assigned.addToReminders(store: store)){
                     count += 1
                 }
             }
