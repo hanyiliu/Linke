@@ -20,12 +20,12 @@ struct HelpView: View {
         
         
         TabView {
-            Help1(mode: colorScheme)
-            Help2()
-            Help3(mode: colorScheme)
-            Help4(mode: colorScheme)
-            Help5(mode: colorScheme)
-            Help6(mode: colorScheme)
+            Help1(mode: colorScheme, fromHome: fromHome)
+            Help2(fromHome: fromHome)
+            Help3(mode: colorScheme, fromHome: fromHome)
+            Help4(mode: colorScheme, fromHome: fromHome)
+            Help5(mode: colorScheme, fromHome: fromHome)
+            Help6(mode: colorScheme, fromHome: fromHome)
             Help7(viewRouter: viewRouter, fromHome: fromHome)
             
         }
@@ -40,11 +40,14 @@ struct HelpView: View {
 
 struct Help1: View {
     @State var mode: ColorScheme
+    @State var fromHome: Bool
     var body: some View {
         
         VStack {
-            Spacer()
-                .frame(height: UIScreen.main.bounds.size.height/6)
+            if !fromHome {
+                Spacer()
+                    .frame(height: UIScreen.main.bounds.size.height/6)
+            }
             Text("Once you enter the app, it'll look similar to this...")
                 .font(.largeTitle)
                 .fontWeight(.medium)
@@ -65,10 +68,13 @@ struct Help1: View {
 }
 
 struct Help2: View {
+    @State var fromHome: Bool
     var body: some View {
         VStack {
-            Spacer()
-                .frame(height: UIScreen.main.bounds.size.height/6)
+            if !fromHome {
+                Spacer()
+                    .frame(height: UIScreen.main.bounds.size.height/6)
+            }
             Text("On the home screen, classrooms will have three symbols: ")
                 .font(.largeTitle)
                 .fontWeight(.medium)
@@ -87,13 +93,23 @@ struct Help2: View {
                         .multilineTextAlignment(.leading)
                 }
                 HStack {
+                    Image(systemName: "questionmark.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(.red)
+                        .frame(width: UIScreen.main.bounds.size.width/12, alignment: .leading)
+                    Spacer().frame(width: UIScreen.main.bounds.size.width/15, alignment: .leading)
+                    Text("Does not have a chosen Reminder list")
+                        .multilineTextAlignment(.leading)
+                }
+                HStack {
                     Image(systemName: "exclamationmark.circle.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .foregroundColor(.orange)
                         .frame(width: UIScreen.main.bounds.size.width/12, alignment: .leading)
                     Spacer().frame(width: UIScreen.main.bounds.size.width/15, alignment: .leading)
-                    Text("Does not have a chosen Reminder list")
+                    Text("Have assignments not updated to Reminders")
                         .multilineTextAlignment(.leading)
                 }
                 HStack {
@@ -103,7 +119,7 @@ struct Help2: View {
                         .foregroundColor(.green)
                         .frame(width: UIScreen.main.bounds.size.width/12, alignment: .leading)
                     Spacer().frame(width: UIScreen.main.bounds.size.width/15, alignment: .leading)
-                    Text("Is ready for use")
+                    Text("Is up to date")
                         .multilineTextAlignment(.leading)
                 }
                 
@@ -116,10 +132,13 @@ struct Help2: View {
 
 struct Help3: View {
     @State var mode: ColorScheme
+    @State var fromHome: Bool
     var body: some View {
         VStack {
-            Spacer()
-                .frame(height: UIScreen.main.bounds.size.height/6)
+            if !fromHome {
+                Spacer()
+                    .frame(height: UIScreen.main.bounds.size.height/6)
+            }
             Text("You can choose a classroom's Reminders list by going to its page and selecting \"Reminder List\":")
                 .font(.largeTitle)
                 .fontWeight(.medium)
@@ -144,10 +163,13 @@ struct Help3: View {
 
 struct Help4: View {
     @State var mode: ColorScheme
+    @State var fromHome: Bool
     var body: some View {
         VStack {
-            Spacer()
-                .frame(height: UIScreen.main.bounds.size.height/6)
+            if !fromHome {
+                Spacer()
+                    .frame(height: UIScreen.main.bounds.size.height/6)
+            }
             Text("To add all assignments for all active classrooms, click the button on the home screen:")
                 .font(.largeTitle)
                 .fontWeight(.medium)
@@ -168,10 +190,13 @@ struct Help4: View {
 
 struct Help5: View {
     @State var mode: ColorScheme
+    @State var fromHome: Bool
     var body: some View {
         VStack {
-            Spacer()
-                .frame(height: UIScreen.main.bounds.size.height/6)
+            if !fromHome {
+                Spacer()
+                    .frame(height: UIScreen.main.bounds.size.height/6)
+            }
             Text("To hide a classroom, swipe left on it:")
                 .font(.largeTitle)
                 .fontWeight(.medium)
@@ -205,10 +230,13 @@ struct Help5: View {
 
 struct Help6: View {
     @State var mode: ColorScheme
+    @State var fromHome: Bool
     var body: some View {
         VStack {
-            Spacer()
-                .frame(height: UIScreen.main.bounds.size.height/6)
+            if !fromHome {
+                Spacer()
+                    .frame(height: UIScreen.main.bounds.size.height/6)
+            }
             Text("If something doesn't seem right, try refreshing the app:")
                 .font(.largeTitle)
                 .fontWeight(.medium)
@@ -234,8 +262,10 @@ struct Help7: View {
     @State var checked = false
     var body: some View {
         VStack {
-            Spacer()
-                .frame(height: UIScreen.main.bounds.size.height/3)
+            if !fromHome {
+                Spacer()
+                    .frame(height: UIScreen.main.bounds.size.height/3)
+            }
             Text("You're all set! Here's to never forgetting another assignment!")
                 .font(.largeTitle)
                 .fontWeight(.medium)
@@ -269,7 +299,13 @@ struct Help7: View {
                 }
                 .toggleStyle(CheckboxStyle())
             }
-
+            Spacer()
+                .frame(height: UIScreen.main.bounds.size.height/20)
+            Text("P.S. Linke does not store any of your data online. The only information stored are your classroom and assignment's IDs, which are useless by themselves. These data are also stored purely locally; thus, if you ever delete Linke, these information will also be deleted.")
+                .foregroundColor(.gray)
+                .padding(.horizontal, UIScreen.main.bounds.size.width/20)
+                .font(.system(size: 10))
+                .multilineTextAlignment(.center)
             Spacer()
         }
     }

@@ -13,7 +13,7 @@ class Assignment: Identifiable {
     private var dueDate: Date?
     private var classroom: Classroom
     private var type: AssignmentType
-    private var added: Bool
+    private var added: Bool = true
     private var store: EKEventStore
     private var assignmentID: String
     private var hidden = false
@@ -25,35 +25,17 @@ class Assignment: Identifiable {
         self.dueDate = dueDate
         self.classroom = classroom
         self.type = type
-        self.added = false
         self.assignmentID = id
         
         UpdateValue.saveToLocal(key: "\(assignmentID)_TYPE", value: type)
         
-        if let identifier = classroom.getIdentifier() {
-            if let calendar = store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == identifier }) {
-                let eventsPredicate = store.predicateForReminders(in: [calendar])
-                store.fetchReminders(matching: eventsPredicate, completion: {(_ reminders: [Any]?) -> Void in
-                    for reminder: EKReminder? in reminders as? [EKReminder?] ?? [EKReminder?]() {
-                        if let reminder = reminder {
-                            if (reminder.title == self.name){
-                                print("Assignment \"\(self.name)\" exists in Reminder.")
-                                self.added = true
-                                
-                                
-                                return
-                            }
-                        }
-                    }
-                })
-            }
-            
-        }
         
         if let data = UpdateValue.loadFromLocal(key: "\(assignmentID)_IS_HIDDEN", type: "Bool") as? Bool {
             setHiddenStatus(hidden: data)
         }
 
+        
+        checkIfIsAdded()
                              
             
         
@@ -69,6 +51,10 @@ class Assignment: Identifiable {
         return dueDate
     }
     
+    func getID() -> String {
+        return assignmentID
+    }
+    
     func getType() -> AssignmentType {
         return type
     }
@@ -77,10 +63,54 @@ class Assignment: Identifiable {
         return added
     }
     
+    func checkIfIsAdded() {
+        if let identifier = classroom.getIdentifier() {
+            if let calendar = store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == identifier }) {
+                let eventsPredicate = store.predicateForReminders(in: [calendar])
+                store.fetchReminders(matching: eventsPredicate, completion: {(_ reminders: [Any]?) -> Void in
+                    var found = false
+                    for reminder: EKReminder? in reminders as? [EKReminder?] ?? [EKReminder?]() {
+                        if let reminder = reminder {
+                            if (reminder.title == self.name){
+                                //print("ASSIGNMENT: Assignment \"\(self.name)\" exists in Reminder.")
+                                found = true
+                            }
+                        }
+                    }
+                    if !found {
+                        self.setAddedStatus(added: false)
+                    } else {
+                        self.setAddedStatus(added: true)
+                    }
+                    self.classroom.incrementLoadedAssignmentCount()
+                })
+            } else {
+                self.setAddedStatus(added: false)
+                self.classroom.incrementLoadedAssignmentCount()
+            }
+            
+        } else {
+            self.setAddedStatus(added: false)
+            self.classroom.incrementLoadedAssignmentCount()
+        }
+    }
+    
+    func setAddedStatus(added: Bool) {
+        self.added = added
+        if !added {
+            self.classroom.appendNotAddedAssignment(assignment: self)
+        } else {
+            self.classroom.removeNotAddedAssignment(assignment: self)
+        }
+        //self.classroom.classrooms.update.toggle()
+    }
+    
     func addToReminders(store: EKEventStore) async -> Bool {
-        
         store.requestAccess(to: .event) { (granted, error) in
-            // handle the response here
+            if let error = error {
+                print("ASSIGNMENT: Error occurred while trying to add to Reminders:")
+                print(error)
+            }
         }
 //        if classroom.getIdentifier() == nil {
 //            classroom.initializeList(store: store)
@@ -89,7 +119,7 @@ class Assignment: Identifiable {
         if let calendar = store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) {
             classCalendar = calendar
         } else {
-            print("Invalid calendar identifier while trying to add reminder \(name) from classroom \(classroom.getName())")
+            print("ASSIGNMENT: Invalid calendar identifier while trying to add reminder \(name) from classroom \(classroom.getName())")
             return false
         }
         let eventsPredicate = store.predicateForReminders(in: [classCalendar])
@@ -105,11 +135,13 @@ class Assignment: Identifiable {
     
     func fetch(classCalendar: EKCalendar, eventsPredicate: NSPredicate, store: EKEventStore, completion: @escaping (Bool) -> Void) {
         store.fetchReminders(matching: eventsPredicate, completion: {(_ reminders: [Any]?) -> Void in
+            
+            print("Fetching")
             for reminder: EKReminder? in reminders as? [EKReminder?] ?? [EKReminder?]() {
                 if let reminder = reminder {
                     if (reminder.title == self.name){
-                        print("Assignment \"\(self.name)\" already exists in Reminder.")
-                        self.added = true
+                        print("ASSIGNMENT: Assignment \"\(self.name)\" already exists in Reminder.")
+                        self.setAddedStatus(added: true)
                         
                         completion(false)
                         return
@@ -126,10 +158,16 @@ class Assignment: Identifiable {
                 let alarm = EKAlarm(absoluteDate: alarmTime)
                 reminder.addAlarm(alarm)
             } else {
-                print("Assignment \"\(self.name)\" has no due date.")
+                print("ASSIGNMENT: Assignment \"\(self.name)\" has no due date.")
             }
             
             reminder.calendar = classCalendar
+
+            if(self.type == .completed) {
+                print("ASSIGNMENT: Assignment \(self.name) is marked as complete.")
+                reminder.isCompleted = true
+            }
+            
             
             do {
                 try store.save(reminder, commit: true)
@@ -139,9 +177,11 @@ class Assignment: Identifiable {
                 completion(false)
                 return
             }
-            print("Reminder for assignment \"\(self.name)\" created")
+
             
-            self.added = true
+            print("ASSIGNMENT: Reminder for assignment \"\(self.name)\" created")
+            
+            self.setAddedStatus(added: true)
             completion(true)
             return
             

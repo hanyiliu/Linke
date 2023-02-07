@@ -21,8 +21,11 @@ class Classroom: Identifiable, ObservableObject {
     private var calendarIdentifier: String?
     private var hidden = false
     private var store: EKEventStore
-    private var ready = false
+    
     private var classrooms: ClassroomAPI
+    
+    var notAdded: [String] = []
+    var loadedAssignments = 0
     
     init(classrooms: ClassroomAPI, name: String, courseID: String, placeholder: Bool = false, store: EKEventStore, manualRefresh: Bool = false, archived: Bool?) {
         self.store = store
@@ -34,6 +37,13 @@ class Classroom: Identifiable, ObservableObject {
 
         
         calendarIdentifier = UpdateValue.loadFromLocal(key: "\(courseID)_CALENDAR_IDENTIFIER", type: "String") as? String
+        if let id = calendarIdentifier {
+            if(store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == id }) == nil) {
+                calendarIdentifier = nil
+            }
+        }
+        
+        
         print("CLASSROOM: Classroom \(name) courseID is \(courseID)")
         if let status = UpdateValue.loadFromLocal(key: "\(courseID)_IS_HIDDEN", type: "Bool") as? Bool {
             
@@ -84,7 +94,7 @@ class Classroom: Identifiable, ObservableObject {
             
             
             
-            calendarIdentifier = classCalendar.calendarIdentifier
+            setIdentifier(calendarIdentifier: classCalendar.calendarIdentifier)
             
             do {
                 try store.saveCalendar(classCalendar, commit: true)
@@ -93,7 +103,7 @@ class Classroom: Identifiable, ObservableObject {
                 print(error)
             }
         } else {
-            calendarIdentifier = existingCalendar!.calendarIdentifier
+            setIdentifier(calendarIdentifier: existingCalendar!.calendarIdentifier)
         }
     }
     
@@ -101,14 +111,10 @@ class Classroom: Identifiable, ObservableObject {
         await withCheckedContinuation { continuation in
             initializeAssignments(manualRefresh: manualRefresh) { assignments in
                 continuation.resume(returning: assignments)
-                DispatchQueue.main.async {
-                    self.toggleUpdate()
-                }
+
                 //self.setStatusImage(statusImage: "checkmark.circle.fill")
                 
-                
-                self.ready = true
-                self.classrooms.update.toggle()
+                self.classrooms.update()
                 print("CLASSROOM: Finished loading for \(self.name)")
                 
             }
@@ -283,22 +289,14 @@ class Classroom: Identifiable, ObservableObject {
         
         for assignment in assignments {
             if(assignment.getHiddenStatus() == false && assignment.getType() == type) {
+                
+                //print("assignment: \(assignment.getName())")
                 visible.append(assignment)
             }
         }
         return visible
     }
     
-    func getVisibleAssignments() -> [Assignment] {
-        var visible: [Assignment] = []
-        
-        for assignment in assignments {
-            if(assignment.getHiddenStatus()) {
-                visible.append(assignment)
-            }
-        }
-        return visible
-    }
     
     func getHiddenAssignments() -> [Assignment] {
         var hidden: [Assignment] = []
@@ -320,7 +318,19 @@ class Classroom: Identifiable, ObservableObject {
         UpdateValue.saveToLocal(key: "\(courseID)_CALENDAR_IDENTIFIER", value: calendarIdentifier)
         
         self.calendarIdentifier = calendarIdentifier
-        self.classrooms.update.toggle()
+        
+        self.notAdded = []
+        self.loadedAssignments = 0
+        for assign in assignments {
+            assign.checkIfIsAdded()
+        }
+        
+        self.classrooms.update()
+    }
+    
+    func removeIdentifier() {
+        self.calendarIdentifier = nil
+        self.classrooms.update()
     }
     
     func setHiddenStatus(hidden: Bool) {
@@ -333,7 +343,6 @@ class Classroom: Identifiable, ObservableObject {
     func getHiddenStatus() -> Bool {
         return hidden
     }
-
     
     func getCourseID() -> String {
         return courseID
@@ -352,9 +361,11 @@ class Classroom: Identifiable, ObservableObject {
         var matchedAssignments: [Assignment] = []
         for i in 0...isCompleted.count-1 {
             if(isCompleted[i]) {
+                
                 matchedAssignments += self.getVisibleAssignments(type: items[i])
             }
         }
+        
         for assigned in matchedAssignments {
             if(!assigned.isAdded()) {
                 if(await assigned.addToReminders(store: store)) {
@@ -362,17 +373,43 @@ class Classroom: Identifiable, ObservableObject {
                 }
             }
         }
+        
         return count
     }
     
     func isReady() -> Bool {
-        return self.ready
+        if(loadedAssignments == assignments.count) {
+            return true
+        }
+        return false
     }
-//    func setStatusImage(statusImage: String) {
-//        print("Status image changed to \(statusImage)")
-//        self.statusImage = statusImage
-//        //HomeView.update.toggle()
-//    }
+    
+    func incrementLoadedAssignmentCount() {
+        loadedAssignments += 1
+        if(loadedAssignments == assignments.count) {
+            self.classrooms.update()
+        }
+//        if(loadedAssignments > assignments.count) {
+//            self
+//            print("wtf")
+//        }
+    }
+
+    
+    func appendNotAddedAssignment(assignment: Assignment) {
+        notAdded.append(assignment.getID())
+        self.classrooms.update()
+    }
+    
+    func removeNotAddedAssignment(assignment: Assignment) {
+        if let j = notAdded.firstIndex(of: assignment.getID()) {
+            notAdded.remove(at: j)
+        }
+        self.classrooms.update()
+    }
+    
+    
+
     
     
 }

@@ -19,7 +19,7 @@ struct HiddenAssignmentView: View {
                 HStack {
                     Button(assign.getName()) {
                         assign.setHiddenStatus(hidden: false)
-                        classrooms.update.toggle()
+                        classrooms.update()
                     }.foregroundColor((colorScheme == .light) ? Color.black : Color.white)
                     Spacer()
                     Image(uiImage: .add).renderingMode(.template).foregroundColor(.green)

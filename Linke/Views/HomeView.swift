@@ -51,13 +51,13 @@ struct HomeView: View {
                             switch alertType {
                             case .noList:
                                 return Alert(
-                                    title: Text(""),
-                                    message: Text("\(missingListForClassroom) has no active list. Please select a list, then try again.")
+                                    title: Text("Missing List"),
+                                    message: Text("\(missingListForClassroom) has no active Reminders list. Please select a list, then try again.")
                                     )
                             case .statusReport:
                                 return Alert(
-                                    title: Text(""),
-                                    message: Text("Finished adding assignments. \n Added \(addedAssignments) new assignments"),
+                                    title: Text("Success!"),
+                                    message: Text("Added \(addedAssignments) new assignments"),
                                     dismissButton: .default(Text("Cool!"))
                                 )
                             default:
@@ -104,9 +104,13 @@ struct HomeView: View {
                                     
                                     if(classroom.isReady()) {
                                         if(classroom.getIdentifier() == nil) {
-                                            Image(systemName: "exclamationmark.circle.fill").foregroundColor(.orange)
+                                            Image(systemName: "questionmark.circle.fill").foregroundColor(.red)
                                         } else {
-                                            Image(systemName: "checkmark.circle.fill").foregroundColor(.green)
+                                            if(classroom.notAdded.count == 0) {
+                                                Image(systemName: "checkmark.circle.fill").foregroundColor(.green)
+                                            } else {
+                                                Image(systemName: "exclamationmark.circle.fill").foregroundColor(.orange)
+                                            }
                                         }
                                     } else {
                                         Image(systemName: "minus.circle.fill").foregroundColor(.gray)
@@ -116,7 +120,7 @@ struct HomeView: View {
                             }
                         }.onDelete { indexSet in
                             classrooms.getVisibleClassrooms()[indexSet.first!].setHiddenStatus(hidden: true)
-                            classrooms.update.toggle()
+                            classrooms.update()
                         }
                     }
                     Section {
@@ -150,6 +154,9 @@ struct HomeView: View {
                 )
                 
             }.navigationViewStyle(StackNavigationViewStyle())
+            .onAppear() {
+                print("Appearing :)")
+            }
             Banner()
             
         } else {
@@ -158,6 +165,8 @@ struct HomeView: View {
             }
         }
     }
+
+    
 }
 
 struct Logo: View {

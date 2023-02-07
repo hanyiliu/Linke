@@ -17,7 +17,7 @@ struct HiddenClassroomView: View {
                 HStack {
                     Button(classroom.getName()) {
                         classroom.setHiddenStatus(hidden: false)
-                        classrooms.update.toggle()
+                        classrooms.update()
                     }.foregroundColor((colorScheme == .light) ? Color.black : Color.white)
                     Spacer()
                     Image(uiImage: .add).renderingMode(.template).foregroundColor(.green)

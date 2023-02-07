@@ -38,6 +38,7 @@ struct ClassroomView: View {
                 Button("Add Assignments to Reminders") {
                     if(classroom.getIdentifier() == nil || store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) == nil) {
                         print("No list found")
+                        classroom.removeIdentifier()
                         alertType = .noList
                         showAlert = true
                         cont = false
@@ -49,13 +50,13 @@ struct ClassroomView: View {
                     switch alertType {
                     case .noList:
                         return Alert(
-                            title: Text(""),
-                            message: Text("There is no chosen list. Please select a list, then try again.")
+                            title: Text("No Active List"),
+                            message: Text("There is no chosen Reminders list. Please select a list, then try again.")
                             )
                     case .statusReport:
                         return Alert(
-                            title: Text(""),
-                            message: Text("Finished adding assignments. \n Added \(addedAssignments) new assignments out of \(classroom.getAssignments().count) assignments"),
+                            title: Text("Success!"),
+                            message: Text("Added \(addedAssignments) new assignments out of \(classroom.getAssignments().count) assignments"),
                             dismissButton: .default(Text("Cool!"), action: {
                                 statusReport.toggle()
                             })
@@ -112,6 +113,7 @@ struct ClassroomView: View {
                                 classroomListName = calendar.title
                             } else {
                                 print("Invalid calendar identifier")
+                                classroom.removeIdentifier()
                             }
                         }
                     }
@@ -169,17 +171,18 @@ struct ClassroomView: View {
                                                 showAlert = true
                                             } else {
                                                 print("Invalid calendar identifier")
+                                                classroom.removeIdentifier()
                                             }
                                         }
                                     }
                                 }.alert(isPresented: $showAlert) {
                                     switch alertType {
                                     case .failure:
-                                        return Alert(title: Text(""),
+                                        return Alert(title: Text("List Already Exists"),
                                                      message: Text("There already is an existing list under this classroom's name."))
                                     case .success:
-                                        return Alert(title: Text(""),
-                                                     message: Text("Successfully created new list named \(classroomListName)."))
+                                        return Alert(title: Text("Success!"),
+                                                     message: Text("Created new list named \(classroomListName)."))
                                     default:
                                         return Alert(title: Text("You found a secret!"))
                                     }
@@ -249,63 +252,4 @@ struct ClassroomView: View {
 
 enum AlertType {
     case noList, statusReport, success, failure
-}
-
-struct ChooseListView: View {
-    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
-    @State var classroomListName: String
-    @State var showAlert = false
-    @State var alertType = AlertType.failure
-    @State private var refresh = false
-
-    var classroom: Classroom
-    var store = EKEventStore()
-    var body: some View {
-        Form {
-            Section {
-                ForEach(store.calendars(for: .reminder), id: \.self) { list in
-                    Button(list.title) {
-                        classroom.setIdentifier(calendarIdentifier: list.calendarIdentifier)
-                        classroomListName = list.title
-                        self.mode.wrappedValue.dismiss()
-
-                    }
-                }
-            }
-            Section {
-                Button("Create New List Under Current Classroom Name") {
-                    if (classroom.getIdentifier() != nil &&
-                        store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) != nil &&
-                        store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! })?.title == classroom.getName()) {
-                        alertType = .failure
-                        showAlert = true
-                        print("There already is an existing list under this classroom's name.")
-                    } else {
-                        classroom.initializeList(store: store)
-                        if let listIdentiifer = classroom.getIdentifier() {
-                            if let calendar = store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == listIdentiifer }) {
-                                classroomListName = calendar.title
-                                alertType = .success
-                                showAlert = true
-                            } else {
-                                print("Invalid calendar identifier")
-                            }
-                        }
-                    }
-                }.alert(isPresented: $showAlert) {
-                    switch alertType {
-                    case .failure:
-                        return Alert(title: Text(""),
-                                     message: Text("There already is an existing list under this classroom's name."))
-                    case .success:
-                        return Alert(title: Text(""),
-                                     message: Text("Successfully created new list named \(classroomListName)."))
-                    default:
-                        return Alert(title: Text("You found a secret!"))
-                    }
-                }
-            }
-            Logo()
-        }.navigationTitle(Text("Select List"))
-    }
 }

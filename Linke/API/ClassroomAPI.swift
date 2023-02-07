@@ -18,7 +18,7 @@ class ClassroomAPI: ObservableObject {
     private var classrooms: [Classroom] = []
     private static var started = false;
     
-    @Published var update = false
+    @Published var updateVal = false
     init() {
         
         if(!ClassroomAPI.started) {
@@ -83,8 +83,8 @@ class ClassroomAPI: ObservableObject {
     private func initializeClassrooms(classroomJson: JSON, manualRefresh: Bool) { //manualRefresh = false by default
         let store = EKEventStore()
         for (_,subJson):(String, JSON) in classroomJson["courses"] {
-            print("JSON FILE:")
-            print(subJson)
+//            print("JSON FILE:")
+//            print(subJson)
             if manualRefresh {
                 classrooms.append(Classroom(classrooms: self, name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, manualRefresh: true, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil))
             } else {
@@ -96,7 +96,7 @@ class ClassroomAPI: ObservableObject {
         
         print("Classrooms count: \(classrooms.count)")
         //print("please tell me this is synced")
-        self.update.toggle()
+        self.update()
         
     }
     
@@ -160,6 +160,8 @@ class ClassroomAPI: ObservableObject {
             }
         }
         print("addedAssignments: \(count)")
+
+        
         return count
     }
     
@@ -169,6 +171,12 @@ class ClassroomAPI: ObservableObject {
             list.append(cal.title)
         }
         return list
+    }
+    
+    func update() {
+        DispatchQueue.main.async {
+            self.updateVal.toggle()
+        }
     }
     
     
