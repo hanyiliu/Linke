@@ -12,6 +12,8 @@
 		0B229F86296D3DDB005DECC1 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B229F85296D3DDB005DECC1 /* LoadingView.swift */; };
 		0B2BEBD3297F89A700E19E3B /* GoogleBannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2BEBD2297F89A700E19E3B /* GoogleBannerAdView.swift */; };
 		0B2BEBD52986457B00E19E3B /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2BEBD42986457B00E19E3B /* HelpView.swift */; };
+		0B2D64BB29FB7C85007F3EF9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2D64BA29FB7C85007F3EF9 /* SettingsView.swift */; };
+		0B2D64BE29FB7E40007F3EF9 /* BackgroundHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2D64BD29FB7E40007F3EF9 /* BackgroundHandler.swift */; };
 		0BBDBB3C2941752F00EB94C6 /* Classroom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBDBB3B2941752F00EB94C6 /* Classroom.swift */; };
 		0BD150E82940485400256154 /* LinkeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD150E72940485400256154 /* LinkeApp.swift */; };
 		0BD150EA2940485400256154 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD150E92940485400256154 /* ContentView.swift */; };
@@ -48,6 +50,8 @@
 		0B229F85296D3DDB005DECC1 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		0B2BEBD2297F89A700E19E3B /* GoogleBannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleBannerAdView.swift; sourceTree = "<group>"; };
 		0B2BEBD42986457B00E19E3B /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
+		0B2D64BA29FB7C85007F3EF9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		0B2D64BD29FB7E40007F3EF9 /* BackgroundHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundHandler.swift; sourceTree = "<group>"; };
 		0BBDBB3B2941752F00EB94C6 /* Classroom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classroom.swift; sourceTree = "<group>"; };
 		0BD150E42940485400256154 /* Linke.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linke.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BD150E72940485400256154 /* LinkeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkeApp.swift; sourceTree = "<group>"; };
@@ -81,6 +85,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B2D64BC29FB7E2F007F3EF9 /* Background */ = {
+			isa = PBXGroup;
+			children = (
+				0B2D64BD29FB7E40007F3EF9 /* BackgroundHandler.swift */,
+			);
+			path = Background;
+			sourceTree = "<group>";
+		};
 		0BD150DB2940485400256154 = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +116,7 @@
 			children = (
 				0BD151012940701A00256154 /* Views */,
 				0BD1510029406FDC00256154 /* Info.plist */,
+				0B2D64BC29FB7E2F007F3EF9 /* Background */,
 				0BD150F5294059BD00256154 /* API */,
 				0BD150E72940485400256154 /* LinkeApp.swift */,
 				0BD150FC29406C0C00256154 /* ViewRouter.swift */,
@@ -139,6 +152,7 @@
 				0BD150FE29406C6400256154 /* ReminderAccessView.swift */,
 				0BD151022940739E00256154 /* HomeView.swift */,
 				0B229F81296D3411005DECC1 /* HiddenClassroomView.swift */,
+				0B2D64BA29FB7C85007F3EF9 /* SettingsView.swift */,
 				0B229F83296D3A32005DECC1 /* HiddenAssignmentView.swift */,
 				0BD7D4212944449F000393A5 /* ClassroomView.swift */,
 				0B229F85296D3DDB005DECC1 /* LoadingView.swift */,
@@ -293,12 +307,14 @@
 				0BD150EA2940485400256154 /* ContentView.swift in Sources */,
 				0B229F82296D3411005DECC1 /* HiddenClassroomView.swift in Sources */,
 				0BBDBB3C2941752F00EB94C6 /* Classroom.swift in Sources */,
+				0B2D64BB29FB7C85007F3EF9 /* SettingsView.swift in Sources */,
 				0BD7D4222944449F000393A5 /* ClassroomView.swift in Sources */,
 				0B2BEBD3297F89A700E19E3B /* GoogleBannerAdView.swift in Sources */,
 				0BD151052940820A00256154 /* ClassroomAPI.swift in Sources */,
 				0B229F86296D3DDB005DECC1 /* LoadingView.swift in Sources */,
 				0B2BEBD52986457B00E19E3B /* HelpView.swift in Sources */,
 				0BD150E82940485400256154 /* LinkeApp.swift in Sources */,
+				0B2D64BE29FB7E40007F3EF9 /* BackgroundHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

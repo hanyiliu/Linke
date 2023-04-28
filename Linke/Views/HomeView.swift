@@ -35,6 +35,7 @@ struct HomeView: View {
             NavigationView {
                 Form {
                     Section {
+
                         Button("Add All Assignments to Reminders") {
                             for classroom in classrooms.getVisibleClassrooms() {
                                 guard (classroom.getIdentifier() != nil && store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) != nil) else {
@@ -127,12 +128,16 @@ struct HomeView: View {
                         NavigationLink(destination: HiddenClassroomView(classrooms: classrooms)) {
                             Text("Hidden Classrooms")
                         }.foregroundColor(Color.gray)
+                        
+                        NavigationLink(destination: SettingsView()) {
+                            Text("Settings")
+                        }
+                        
                         NavigationLink(destination: HelpView(viewRouter: viewRouter, fromHome: true)) {
-                            Text("Help").onTapGesture {
-                                viewRouter.currentPage = .help
-                            }
+                            Text("Help")
                             
                         }
+
                         Button("Sign Out") {
                             GIDSignIn.sharedInstance.signOut()
                             classrooms.clear()
@@ -156,6 +161,7 @@ struct HomeView: View {
             }.navigationViewStyle(StackNavigationViewStyle())
             .onAppear() {
                 print("Appearing :)")
+
             }
             Banner()
             
@@ -165,7 +171,6 @@ struct HomeView: View {
             }
         }
     }
-
     
 }
 

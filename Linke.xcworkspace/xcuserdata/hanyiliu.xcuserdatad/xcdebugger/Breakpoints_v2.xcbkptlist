@@ -119,38 +119,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "41B30635-CB29-40E1-A32E-D4CC12AB25C1"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Linke/API/ClassroomAPI.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "init()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "223EBB28-7F65-4521-90A9-4EE9665D5FFE"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Linke/API/ClassroomAPI.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "initializer(callback:manualRefresh:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "7F293971-E968-4CB8-B61A-BCA73538377E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -158,89 +126,9 @@
             filePath = "Linke/API/ClassroomAPI.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "initializeClassrooms(classroomJson:manualRefresh:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BA2BCBC7-0A3C-42E6-83AE-3CAFDCD50E35"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Linke/API/ClassroomAPI.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "initializer(callback:manualRefresh:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "BA2BCBC7-0A3C-42E6-83AE-3CAFDCD50E35 - 9222ce97b1b29895"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;__C.GIDAuthentication&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Linke.ClassroomAPI.initializer(callback: Swift.Optional&lt;(SwiftyJSON.JSON) -&gt; ()&gt;) -&gt; ()"
-                  moduleName = "Linke"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hanyiliu/Documents/GitHub/Linke/Linke/API/ClassroomAPI.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "57"
-                  endingLineNumber = "57"
-                  offsetFromSymbolStart = "1420">
-               </Location>
-               <Location
-                  uuid = "BA2BCBC7-0A3C-42E6-83AE-3CAFDCD50E35 - 37ffad0306f5eb6d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in closure #1 (Swift.Optional&lt;__C.GIDAuthentication&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Linke.ClassroomAPI.initializer(callback: Swift.Optional&lt;(SwiftyJSON.JSON) -&gt; ()&gt;) -&gt; ()"
-                  moduleName = "Linke"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hanyiliu/Documents/GitHub/Linke/Linke/API/ClassroomAPI.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "220">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "3E9E5AA8-9068-4F11-B8E2-AC1A756AA325"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Linke/API/ClassroomAPI.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "initializer(callback:manualRefresh:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4894BCEA-B05A-450F-A5AE-56193B5547C9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Linke/API/ClassroomAPI.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "initializer(callback:manualRefresh:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -254,8 +142,8 @@
             filePath = "Linke/API/Classroom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "276"
-            endingLineNumber = "276"
+            startingLineNumber = "314"
+            endingLineNumber = "314"
             landmarkName = "getAssignments(type:)"
             landmarkType = "7">
             <Locations>
@@ -302,8 +190,8 @@
             filePath = "Linke/API/Classroom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
+            startingLineNumber = "312"
+            endingLineNumber = "312"
             landmarkName = "getAssignments(type:)"
             landmarkType = "7">
             <Locations>
@@ -358,22 +246,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "423B1ED2-D540-4AE2-BE1D-56F425436284"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Linke/API/Classroom.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "init(classrooms:name:courseID:placeholder:store:manualRefresh:archived:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "7A867928-129E-4CFB-8304-52974ADBD247"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -381,8 +253,8 @@
             filePath = "Linke/Views/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "body"
             landmarkType = "24">
             <Locations>
@@ -429,8 +301,8 @@
             filePath = "Linke/Views/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "body"
             landmarkType = "24">
             <Locations>
@@ -477,8 +349,8 @@
             filePath = "Linke/Views/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -493,8 +365,8 @@
             filePath = "Linke/Views/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "body"
             landmarkType = "24">
             <Locations>
@@ -541,8 +413,8 @@
             filePath = "Linke/Views/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -557,8 +429,8 @@
             filePath = "Linke/Views/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "body"
             landmarkType = "24">
             <Locations>
@@ -669,22 +541,6 @@
             filePath = "Linke/Views/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C82FB166-B0E9-48D6-918C-5D7CDC853CE0"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Linke/Views/HomeView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "102"
             endingLineNumber = "102"
             landmarkName = "body"
@@ -694,7 +550,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "97346FF1-DBE6-45D9-8539-61F3210BD528"
+            uuid = "C82FB166-B0E9-48D6-918C-5D7CDC853CE0"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -710,6 +566,22 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "97346FF1-DBE6-45D9-8539-61F3210BD528"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Linke/Views/HomeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             uuid = "15E5BB37-A444-49C6-9FAB-5194065A6225"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -717,9 +589,9 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
-            landmarkName = "init(name:id:dueDate:classroom:type:store:)"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "init(name:id:dueDate:classroom:type:store:manualRefresh:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -780,8 +652,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
             landmarkName = "addToReminders(store:)"
             landmarkType = "7">
             <Locations>
@@ -828,8 +700,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
             landmarkName = "addToReminders(store:)"
             landmarkType = "7">
             <Locations>
@@ -876,8 +748,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
             landmarkName = "addToReminders(store:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -892,8 +764,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
             landmarkName = "addToReminders(store:)"
             landmarkType = "7">
             <Locations>
@@ -940,8 +812,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
             landmarkName = "addToReminders(store:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -956,8 +828,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "addToReminders(store:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -972,8 +844,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "addToReminders(store:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -988,8 +860,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "addToReminders(store:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1004,8 +876,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "addToReminders(store:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1020,8 +892,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
             landmarkName = "addToReminders(store:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1036,8 +908,8 @@
             filePath = "Linke/Views/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -1052,9 +924,9 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "init(name:id:dueDate:classroom:type:store:)"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "init(name:id:dueDate:classroom:type:store:manualRefresh:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1068,9 +940,9 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "init(name:id:dueDate:classroom:type:store:)"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "init(name:id:dueDate:classroom:type:store:manualRefresh:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1084,9 +956,9 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "init(name:id:dueDate:classroom:type:store:)"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "init(name:id:dueDate:classroom:type:store:manualRefresh:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1100,9 +972,9 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
-            landmarkName = "init(name:id:dueDate:classroom:type:store:)"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "init(name:id:dueDate:classroom:type:store:manualRefresh:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -1148,9 +1020,9 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "init(name:id:dueDate:classroom:type:store:)"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "init(name:id:dueDate:classroom:type:store:manualRefresh:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -1308,8 +1180,8 @@
             filePath = "Linke/API/Classroom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "313"
-            endingLineNumber = "313"
+            startingLineNumber = "351"
+            endingLineNumber = "351"
             landmarkName = "getIdentifier()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1324,8 +1196,8 @@
             filePath = "Linke/API/Classroom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "init(classrooms:name:courseID:placeholder:store:manualRefresh:archived:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1340,8 +1212,8 @@
             filePath = "Linke/Views/HomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -1356,8 +1228,8 @@
             filePath = "Linke/API/ClassroomAPI.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
             landmarkName = "update()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1372,8 +1244,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
             landmarkName = "checkIfIsAdded()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1388,8 +1260,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "checkIfIsAdded()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1404,8 +1276,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "checkIfIsAdded()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1420,8 +1292,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "checkIfIsAdded()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1436,24 +1308,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "checkIfIsAdded()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "5F4E8B73-1590-4D42-8035-2E42215C3989"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Linke/API/Assignment.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "checkIfIsAdded()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1468,8 +1324,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
             landmarkName = "checkIfIsAdded()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1484,8 +1340,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
             landmarkName = "checkIfIsAdded()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1500,8 +1356,8 @@
             filePath = "Linke/API/Assignment.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
             landmarkName = "checkIfIsAdded()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1516,8 +1372,8 @@
             filePath = "Linke/API/Classroom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "395"
-            endingLineNumber = "395"
+            startingLineNumber = "435"
+            endingLineNumber = "435"
             landmarkName = "incrementLoadedAssignmentCount()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1532,10 +1388,202 @@
             filePath = "Linke/API/Classroom.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "394"
-            endingLineNumber = "394"
+            startingLineNumber = "434"
+            endingLineNumber = "434"
             landmarkName = "incrementLoadedAssignmentCount()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "94803802-841F-41FA-8739-C45AD27F7E5C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Linke/Views/HomeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7C79D21B-EA56-430B-B652-AA6119D999B0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Linke/Views/HomeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7349A76D-CD9E-499C-BFAA-9A41585F6936"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Linke/Views/HomeView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3031F6D3-4AE7-4D4E-8DD4-C89513A7AC50"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Linke/API/ClassroomAPI.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "init(forceRestart:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "13D23293-CC81-44BB-9AE3-013F6C84DE79"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Linke/API/Classroom.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
+            landmarkName = "initializeAssignments(manualRefresh:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "13D23293-CC81-44BB-9AE3-013F6C84DE79 - adb8085799b8d68d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Linke.Classroom.initializeAssignments(manualRefresh: Swift.Bool, completion: (Swift.Array&lt;Linke.Assignment&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Linke"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyiliu/Documents/GitHub/Linke/Linke/API/Classroom.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "134"
+                  endingLineNumber = "134"
+                  offsetFromSymbolStart = "76">
+               </Location>
+               <Location
+                  uuid = "13D23293-CC81-44BB-9AE3-013F6C84DE79 - adb8085799b8d68d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Linke.Classroom.initializeAssignments(manualRefresh: Swift.Bool, completion: (Swift.Array&lt;Linke.Assignment&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Linke"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyiliu/Documents/GitHub/Linke/Linke/API/Classroom.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "134"
+                  endingLineNumber = "134"
+                  offsetFromSymbolStart = "156">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "26FA4F70-34D7-4884-BA9F-2A88D0E1DD73"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Linke/API/Classroom.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
+            landmarkName = "initializeAssignments(manualRefresh:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "26FA4F70-34D7-4884-BA9F-2A88D0E1DD73 - 36a7bfd74affdaf6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 0 of Linke.Classroom.initializeAssignments(manualRefresh: Swift.Bool, completion: (Swift.Array&lt;Linke.Assignment&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Linke"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyiliu/Documents/GitHub/Linke/Linke/API/Classroom.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "133"
+                  endingLineNumber = "133"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  uuid = "26FA4F70-34D7-4884-BA9F-2A88D0E1DD73 - adb8085799b8d68d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Linke.Classroom.initializeAssignments(manualRefresh: Swift.Bool, completion: (Swift.Array&lt;Linke.Assignment&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Linke"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hanyiliu/Documents/GitHub/Linke/Linke/API/Classroom.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "134"
+                  endingLineNumber = "134"
+                  offsetFromSymbolStart = "76">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CD1E2B68-2694-453F-AD88-713B4275B151"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Linke/API/Assignment.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "checkIfIsAdded()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CCAD70A9-EB09-4CEC-81A5-90831E124AA6"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Linke/API/Assignment.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "reminderStatus"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

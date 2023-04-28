@@ -23,10 +23,11 @@ struct ContentView: View {
         case .reminderAccess:
             ReminderAccessView(viewRouter: viewRouter)
         case .help:
-            HelpView(viewRouter: viewRouter)
+            HelpView(viewRouter: viewRouter, fromHome: false)
         case .home:
             let classrooms = ClassroomAPI()
             HomeView(viewRouter: viewRouter, classrooms: classrooms)
+                
         }
     }
 

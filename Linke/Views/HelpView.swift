@@ -11,7 +11,7 @@ import SwiftUI
 struct HelpView: View {
     @StateObject var viewRouter: ViewRouter
     
-    @State var fromHome = false
+    @State var fromHome: Bool
     
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     
@@ -32,6 +32,7 @@ struct HelpView: View {
         .tabViewStyle(.page)
         .indexViewStyle(.page(backgroundDisplayMode: .always))
         .onAppear {
+            print("is: \(fromHome)")
             dotAppearance.currentPageIndicatorTintColor = .black
             dotAppearance.pageIndicatorTintColor = .gray
         }
