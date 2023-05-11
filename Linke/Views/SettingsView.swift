@@ -8,19 +8,26 @@ import SwiftUI
 
 struct SettingsView: View {
     //@StateObject var viewRouter: ViewRouter
+    @Environment(\.scenePhase) private var scenePhase
     
     @State private var isTimerScheduled = false
     @State private var selectedHour = 7
     @State private var selectedMinute = 0
     @State private var amPM = 0
     
+    @State var autoRefreshAlert = false
+    
     @Environment(\.colorScheme) var colorScheme: ColorScheme
 
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Auto Refresh")) {
-                    Toggle("Automatically Refresh Daily", isOn: $isTimerScheduled)
+                Section(header: Text("Auto Refresh (BETA)")) {
+                    Toggle("Automatically Refresh Daily", isOn: $isTimerScheduled).onChange(of: isTimerScheduled) { value in
+                        if value {
+                            autoRefreshAlert = true
+                        }
+                    }
                     if isTimerScheduled {
                         HStack {
                             Spacer()
@@ -56,27 +63,30 @@ struct SettingsView: View {
                     
                     if isTimerScheduled {
                         Task {
-                            if let date = await BackgroundHandler.getTaskScheduleTime() {
-                                let calendar = Calendar.current
-                                let scheduledHour = calendar.component(.hour, from: date)
-                                let scheduledMinute = calendar.component(.minute, from: date)
-                                
-                                if scheduledHour != (selectedHour + amPM*12) || scheduledMinute != selectedMinute {
-                                    BackgroundHandler.cancelTask()
-                                    print("Scheduling Background Refresh")
-                                    BackgroundHandler.scheduleTimer(hour: selectedHour + amPM*12, minute: selectedMinute)
-                                }
-                            } else {
-                                print("Scheduling Background Refresh")
-                                BackgroundHandler.scheduleTimer(hour: selectedHour + amPM*12, minute: selectedMinute)
-                            }
+                            await BackgroundHandler.scheduleTimerWithOverride(hour: selectedHour + amPM*12, minute: selectedMinute)
                         }
                     } else {
                         BackgroundHandler.cancelTask()
                     }
 
                     
+                }.onChange(of: scenePhase) { newPhase in
+                    if newPhase == .inactive {
+                        if isTimerScheduled {
+                            Task {
+                                await BackgroundHandler.scheduleTimerWithOverride(hour: selectedHour + amPM*12, minute: selectedMinute)
+                            }
+                        } else {
+                            BackgroundHandler.cancelTask()
+                        }
+                    }
+                }.alert(isPresented: $autoRefreshAlert) {
+                    return Alert(
+                        title: Text("Beta Testing"),
+                        message: Text("Because of strict iOS restraints, Apple only allows this function to be triggered if your phone is being charged and connected to the internet. Thus, please set a time where those conditions are most often met.\nThank you!")
+                        )
                 }
+                  
             }
         }.navigationTitle(Text("Settings"))
             .onAppear() {

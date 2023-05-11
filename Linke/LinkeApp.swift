@@ -25,6 +25,7 @@ struct LinkerApp: App {
                 }
             
                 .onAppear {
+                    //Check Google authentication.
                     GADMobileAds.sharedInstance().start {_ in
                         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
                             
@@ -41,30 +42,33 @@ struct LinkerApp: App {
                         }
                     }
                     
-                    // Register the launch handler
-                    print("registering")
+                    // Register the launch handler for background tasks.
                     BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.linke.updatereminders", using: nil) { task in
-                        print("TASK TYPE: \(type(of: task))")
-                        
+
                         task.expirationHandler = {
                             print("Task timed out!")
                             task.setTaskCompleted(success: false)
                         }
+                        
+                        
                         Task {
-                            print("yooo thats pretty cool")
+                            // *** Schedule next task for in the future ***
+                            if let date = await BackgroundHandler.getTaskScheduleTime() {
+                                let calendar = Calendar.current
+                                let scheduledHour = calendar.component(.hour, from: date)
+                                let scheduledMinute = calendar.component(.minute, from: date)
+                                
+                                BackgroundHandler.scheduleTimer(hour: scheduledHour, minute: scheduledMinute)
+                            }
+                            // ********************
+                            
                             // *** Process classroom assignments ***
-                            
                             let classrooms = await ClassroomAPI(forceRestart: true)
-                            print("Done loading classrooms")
-                            //try? await Task.sleep(nanoseconds: 7_500_000_000) //TODO: fix this bro
+
                             let addedAssignments = await classrooms.addAllAssignments(store: EKEventStore(), isCompleted: [true, true, true, true], chosenTypes: [AssignmentType.inProgress, .missing, .noDateDue, .completed])
-                            print("Should be done with adding assignments")
-                            print("addedAssignments \(addedAssignments)")
-                            
                             // ********************
                             
                             // *** Send notifiaction ***
-                            
                             // Create a local notification content
                             let content = UNMutableNotificationContent()
                             content.title = "Success!"
@@ -79,7 +83,6 @@ struct LinkerApp: App {
                             
                             // Add the notification request to the notification center
                             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-                            
                             // ********************
                             
                             task.setTaskCompleted(success: true)
