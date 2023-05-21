@@ -11,17 +11,21 @@ import GoogleMobileAds
 import EventKit
 
 struct HomeView: View {
+    @Environment(\.scenePhase) private var scenePhase
     @StateObject var viewRouter: ViewRouter
     @StateObject var classrooms: ClassroomAPI
     @State var showAlert = false
     @State var addedAssignments = 0
     @State var alertType = AlertType.statusReport
     @State private var missingListForClassroom = ""
+    @State var manualRefreshAlert = false
     
     @State private var chooseAssignments = false
     @State private var showAfterDismiss = false
     @State private var isCompleted = [false, false, false, false]
     @State private var items = [AssignmentType.inProgress, .missing, .noDateDue, .completed]
+
+
     
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     
@@ -123,6 +127,18 @@ struct HomeView: View {
                             classrooms.getVisibleClassrooms()[indexSet.first!].setHiddenStatus(hidden: true)
                             classrooms.update()
                         }
+                        if classrooms.loadedClassroomCount != classrooms.totalClassroomCount {
+                            VStack {
+                                Text("Loaded \(classrooms.loadedClassroomCount) out of \(classrooms.totalClassroomCount) classrooms (incl. hidden)")
+                                    .font(.footnote)
+                                    .foregroundColor(.gray)
+                                    .multilineTextAlignment(.center)
+                                ProgressView(value: Double(classrooms.loadedClassroomCount), total: Double(classrooms.totalClassroomCount))
+                                    .progressViewStyle(LinearProgressViewStyle())
+                                    .padding()
+                            }
+
+                        }
                     }
                     Section {
                         NavigationLink(destination: HiddenClassroomView(classrooms: classrooms)) {
@@ -151,17 +167,29 @@ struct HomeView: View {
                 }
                 
                 .navigationTitle("Hello, \(profile.name)")
-                .navigationBarItems(trailing: Button(action: {
+                .navigationBarItems(trailing:
+                    Button(action: {
                     classrooms.refresh()
+                    manualRefreshAlert = true
                 }) {
                     Image(systemName: "arrow.clockwise").foregroundColor(.blue)
+                }.alert(isPresented: $manualRefreshAlert) {
+                    Alert(
+                        title: Text("Time Warning"),
+                        message: Text("Manually refreshing the Classroom API might take a few minutes! If you just want to quickly refresh the API, simply refresh Linke.")
+                        )
                 }
                 )
                 
             }.navigationViewStyle(StackNavigationViewStyle())
             .onAppear() {
-                print("Appearing :)")
 
+
+            }
+            .onChange(of: scenePhase) { newPhase in
+                if newPhase == .active {
+                    classrooms.refresh(manualRefresh: false)
+                }
             }
             Banner()
             
@@ -171,6 +199,7 @@ struct HomeView: View {
             }
         }
     }
+
     
 }
 

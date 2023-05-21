@@ -28,15 +28,12 @@ class Classroom: Identifiable, ObservableObject {
     var loadedAssignments = 0
     
     init(classrooms: ClassroomAPI, name: String, courseID: String, placeholder: Bool = false, store: EKEventStore, manualRefresh: Bool = false, archived: Bool?) async {
-        ////print("CHECKPOINT 4")
-        //print("CHECKPOINT 3.1.1 (\(name)): \(Double(round(100 * Date().timeIntervalSince(classrooms.startTime))/100))")
-        //classrooms.//startTime = Date()
+
         self.store = store
         self.name = name
         self.courseID = courseID
         self.classrooms = classrooms
-        //self.statusImage = "minus.circle.fill"
-        //print("CLASSROOM: Initializing class \(name)")
+
 
         
         calendarIdentifier = UpdateValue.loadFromLocal(key: "\(courseID)_CALENDAR_IDENTIFIER", type: "String") as? String
@@ -45,33 +42,34 @@ class Classroom: Identifiable, ObservableObject {
                 calendarIdentifier = nil
             }
         }
-        //print("CHECKPOINT 3.1.2 (\(name): \(Double(round(100 * Date().timeIntervalSince(classrooms.startTime))/100))")
-        //classrooms.//startTime = Date()
-        //print("CLASSROOM: Classroom \(name) courseID is \(courseID)")
+
         if let status = UpdateValue.loadFromLocal(key: "\(courseID)_IS_HIDDEN", type: "Bool") as? Bool {
             
-            //print("CLASSROOM: hidden status is \(status)")
+
             hidden = status
         } else if let a = archived {
             hidden = a
         } else {
             print("CLASSROOM: something went wrong")
         }
-        //print("CHECKPOINT 3.1.3 (\(name): \(Double(round(100 * Date().timeIntervalSince(classrooms.startTime))/100))")
-        //classrooms.//startTime = Date()
+
         if(!hidden) {
-            //Task {
-                ////print("CHECKPOINT 5")
-                //print("CLASSROOM: Starting to loading assignments for class \(name)")
-                assignments = await queryAssignments(manualRefresh: manualRefresh)
-            //print("CHECKPOINT 3.1.4 (\(name): \(Double(round(100 * Date().timeIntervalSince(classrooms.startTime))/100))")
-            //classrooms.//startTime = Date()
-            //}
+
+            assignments = await queryAssignments(manualRefresh: manualRefresh)
+
+
+        }
+        
+        DispatchQueue.main.async {
+            print("Finished loading classroom \(self.name)")
+            classrooms.loadedClassroomCount += 1
+            classrooms.update()
         }
         
         
     }
     
+    ///Create Reminders list under classroom name.
     func initializeList(store: EKEventStore) {
         
         var existingCalendar: EKCalendar?
@@ -110,27 +108,24 @@ class Classroom: Identifiable, ObservableObject {
         }
     }
     
+    ///Call to initialize [Assignment] assignments.
     func queryAssignments(manualRefresh: Bool = false) async -> [Assignment] {
         
         await withCheckedContinuation { continuation in
             initializeAssignments(manualRefresh: manualRefresh) { assignments in
-                ////print("CHECKPOINT 9")
-                //print("CHECKPOINT 3.1.3.1 (\(self.name): \(Date().timeIntervalSince(self.classrooms.startTime))")
-                //self.classrooms.//startTime = Date()
+
                 continuation.resume(returning: assignments)
 
-                //self.setStatusImage(statusImage: "checkmark.circle.fill")
-                
+
                 self.classrooms.update()
-                ////print("CHECKPOINT 10")
-                //print("CLASSROOM: Finished loading for \(self.name)")
-                
+
             }
            
         }
         
     }
     
+    ///Convert given time to current timezone's time.
     func changeToSystemTimeZone(_ date: Date, from: TimeZone, to: TimeZone = TimeZone.current) -> Date {
         let sourceOffset = from.secondsFromGMT(for: date)
         let destinationOffset = to.secondsFromGMT(for: date)
@@ -138,16 +133,13 @@ class Classroom: Identifiable, ObservableObject {
         return Date(timeInterval: timeInterval, since: date)
     }
     
+    ///Initialize [Assignment] assignments
     func initializeAssignments(manualRefresh: Bool = false, completion: @escaping ([Assignment]) -> Void) {
-        //print("CHECKPOINT 3.1.3.0.1 (\(self.name): \(Double(round(100 * Date().timeIntervalSince(self.classrooms.startTime))/100))")
-        //self.classrooms.//startTime = Date()
-        ////print("CHECKPOINT 6")
+
         if let user = GIDSignIn.sharedInstance.currentUser {
             user.authentication.do { authentication, error in
                 Task {
-                    ////print("CHECKPOINT 7")
-                    //print("CHECKPOINT 3.1.3.0.2 (\(self.name): \(Double(round(100 * Date().timeIntervalSince(self.classrooms.startTime))/100))")
-                    //self.classrooms.//startTime = Date()
+
                     guard error == nil else { return }
                     guard let authentication = authentication else { return }
                     // Get the access token to attach it to a REST or gRPC request.
@@ -162,13 +154,11 @@ class Classroom: Identifiable, ObservableObject {
                     request.httpMethod = "GET"
                     request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
                     var data: Data
-                    //print("CHECKPOINT 3.1.3.0.3 (\(self.name): \(Double(round(100 * Date().timeIntervalSince(self.classrooms.startTime))/100))")
-                    //self.classrooms.//startTime = Date()
+
                     do {
                         (data,_) = try await URLSession.shared.data(for: request) //take 1-2 seconds
                         let json = try? JSON(data: data)
-                        //print("CHECKPOINT 3.1.3.0.4 (\(self.name): \(Double(round(100 * Date().timeIntervalSince(self.classrooms.startTime))/100))")
-                        //self.classrooms.//startTime = Date()
+
                         guard let json = json else {
                             print("CLASSROOM: JSON file invalid")
                             completion([])
@@ -179,13 +169,9 @@ class Classroom: Identifiable, ObservableObject {
                         let assignmentsJSON = json
                         var assignments: [Assignment] = []
                         for (_,courseWork):(String, JSON) in assignmentsJSON["courseWork"] {
-                //            print("COURSEWORK")
-                //            print(courseWork)
-                            //print("CHECKPOINT 3.1.3.0.4.1 (\(self.name): \(Double(round(100 * Date().timeIntervalSince(self.classrooms.startTime))/100))")
-                            //self.classrooms.//startTime = Date()
+
                             if let hidden = UpdateValue.loadFromLocal(key: "\(courseWork["id"])_IS_HIDDEN", type: "Bool") as? Bool {
-//                                print("name: \(courseWork["title"].stringValue)")
-//                                print("hidden: \(hidden)")
+
                                 if(hidden) {
                                     continue
                                 }
@@ -219,14 +205,11 @@ class Classroom: Identifiable, ObservableObject {
                                 }
                             }
                             var assignmentType: AssignmentType
-                            //print("CHECKPOINT 3.1.3.0.4.2 (\(self.name): \(Double(round(100 * Date().timeIntervalSince(self.classrooms.startTime))/100))")
-                            //self.classrooms.//startTime = Date()
-                            //TODO: Add check for if type is already stored
+
                             if !manualRefresh, let data = UpdateValue.loadFromLocal(key: "\(courseWork["id"])_TYPE", type: "AssignmentType") as? AssignmentType {
-                                //print("CLASSROOM: Assignment \"\(courseWork["title"].stringValue)\" from classroom \(self.name) already has a stored type")
                                 assignmentType = data
                             } else if let d = date {
-                                print("Sending request to classroom API for assignment")
+                                //print("Sending request to classroom API for assignment")
                                 guard let url = URL(string: "https://classroom.googleapis.com/v1/courses/\(self.courseID)/courseWork/\(courseWork["id"].stringValue)/studentSubmissions") else{ //For every assignment. Queried once for every assignment.
                                     completion([])
                                     return
@@ -236,7 +219,6 @@ class Classroom: Identifiable, ObservableObject {
                                 request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
                                 var data: Data
                                 do {
-                                    //print("CLASSROOM: Querying request for assignment \"\(courseWork["title"].stringValue)\" from classroom \(self.name)")
                                     (data,_) = try await URLSession.shared.data(for: request)
                                     
                                     let json = try? JSON(data: data)
@@ -266,19 +248,11 @@ class Classroom: Identifiable, ObservableObject {
                             } else {
                                 assignmentType = .noDateDue
                             }
-                            ////print("CHECKPOINT 7.1")
-                            //print("CHECKPOINT 3.1.3.0.4.3 (\(self.name): \(Double(round(100 * Date().timeIntervalSince(self.classrooms.startTime))/100))")
-                            //self.classrooms.//startTime = Date()
 
                             assignments.append(await Assignment(name: courseWork["title"].stringValue, id: courseWork["id"].stringValue, dueDate: date, classroom: self, type: assignmentType, store: self.store, manualRefresh: manualRefresh))
-                            //print("CHECKPOINT 3.1.3.0.4.4 (\(self.name): \(Double(round(100 * Date().timeIntervalSince(self.classrooms.startTime))/100))")
-                            //self.classrooms.//startTime = Date()
 
                         }
-                        //print("CHECKPOINT 3.1.3.0.5 (\(self.name): \(Double(round(100 * Date().timeIntervalSince(self.classrooms.startTime))/100))")
-                        //self.classrooms.//startTime = Date()
-                        //end of old initializeAssignments
-                        ////print("CHECKPOINT 8")
+
                         completion(assignments)
                     } catch {
                         print("CLASSROOM: Interesting")
@@ -289,11 +263,12 @@ class Classroom: Identifiable, ObservableObject {
         }
     }
     
-    
+    ///Return name of classroom
     func getName() -> String {
         return name
     }
     
+    ///Asyncronously return [Assignment] assignments.  Will call queryAssignments if it's not initialized.
     func getAssignments() async -> [Assignment] {
         if(assignments.count == 0) {
             assignments = await queryAssignments()
@@ -302,11 +277,13 @@ class Classroom: Identifiable, ObservableObject {
         return assignments
     }
     
+    ///Syncronously return [Assignment] assignments. Will call queryAssignments if it's not initialized.
     func getAssignments() -> [Assignment] {
 
         return assignments
     }
 
+    ///Asyncronously return [Assignment] assignments. matching given type  Will call queryAssignments if it's not initialized.
     func getAssignments(type: AssignmentType) async -> [Assignment]{
         if(assignments.count == 0) {
             assignments = await queryAssignments()
@@ -317,25 +294,24 @@ class Classroom: Identifiable, ObservableObject {
                 matches.append(assigned)
             }
         }
-        //print("CLASSROOM: Matches size:")
-        //print(matches.count)
+
         return matches
     }
     
+    ///Syncronously return visible [Assignment] assignments. Will NOT call queryAssignments if it's not initialized.
     func getVisibleAssignments(type: AssignmentType) -> [Assignment] {
         var visible: [Assignment] = []
         
         for assignment in assignments {
             if(assignment.getHiddenStatus() == false && assignment.getType() == type) {
-                
-                //print("assignment: \(assignment.getName())")
+
                 visible.append(assignment)
             }
         }
         return visible
     }
     
-    
+    ///Syncronously return visible [Assignment] assignments. Will NOT call queryAssignments if it's not initialized.
     func getHiddenAssignments() -> [Assignment] {
         var hidden: [Assignment] = []
         
@@ -347,10 +323,12 @@ class Classroom: Identifiable, ObservableObject {
         return hidden
     }
     
+    ///Return classroom's assigned Reminder list's identifier. Return null if no list assigned.
     func getIdentifier() -> String? {
         return calendarIdentifier
     }
     
+    ///Set classroom's assigned Reminder lists' identifier.
     func setIdentifier(calendarIdentifier: String) {
 
         UpdateValue.saveToLocal(key: "\(courseID)_CALENDAR_IDENTIFIER", value: calendarIdentifier)
@@ -368,11 +346,13 @@ class Classroom: Identifiable, ObservableObject {
         self.classrooms.update()
     }
     
+    ///Unlinks classroom's assigned Reminder list.
     func removeIdentifier() {
         self.calendarIdentifier = nil
         self.classrooms.update()
     }
     
+    ///Set classroom's hidden status.
     func setHiddenStatus(hidden: Bool) {
 
         UpdateValue.saveToLocal(key: "\(courseID)_IS_HIDDEN", value: hidden)
@@ -380,22 +360,27 @@ class Classroom: Identifiable, ObservableObject {
         self.hidden = hidden
     }
     
+    ///Returns classroom's hidden status.
     func getHiddenStatus() -> Bool {
         return hidden
     }
     
+    ///Returns classroom's course ID.
     func getCourseID() -> String {
         return courseID
     }
     
+    ///Set [Assignment] assignments to given value.
     func setAssignments(assignments: [Assignment]) {
         self.assignments = assignments
     }
     
+    ///Update any interface using current classroom.
     func toggleUpdate() {
         update.toggle()
     }
     
+    ///Asyncronously dd all assignments matching stated type to Reminders.
     func addAssignments(isCompleted: [Bool], items: [AssignmentType]) async -> Int {
         var count = 0
         var matchedAssignments: [Assignment] = []
@@ -417,6 +402,7 @@ class Classroom: Identifiable, ObservableObject {
         return count
     }
     
+    ///Returns if current classroom is finished loading.
     func isReady() -> Bool {
         if(loadedAssignments == assignments.count) {
             return true
@@ -424,32 +410,28 @@ class Classroom: Identifiable, ObservableObject {
         return false
     }
     
+    ///Increment count of loaded assignments.
     func incrementLoadedAssignmentCount() {
         loadedAssignments += 1
         if(loadedAssignments == assignments.count) {
             self.classrooms.update()
         }
-//        if(loadedAssignments > assignments.count) {
-//            self
-//            print("wtf")
-//        }
-    }
 
+    }
     
+    ///Add given assignment to the not added list.
     func appendNotAddedAssignment(assignment: Assignment) {
         notAdded.append(assignment.getID())
         self.classrooms.update()
     }
     
+    ///Remove given assignment from the not added list. If it isn't in there, nothing happens.
     func removeNotAddedAssignment(assignment: Assignment) {
         if let j = notAdded.firstIndex(of: assignment.getID()) {
             notAdded.remove(at: j)
         }
         self.classrooms.update()
     }
-    
-    
-
     
     
 }

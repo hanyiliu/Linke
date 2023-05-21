@@ -103,7 +103,7 @@ struct ClassroomView: View {
                     Text("Reminder List")
                     Spacer()
                     Button(classroomListName) {
-                        print("hey")
+  
                         setList = true
                     }.foregroundColor(Color.gray)
                     .onAppear() {
@@ -118,7 +118,7 @@ struct ClassroomView: View {
                         }
                     }
                     .sheet(isPresented: $setList, onDismiss: {
-                        //print("Dismissed")
+
                     }, content: {
                         Form {
                             Section {
@@ -145,13 +145,6 @@ struct ClassroomView: View {
                                         
                                     }
                                 }
-//                                ForEach(classrooms.getCalendarNames(store: store), id: \.self) { list in
-//                                        Text(list).onTapGesture {
-//                                            classroom.setIdentifier(calendarIdentifier: list.calendarIdentifier)
-//                                            classroomListName = list
-//                                            setList = false
-//                                        }
-//                                }
                                 
                             }
                             Section {
@@ -240,8 +233,7 @@ struct ClassroomView: View {
             }
         }
         .navigationBarItems(trailing: Button(action: {
-            print(classroom.getAssignments().count)
-            print("running")
+
             classroom.toggleUpdate()
         }) {
             Image(systemName: "arrow.clockwise").foregroundColor(.blue)

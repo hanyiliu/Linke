@@ -11,7 +11,7 @@ import UserNotifications
 struct BackgroundHandler: Any {
     static let backgroundIdentifier = "com.linke.updatereminders"
     
-    //Schedule a new task while removing any previously scheduled tasks. If there is no previous tasks, a task is simply scheduled.
+    ///Schedule a new task while removing any previously scheduled tasks. If there is no previous tasks, a task is simply scheduled.
     static func scheduleTimerWithOverride(hour: Int, minute: Int) async {
         if let date = await getTaskScheduleTime() {
             let calendar = Calendar.current
@@ -29,7 +29,7 @@ struct BackgroundHandler: Any {
         }
     }
     
-    //Schedule a new task at the specified time. It will always be scheduled in the future.
+    ///Schedule a new task at the specified time. It will always be scheduled in the future.
     static func scheduleTimer(hour: Int, minute: Int) {
         //Request notification access if not already granted
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
@@ -68,6 +68,8 @@ struct BackgroundHandler: Any {
         print("Trying to schedule task at \(dateComponents)")
         do {
             try BGTaskScheduler.shared.submit(request)
+            UpdateValue.saveToLocal(key: "SCHEDULED_MINUTE", value: minute)
+            UpdateValue.saveToLocal(key: "SCHEDULED_HOUR", value: hour)
             
             
         } catch {
@@ -75,20 +77,21 @@ struct BackgroundHandler: Any {
         }
     }
     
-    //Cancel the current task with backgroundIndentifier.
+    ///Cancel the current task with backgroundIndentifier.
     static func cancelTask() {
         BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: "com.linke.updatereminders")
         print("Background task cancelled")
     }
     
-    //Return time at which the current task is scheduled for.
+    ///Return time at which the current task is scheduled for.
     static func getTaskScheduleTime() async -> Date? {
         
-        let taskRequest = await BGTaskScheduler.shared.pendingTaskRequests()
-        for request in taskRequest {
-            if request.identifier == backgroundIdentifier {
-                return request.earliestBeginDate
+        if let hour = UpdateValue.loadFromLocal(key: "SCHEDULED_HOUR", type: "Int"), let minute = UpdateValue.loadFromLocal(key: "SCHEDULED_MINUTE", type: "Int") {
+            var date = Calendar.current.date(bySettingHour: hour as! Int, minute: minute as! Int, second: 0, of: Date())!
+            if date <= Date() {
+                date = Calendar.current.date(byAdding: .day, value: 1, to: date)!
             }
+            return date
         }
         
         return nil

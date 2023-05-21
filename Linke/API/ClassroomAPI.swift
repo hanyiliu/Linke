@@ -15,13 +15,15 @@ import EventKit
 
 class ClassroomAPI: ObservableObject {
     
-    private var classrooms: [Classroom] = []
-    private static var started = false;
+    var classrooms: [Classroom] = [] 
+    private static var started = false
     var startTime: Date
     private var endTime: Date
-    
-    @Published var updateVal = false
+    @Published var totalClassroomCount = 0
+    @Published public var loadedClassroomCount = 0
+    @Published var updateVal = false //Call to update interface
     init(forceRestart: Bool = false) async {
+
         startTime = Date()
         endTime = Date()
         if(forceRestart || !ClassroomAPI.started) {
@@ -29,28 +31,26 @@ class ClassroomAPI: ObservableObject {
             self.clear()
             ClassroomAPI.started = true
             var classroomJson: JSON?
-            //print("CHECKPOINT 1: \(Double(round(100 * Date().timeIntervalSince(startTime))/100))")
-            //startTime = Date()
+
             await withCheckedContinuation { continuation in
                 initializer() { classJson in
-                    //print("CHECKPOINT 2: \(Double(round(100 * Date().timeIntervalSince(self.startTime))/100))")
-                    //self.//startTime = Date()
+
                     if let classJson = classJson {
                         classroomJson = classJson
                         
                     }
                     continuation.resume()
                 }
-            } //self.initializeClassrooms(classroomJson: classroomJson, manualRefresh: false)
-            //print("CHECKPOINT 3: \(Double(round(100 * Date().timeIntervalSince(self.startTime))/100))")
-            //startTime = Date()
+            }
+            
+            
             if let classroomJson = classroomJson {
-                ////print("CHECKPOINT 1")
+
+                totalClassroomCount = classroomJson["courses"].arrayValue.count
                 await initializeClassrooms(classroomJson: classroomJson, manualRefresh: false)
-                //print("Finished running initalizeClassrooms()")
-                //print("CHECKPOINT 4: \(Double(round(100 * Date().timeIntervalSince(self.startTime))/100))")
-                //startTime = Date()
+
                 self.endTime = Date()
+
                 print("Finished loading Classroom API. Took \(endTime.timeIntervalSince(startTime))")
                 
             }
@@ -61,16 +61,22 @@ class ClassroomAPI: ObservableObject {
     }
     
     init() {
+
         startTime = Date()
         endTime = Date()
+        
         if(!ClassroomAPI.started) {
             print("Creating Google Classroom API in sync")
             ClassroomAPI.started = true
             initializer() { classroomJson in
                 if let classroomJson = classroomJson {
+                    DispatchQueue.main.async {
+                        self.totalClassroomCount = classroomJson["courses"].arrayValue.count
+                    }
                     Task {
                         await self.initializeClassrooms(classroomJson: classroomJson, manualRefresh: false)
                         self.endTime = Date()
+
                     }
                 }
                 
@@ -81,10 +87,10 @@ class ClassroomAPI: ObservableObject {
         }
         
     }
-    /*
-     completion(nil)
-     return
-     */
+    
+    ///Fetches entire Google Classroom JSON from the Classroom API
+    ///Parameters: Callback function, if user is manually refreshing the API (will run an entire fetch)
+    ///Returns: classroom JSON
     private func initializer(completion: @escaping (JSON?) -> Void, manualRefresh: Bool = false) {
         if let user = GIDSignIn.sharedInstance.currentUser {
             user.authentication.do { authentication, error in
@@ -120,16 +126,14 @@ class ClassroomAPI: ObservableObject {
                         completion(nil)
                         return
                     }
-                    //print("data")
-                    //print(data)
+
                     let json = try? JSON(data: data)
                     guard let json = json else {
                         print("JSON file invalid")
                         completion(nil)
                         return
                     }
-                    //print("json")
-                    //print(json)
+
                     completion(json)
                     
                     
@@ -139,32 +143,39 @@ class ClassroomAPI: ObservableObject {
         }
     }
     
+    ///Initiallizes all classrooms
+    ///Parameters: classroom JSON, if user is manually refreshing the API (will run an entire fetch)
+    ///Returns: void. Will have loaded the classrooms [Classroom] array
     private func initializeClassrooms(classroomJson: JSON, manualRefresh: Bool) async { //manualRefresh = false by default
-        ////print("CHECKPOINT 2")
+
         let store = EKEventStore()
-        for (_,subJson):(String, JSON) in classroomJson["courses"] {
-//            print("JSON FILE:")
-//            print(subJson)
-            ////print("CHECKPOINT 3")
-            //print("CHECKPOINT 3.1 (\(subJson["name"])): \(Double(round(100 * Date().timeIntervalSince(self.startTime))/100))")
-            //startTime = Date()
-            await classrooms.append(Classroom(classrooms: self, name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, manualRefresh: manualRefresh, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil))
-            //print("CHECKPOINT 3.2 (\(subJson["name"])): \(Double(round(100 * Date().timeIntervalSince(self.startTime))/100))")
-            //startTime = Date()
+//        for (_,subJson):(String, JSON) in classroomJson["courses"] {
+//            print("Currently loading \(subJson["name"])")
+//            async let classroom = Classroom(classrooms: self, name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, manualRefresh: manualRefresh, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil)
+//
+//        }
+        
+        await withTaskGroup(of: Classroom.self) { group in
+            for (_,subJson):(String, JSON) in classroomJson["courses"] {
+                group.addTask {
+                    await Classroom(classrooms: self, name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, manualRefresh: manualRefresh, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil)
+                }
+            }
+            
+            for await classroom in group {
+                classrooms.append(classroom)
+
+            }
         }
-        
-        //print("ClassroomAPI finished loading")
-        
-        //print("Classrooms count: \(classrooms.count)")
-        //print("please tell me this is synced")
-        self.update()
         
     }
     
+    ///Returns [Classroom] classrooms
     func getClassrooms() -> [Classroom] {
         return classrooms
     }
     
+    ///Returns all visible classrooms in [Classroom] classrooms
     func getVisibleClassrooms() -> [Classroom] {
         var visible: [Classroom] = []
         
@@ -176,6 +187,7 @@ class ClassroomAPI: ObservableObject {
         return visible
     }
     
+    ///Returns all hidden classrooms in [Classroom] classrooms
     func getHiddenClassrooms() -> [Classroom] {
         var hidden: [Classroom] = []
         
@@ -187,46 +199,56 @@ class ClassroomAPI: ObservableObject {
         return hidden
     }
     
-    func refresh() {
-        print("Recalling Google Classroom")
+    ///Refreshes Google Classroom API, resets [Classroom] classrooms.
+    func refresh(manualRefresh: Bool = true) {
+        print("Refreshing Google Classroom")
         
-        classrooms = []
+        clear()
         DispatchQueue.main.async { [self] in
             self.initializer(completion:  { classroomJson in
                 if let classroomJson = classroomJson {
+                    
+                    DispatchQueue.main.async {
+                        self.totalClassroomCount = classroomJson["courses"].arrayValue.count
+                    }
+                    
                     Task {
-                        await self.initializeClassrooms(classroomJson: classroomJson, manualRefresh: true)
+                        await self.initializeClassrooms(classroomJson: classroomJson, manualRefresh: manualRefresh)
                     }
                 }
                 
             }, manualRefresh: true)
         }
+        ClassroomAPI.started = true
     }
     
+    ///Clear all stored values in current instance.
     func clear() {
         print("Clearing Google Classroom API")
         
         classrooms = []
+        totalClassroomCount = 0
+        loadedClassroomCount = 0
         ClassroomAPI.started = false
     }
     
+    ///Add all selected types of assignments.
     func addAllAssignments(store: EKEventStore, isCompleted: [Bool], chosenTypes: [AssignmentType]) async -> Int{
         var matchedAssignments: [Assignment] = []
         var count = 0
         for i in 0...isCompleted.count-1 {
-            //print("i value \(i)")
+
             if(isCompleted[i]) {
-                //print("isCompleted \(isCompleted[i])")
+
                 for classroom in self.getVisibleClassrooms(){
-                    //print(classroom.getName())
-                    //print("ADDALLASSIGNMENTS: classroom not added count for \(classroom.getName()): \(classroom.notAdded.count)")
+
                     matchedAssignments += await classroom.getAssignments(type: chosenTypes[i])
                 }
             }
         }
-        //print("matchedAssignments count \(matchedAssignments.count)")
+
         for assigned in matchedAssignments {
-            //print("isAdded? \(assigned.getName()) is \(assigned.isAdded())")
+
             if(!assigned.isAdded()) {
                 
                 if(await assigned.addToReminders(store: store)){
@@ -234,12 +256,13 @@ class ClassroomAPI: ObservableObject {
                 }
             }
         }
-        //print("addedAssignments: \(count)")
+
 
         
         return count
     }
     
+    ///Get names of all reminder lists/
     func getCalendarNames(store: EKEventStore) -> [String] {
         var list: [String] = []
         for cal in store.calendars(for: .reminder) {
@@ -248,6 +271,7 @@ class ClassroomAPI: ObservableObject {
         return list
     }
     
+    ///Update any interface using the classrooms API.
     func update() {
         DispatchQueue.main.async {
             self.updateVal.toggle()

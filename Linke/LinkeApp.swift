@@ -42,7 +42,7 @@ struct LinkerApp: App {
                         }
                     }
                     
-                    // Register the launch handler for background tasks.
+                    ///Register the launch handler for background tasks.
                     BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.linke.updatereminders", using: nil) { task in
 
                         task.expirationHandler = {
@@ -116,6 +116,12 @@ struct UpdateValue: Any {
         }
     }
     
+    static func saveToLocal(key: String, value: Int) {
+        if let encoded = try? JSONEncoder().encode(value) {
+            UserDefaults.standard.set(encoded, forKey: key)
+        }
+    }
+    
     static func saveToLocal(key: String, value: AssignmentType) {
         if let encoded = try? JSONEncoder().encode(value) {
             UserDefaults.standard.set(encoded, forKey: key)
@@ -141,6 +147,13 @@ struct UpdateValue: Any {
                 }
             case "Bool":
                 if let decoded = try? JSONDecoder().decode(Bool.self, from: data
+                ) {
+                    return decoded
+                } else {
+                    return nil
+                }
+            case "Int":
+                if let decoded = try? JSONDecoder().decode(Int.self, from: data
                 ) {
                     return decoded
                 } else {

@@ -26,7 +26,7 @@ class Assignment: Identifiable {
         }
         
         didSet { //after value is set
-            //print("Setting value of reminderStatus for assignment \(name) to \(reminderStatus)")
+
             UpdateValue.saveToLocal(key: "\(assignmentID)_REMINDER_STATUS", value: reminderStatus)
         }
     }
@@ -40,90 +40,83 @@ class Assignment: Identifiable {
         self.type = type
         self.assignmentID = id
         
-        
-        
-        //print("CHECKPOINT 3.1.3.0.4.3.1 (\(self.name): \(Double(round(100 * Date().timeIntervalSince(self.classroom.classrooms.startTime))/100))")
-        //self.classroom.classrooms.//startTime = Date()
-        
         UpdateValue.saveToLocal(key: "\(assignmentID)_TYPE", value: type)
-        
-        ////print("CHECKPOINT 7.2")
+
         if let data = UpdateValue.loadFromLocal(key: "\(assignmentID)_IS_HIDDEN", type: "Bool") as? Bool {
 
             setHiddenStatus(hidden: data)
         }
 
         if let data = UpdateValue.loadFromLocal(key: "\(assignmentID)_REMINDER_STATUS", type: "ReminderType") as? ReminderType {
-            //print("Found reminder status for assignment \(name). status is \(data)")
+
             reminderStatus = data
         } else {
             
         }
-        //print("CHECKPOINT 3.1.3.0.4.3.2 (\(self.name): \(Double(round(100 * Date().timeIntervalSince(self.classroom.classrooms.startTime))/100))")
-        //self.classroom.classrooms.//startTime = Date()
+
         if manualRefresh || reminderStatus == .notAdded || reminderStatus == .inProgress {
-            
-            //print("Checking if is added 1 for assignment \(name). reminderStatus: \(reminderStatus)")
+
             await checkIfIsAdded()
         } else {
             self.classroom.incrementLoadedAssignmentCount()
         }
-        //print("CHECKPOINT 3.1.3.0.4.3.3 (\(self.name): \(Double(round(100 * Date().timeIntervalSince(self.classroom.classrooms.startTime))/100))")
-        //self.classroom.classrooms.//startTime = Date()
-        ////print("CHECKPOINT 7.6")
-        //print("ADDED STATUS FOR \(name): \(added)")
+ 
             
         
         
     }
-
     
+    ///Get name of assignment.
     func getName() -> String {
         return name
     }
     
+    ///Get due date of assignment.
     func getDueDate() -> Date? {
         return dueDate
     }
     
+    ///Get ID of assignment.
     func getID() -> String {
         return assignmentID
     }
     
+    ///Get type of assignment.
     func getType() -> AssignmentType {
         return type
     }
     
+    ///Returns if assignment is added to Reminders.
     func isAdded() -> Bool {
         return !(reminderStatus == .notAdded)
     }
     
+    ///Asyncronously check if the assignment is added to Reminders. Modifies reminderStatus accordingly.
     func checkIfIsAdded() async {
-        ////print("CHECKPOINT 7.3")
+
         if let identifier = classroom.getIdentifier() {
-            ////print("CHECKPOINT 7.3.0.1")
+
             if let calendar = store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == identifier }) {
-                ////print("CHECKPOINT 7.3.0.2")
+
                 let eventsPredicate = store.predicateForReminders(in: [calendar])
-                ////print("CHECKPOINT 7.3.0.3")
+
                 let semaphore = DispatchSemaphore(value: 0)
-                //await withCheckedContinuation { continuation in
+
                     store.fetchReminders(matching: eventsPredicate) { reminders in
-                        ////print("CHECKPOINT 7.3.1")
+
                         var found = false
                         var foundReminder: EKReminder?
                         for reminder: EKReminder? in reminders ?? [EKReminder?]() {
                             if let reminder = reminder {
                                 if (reminder.title == self.name){
-                                    ////print("CHECKPOINT 7.4")
-                                    //print("ASSIGNMENT: Assignment \"\(self.name)\" exists in Reminder.")
+
                                     found = true
                                     foundReminder = reminder
                                 }
                             }
                         }
                         if !found {
-                            ////print("CHECKPOINT 7.IDK ANYMORE")
+
                             self.reminderStatus = .notAdded
                         } else {
                             if let foundReminder = foundReminder {
@@ -139,7 +132,7 @@ class Assignment: Identifiable {
                         semaphore.signal()
                     }
                     semaphore.wait()
-                    //continuation.resume()
+
                 //}
             } else {
                 reminderStatus = .notAdded
@@ -150,9 +143,10 @@ class Assignment: Identifiable {
             reminderStatus = .notAdded
             self.classroom.incrementLoadedAssignmentCount()
         }
-        ////print("CHECKPOINT 7.5")
+
     }
     
+    ///Asyncronously add assignment to Reminders.
     func addToReminders(store: EKEventStore) async -> Bool {
         store.requestAccess(to: .event) { (granted, error) in
             if let error = error {
@@ -160,9 +154,7 @@ class Assignment: Identifiable {
                 print(error)
             }
         }
-//        if classroom.getIdentifier() == nil {
-//            classroom.initializeList(store: store)
-//        }
+
         var classCalendar: EKCalendar
         if let calendar = store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) {
             classCalendar = calendar
@@ -181,6 +173,7 @@ class Assignment: Identifiable {
         
     }
     
+    ///Get Reminder's reminder that matches given values.
     func fetch(classCalendar: EKCalendar, eventsPredicate: NSPredicate, store: EKEventStore, completion: @escaping (Bool) -> Void) {
         store.fetchReminders(matching: eventsPredicate, completion: {(_ reminders: [Any]?) -> Void in
             
@@ -245,22 +238,20 @@ class Assignment: Identifiable {
         })
     }
     
-    
-    
-    
+    ///Set hidden status of assignment.
     func setHiddenStatus(hidden: Bool) {
         UpdateValue.saveToLocal(key: "\(assignmentID)_IS_HIDDEN", value: hidden)
         self.hidden = hidden
     }
     
+    ///Return hidden status of assignment.
     func getHiddenStatus() -> Bool {
         return hidden
     }
-
-
     
 }
 
+///Types: missing, inProgress, noDateDue, completed
 enum AssignmentType : CustomStringConvertible, Identifiable, Encodable, Decodable {
     case missing
     case inProgress
@@ -291,6 +282,7 @@ enum AssignmentType : CustomStringConvertible, Identifiable, Encodable, Decodabl
         }
 }
 
+///Types: notAdded, inProgress, completed
 enum ReminderType : CustomStringConvertible, Identifiable, Encodable, Decodable {
     case notAdded
     case inProgress
