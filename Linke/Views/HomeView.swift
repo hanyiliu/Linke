@@ -12,22 +12,22 @@ import EventKit
 
 struct HomeView: View {
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
+    
     @StateObject var viewRouter: ViewRouter
     @StateObject var classrooms: ClassroomAPI
+    @StateObject var team = Team()
+    
     @State var showAlert = false
     @State var addedAssignments = 0
     @State var alertType = AlertType.statusReport
     @State private var missingListForClassroom = ""
     @State var manualRefreshAlert = false
-    
     @State private var chooseAssignments = false
     @State private var showAfterDismiss = false
     @State private var isCompleted = [false, false, false, false]
     @State private var items = [AssignmentType.inProgress, .missing, .noDateDue, .completed]
-
-
-    
-    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    @State private var showSignOutConfirmation = false
     
     let store = EKEventStore()
     
@@ -102,11 +102,12 @@ struct HomeView: View {
                         }
                         )
                     }
+                    
                     Section(header: Text("Your Classrooms")) {
                         ForEach(classrooms.getVisibleClassrooms()) { classroom in
                             NavigationLink(destination: ClassroomView(classroom: classroom, classrooms: classrooms)) {
+                                
                                 HStack {
-                                    
                                     if(classroom.isReady()) {
                                         if(classroom.getIdentifier() == nil) {
                                             Image(systemName: "questionmark.circle.fill").foregroundColor(.red)
@@ -122,6 +123,7 @@ struct HomeView: View {
                                     }
                                     Text(classroom.getName())
                                 }
+                                
                             }
                         }.onDelete { indexSet in
                             classrooms.getVisibleClassrooms()[indexSet.first!].setHiddenStatus(hidden: true)
@@ -140,6 +142,13 @@ struct HomeView: View {
 
                         }
                     }
+                   
+                    Section() {
+                        NavigationLink(destination: TeamView(team: team)) {
+                            Text("Your Team")
+                        }
+                    }
+                    
                     Section {
                         NavigationLink(destination: HiddenClassroomView(classrooms: classrooms)) {
                             Text("Hidden Classrooms")
@@ -154,11 +163,24 @@ struct HomeView: View {
                             
                         }
 
-                        Button("Sign Out") {
-                            GIDSignIn.sharedInstance.signOut()
-                            classrooms.clear()
-                            viewRouter.currentPage = .googleSignIn
-                        }.foregroundColor(Color.red)
+                        Button(action: {
+                            showSignOutConfirmation = true
+                        }) {
+                            Text("Sign Out")
+                                .foregroundColor(.red)
+                        }
+                        .alert(isPresented: $showSignOutConfirmation) {
+                            Alert(
+                                title: Text("Leave Team"),
+                                message: Text("Are you sure you want to leave the team?"),
+                                primaryButton: .destructive(Text("Sign Out"), action: {
+                                    GIDSignIn.sharedInstance.signOut()
+                                    classrooms.clear()
+                                    viewRouter.currentPage = .googleSignIn
+                                }),
+                                secondaryButton: .cancel()
+                            )
+                        }
                     }
                     
                     
@@ -171,6 +193,7 @@ struct HomeView: View {
                     Button(action: {
                     classrooms.refresh()
                     manualRefreshAlert = true
+                    team.refreshTeam()
                 }) {
                     Image(systemName: "arrow.clockwise").foregroundColor(.blue)
                 }.alert(isPresented: $manualRefreshAlert) {
@@ -189,6 +212,7 @@ struct HomeView: View {
             .onChange(of: scenePhase) { newPhase in
                 if newPhase == .active {
                     classrooms.refresh(manualRefresh: false)
+                    team.refreshTeam()
                 }
             }
             Banner()

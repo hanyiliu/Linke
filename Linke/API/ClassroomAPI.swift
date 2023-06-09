@@ -76,7 +76,10 @@ class ClassroomAPI: ObservableObject {
                     Task {
                         await self.initializeClassrooms(classroomJson: classroomJson, manualRefresh: false)
                         self.endTime = Date()
-
+                        
+                        print("Google Classroom API finished loading.")
+                        let data = UploadHandler.createStudentDictionary(studentName: GIDSignIn.sharedInstance.currentUser?.profile?.name ?? "", studentID: GIDSignIn.sharedInstance.currentUser?.userID ?? "", studentEmail: GIDSignIn.sharedInstance.currentUser?.profile?.email ?? "", classrooms: self)
+                        UploadHandler.uploadData(data: data!)
                     }
                 }
                 
@@ -149,21 +152,24 @@ class ClassroomAPI: ObservableObject {
     private func initializeClassrooms(classroomJson: JSON, manualRefresh: Bool) async { //manualRefresh = false by default
 
         let store = EKEventStore()
-//        for (_,subJson):(String, JSON) in classroomJson["courses"] {
-//            print("Currently loading \(subJson["name"])")
-//            async let classroom = Classroom(classrooms: self, name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, manualRefresh: manualRefresh, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil)
-//
-//        }
         
         await withTaskGroup(of: Classroom.self) { group in
             for (_,subJson):(String, JSON) in classroomJson["courses"] {
-                group.addTask {
-                    await Classroom(classrooms: self, name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, manualRefresh: manualRefresh, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil)
+                if !classrooms.contains(where: { $0.getCourseID() == subJson["id"].stringValue }) {
+                    group.addTask {
+                        await Classroom(classrooms: self, name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, manualRefresh: manualRefresh, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil)
+                    }
                 }
             }
             
             for await classroom in group {
-                classrooms.append(classroom)
+                if !classrooms.contains(where: { $0.getCourseID() == classroom.getCourseID() }) {
+                    classrooms.append(classroom)
+                    
+                } else {
+                    print("Duplicate classroom ID. Skipping classroom with ID \(classroom.getCourseID())")
+                    loadedClassroomCount -= 1
+                }
 
             }
         }

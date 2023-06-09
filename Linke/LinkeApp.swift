@@ -10,6 +10,7 @@ import GoogleSignIn
 import GoogleMobileAds
 import EventKit
 import BackgroundTasks
+import FirebaseCore
 
 
 @main
@@ -25,6 +26,9 @@ struct LinkerApp: App {
                 }
             
                 .onAppear {
+                    
+                    FirebaseApp.configure()
+                    
                     //Check Google authentication.
                     GADMobileAds.sharedInstance().start {_ in
                         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in

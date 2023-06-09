@@ -34,9 +34,17 @@ struct GoogleSignInView: View {
             if(colorScheme == .light) {
                 GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .light, style: .standard, state: .normal), action: prepareSignIn)
                     .cornerRadius(25)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25)
+                            .strokeBorder(Color.gray, lineWidth: 1)
+                    )
             } else {
                 GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .dark, style: .standard, state: .normal), action: prepareSignIn)
                     .cornerRadius(25)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25)
+                            .strokeBorder(Color.gray, lineWidth: 1)
+                    )
             }
             Spacer()
         }

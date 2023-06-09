@@ -26,6 +26,13 @@
 		0BD151052940820A00256154 /* ClassroomAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD151042940820A00256154 /* ClassroomAPI.swift */; };
 		0BD7D42029431B11000393A5 /* Assignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7D41F29431B11000393A5 /* Assignment.swift */; };
 		0BD7D4222944449F000393A5 /* ClassroomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD7D4212944449F000393A5 /* ClassroomView.swift */; };
+		0BDB4DA72A28704600B0AEE1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 0BDB4DA62A28704600B0AEE1 /* FirebaseFirestore */; };
+		0BDB4DA92A28704600B0AEE1 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0BDB4DA82A28704600B0AEE1 /* FirebaseFirestoreSwift */; };
+		0BDB4DAC2A28709E00B0AEE1 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 0BDB4DAB2A28709E00B0AEE1 /* GoogleMobileAds */; };
+		0BDB4DAF2A28712800B0AEE1 /* UploadHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDB4DAE2A28712800B0AEE1 /* UploadHandler.swift */; };
+		0BDB4DB12A28738400B0AEE1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0BDB4DB02A28738400B0AEE1 /* GoogleService-Info.plist */; };
+		0BEFD7902A300E3F004A892F /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEFD78F2A300E3E004A892F /* TeamView.swift */; };
+		0BEFD7922A30197A004A892F /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEFD7912A30197A004A892F /* Team.swift */; };
 		CA7DDE6D54A9E36332B4211E /* libPods-Linke.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB452289B1D264AADDF6BE08 /* libPods-Linke.a */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +73,10 @@
 		0BD151042940820A00256154 /* ClassroomAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassroomAPI.swift; sourceTree = "<group>"; };
 		0BD7D41F29431B11000393A5 /* Assignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assignment.swift; sourceTree = "<group>"; };
 		0BD7D4212944449F000393A5 /* ClassroomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassroomView.swift; sourceTree = "<group>"; };
+		0BDB4DAE2A28712800B0AEE1 /* UploadHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadHandler.swift; sourceTree = "<group>"; };
+		0BDB4DB02A28738400B0AEE1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0BEFD78F2A300E3E004A892F /* TeamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamView.swift; sourceTree = "<group>"; };
+		0BEFD7912A30197A004A892F /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		0C385047D38C5108BCEBB58F /* Pods-Linker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Linker.debug.xcconfig"; path = "Target Support Files/Pods-Linker/Pods-Linker.debug.xcconfig"; sourceTree = "<group>"; };
 		4C9FB0EC32096DA4D8305673 /* Pods-Linke.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Linke.release.xcconfig"; path = "Target Support Files/Pods-Linke/Pods-Linke.release.xcconfig"; sourceTree = "<group>"; };
 		A41E2733CAF317B060BC406E /* Pods-Linker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Linker.release.xcconfig"; path = "Target Support Files/Pods-Linker/Pods-Linker.release.xcconfig"; sourceTree = "<group>"; };
@@ -78,7 +89,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BDB4DAC2A28709E00B0AEE1 /* GoogleMobileAds in Frameworks */,
 				CA7DDE6D54A9E36332B4211E /* libPods-Linke.a in Frameworks */,
+				0BDB4DA72A28704600B0AEE1 /* FirebaseFirestore in Frameworks */,
+				0BDB4DA92A28704600B0AEE1 /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,6 +128,8 @@
 		0BD150E62940485400256154 /* Linke */ = {
 			isa = PBXGroup;
 			children = (
+				0BDB4DB02A28738400B0AEE1 /* GoogleService-Info.plist */,
+				0BDB4DAD2A28711A00B0AEE1 /* Upload */,
 				0BD151012940701A00256154 /* Views */,
 				0BD1510029406FDC00256154 /* Info.plist */,
 				0B2D64BC29FB7E2F007F3EF9 /* Background */,
@@ -140,6 +156,7 @@
 				0BD151042940820A00256154 /* ClassroomAPI.swift */,
 				0BBDBB3B2941752F00EB94C6 /* Classroom.swift */,
 				0BD7D41F29431B11000393A5 /* Assignment.swift */,
+				0BEFD7912A30197A004A892F /* Team.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -151,6 +168,7 @@
 				0BD150FA29406B9D00256154 /* GoogleSignInView.swift */,
 				0BD150FE29406C6400256154 /* ReminderAccessView.swift */,
 				0BD151022940739E00256154 /* HomeView.swift */,
+				0BEFD78F2A300E3E004A892F /* TeamView.swift */,
 				0B229F81296D3411005DECC1 /* HiddenClassroomView.swift */,
 				0B2D64BA29FB7C85007F3EF9 /* SettingsView.swift */,
 				0B229F83296D3A32005DECC1 /* HiddenAssignmentView.swift */,
@@ -160,6 +178,14 @@
 				0B2BEBD42986457B00E19E3B /* HelpView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		0BDB4DAD2A28711A00B0AEE1 /* Upload */ = {
+			isa = PBXGroup;
+			children = (
+				0BDB4DAE2A28712800B0AEE1 /* UploadHandler.swift */,
+			);
+			path = Upload;
 			sourceTree = "<group>";
 		};
 		142F5764C5794AD6DA722635 /* Frameworks */ = {
@@ -202,6 +228,11 @@
 			dependencies = (
 			);
 			name = Linke;
+			packageProductDependencies = (
+				0BDB4DA62A28704600B0AEE1 /* FirebaseFirestore */,
+				0BDB4DA82A28704600B0AEE1 /* FirebaseFirestoreSwift */,
+				0BDB4DAB2A28709E00B0AEE1 /* GoogleMobileAds */,
+			);
 			productName = Linker;
 			productReference = 0BD150E42940485400256154 /* Linke.app */;
 			productType = "com.apple.product-type.application";
@@ -230,6 +261,10 @@
 				Base,
 			);
 			mainGroup = 0BD150DB2940485400256154;
+			packageReferences = (
+				0BDB4DA52A28704600B0AEE1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				0BDB4DAA2A28709E00B0AEE1 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+			);
 			productRefGroup = 0BD150E52940485400256154 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -246,6 +281,7 @@
 			files = (
 				0BD150EF2940485700256154 /* Preview Assets.xcassets in Resources */,
 				0BD150EC2940485700256154 /* Assets.xcassets in Resources */,
+				0BDB4DB12A28738400B0AEE1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,11 +342,14 @@
 				0B229F84296D3A32005DECC1 /* HiddenAssignmentView.swift in Sources */,
 				0BD150EA2940485400256154 /* ContentView.swift in Sources */,
 				0B229F82296D3411005DECC1 /* HiddenClassroomView.swift in Sources */,
+				0BEFD7922A30197A004A892F /* Team.swift in Sources */,
 				0BBDBB3C2941752F00EB94C6 /* Classroom.swift in Sources */,
 				0B2D64BB29FB7C85007F3EF9 /* SettingsView.swift in Sources */,
 				0BD7D4222944449F000393A5 /* ClassroomView.swift in Sources */,
 				0B2BEBD3297F89A700E19E3B /* GoogleBannerAdView.swift in Sources */,
 				0BD151052940820A00256154 /* ClassroomAPI.swift in Sources */,
+				0BEFD7902A300E3F004A892F /* TeamView.swift in Sources */,
+				0BDB4DAF2A28712800B0AEE1 /* UploadHandler.swift in Sources */,
 				0B229F86296D3DDB005DECC1 /* LoadingView.swift in Sources */,
 				0B2BEBD52986457B00E19E3B /* HelpView.swift in Sources */,
 				0BD150E82940485400256154 /* LinkeApp.swift in Sources */,
@@ -533,6 +572,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0BDB4DA52A28704600B0AEE1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		0BDB4DAA2A28709E00B0AEE1 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0BDB4DA62A28704600B0AEE1 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BDB4DA52A28704600B0AEE1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		0BDB4DA82A28704600B0AEE1 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BDB4DA52A28704600B0AEE1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
+		0BDB4DAB2A28709E00B0AEE1 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0BDB4DAA2A28709E00B0AEE1 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0BD150DC2940485400256154 /* Project object */;
 }

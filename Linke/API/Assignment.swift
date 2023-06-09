@@ -12,11 +12,11 @@ class Assignment: Identifiable {
     private var name: String
     private var dueDate: Date?
     private var classroom: Classroom
-    private var type: AssignmentType
+    var type: AssignmentType
     private var store: EKEventStore
     private var assignmentID: String
     private var hidden = false
-    private var reminderStatus = ReminderType.notAdded { //true: marked as completed, false: still in progress, nil: not added
+    var reminderStatus = ReminderType.notAdded { //true: marked as completed, false: still in progress, nil: not added
         willSet { //before value is set
             if newValue == .notAdded {
                 self.classroom.appendNotAddedAssignment(assignment: self)
@@ -26,7 +26,7 @@ class Assignment: Identifiable {
         }
         
         didSet { //after value is set
-
+            print("Updated \(name) reminder status to \(reminderStatus)")
             UpdateValue.saveToLocal(key: "\(assignmentID)_REMINDER_STATUS", value: reminderStatus)
         }
     }

@@ -21,7 +21,7 @@ class Classroom: Identifiable, ObservableObject {
     private var calendarIdentifier: String?
     private var hidden = false
     private var store: EKEventStore
-    
+
     var classrooms: ClassroomAPI
     
     var notAdded: [String] = []
