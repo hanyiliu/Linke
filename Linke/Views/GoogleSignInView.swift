@@ -15,10 +15,11 @@ struct GoogleSignInView: View {
     @StateObject var viewRouter: ViewRouter
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     
-    let clientID = "102247840613-h0icqnch0ugvb4efp7vjob0d5ljkg90s.apps.googleusercontent.com"
+    let clientID = Bundle.main.infoDictionary?["GIDClientID"] as! String
     let requestedScopes = ["https://www.googleapis.com/auth/classroom.courses.readonly",
                            "https://www.googleapis.com/auth/classroom.coursework.me.readonly",
-                           "https://www.googleapis.com/auth/classroom.student-submissions.me.readonly"]
+                           "https://www.googleapis.com/auth/classroom.student-submissions.me.readonly",
+                           "https://www.googleapis.com/auth/classroom.rosters.readonly"]
     var body: some View {
         
         
@@ -62,7 +63,7 @@ struct GoogleSignInView: View {
             user, error in
             
             let grantedScopes = user?.grantedScopes
-            if grantedScopes == nil || !grantedScopes!.contains(requestedScopes[0]) {
+            if grantedScopes == nil || requestedScopes.contains { !grantedScopes!.contains($0) } {
                 GIDSignIn.sharedInstance.addScopes(requestedScopes, presenting: rootViewController) { user, error in
                     print("error: \(error)")
                     if(error == nil) {

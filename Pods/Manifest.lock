@@ -1,9 +1,9 @@
 PODS:
-  - AppAuth (1.6.0):
-    - AppAuth/Core (= 1.6.0)
-    - AppAuth/ExternalUserAgent (= 1.6.0)
-  - AppAuth/Core (1.6.0)
-  - AppAuth/ExternalUserAgent (1.6.0):
+  - AppAuth (1.6.2):
+    - AppAuth/Core (= 1.6.2)
+    - AppAuth/ExternalUserAgent (= 1.6.2)
+  - AppAuth/Core (1.6.2)
+  - AppAuth/ExternalUserAgent (1.6.2):
     - AppAuth/Core
   - GoogleSignIn (6.2.4):
     - AppAuth (~> 1.5)
@@ -18,8 +18,8 @@ PODS:
   - SwiftyJSON (5.0.1)
 
 DEPENDENCIES:
-  - GoogleSignIn
-  - GoogleSignInSwiftSupport
+  - GoogleSignIn (~> 6.2.4)
+  - GoogleSignInSwiftSupport (~> 6.2.4)
   - SwiftyJSON
 
 SPEC REPOS:
@@ -32,13 +32,13 @@ SPEC REPOS:
     - SwiftyJSON
 
 SPEC CHECKSUMS:
-  AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
+  AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
   GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
   GoogleSignInSwiftSupport: 565fa830a18d4d26d78c7a7c77be096fea7cf22b
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: 8a1964e8b31cf19bea329b5841c612c3c4582dc6
+PODFILE CHECKSUM: 916a859cde28215e309ebe1aa4bb06e83ea8f20f
 
 COCOAPODS: 1.11.3

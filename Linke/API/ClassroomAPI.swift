@@ -157,7 +157,7 @@ class ClassroomAPI: ObservableObject {
             for (_,subJson):(String, JSON) in classroomJson["courses"] {
                 if !classrooms.contains(where: { $0.getCourseID() == subJson["id"].stringValue }) {
                     group.addTask {
-                        await Classroom(classrooms: self, name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, store: store, manualRefresh: manualRefresh, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil)
+                        await Classroom(classrooms: self, name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, teacherID: subJson["ownerId"].stringValue, store: store, manualRefresh: manualRefresh, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil)
                     }
                 }
             }

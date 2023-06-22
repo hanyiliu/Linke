@@ -21,21 +21,25 @@ class Classroom: Identifiable, ObservableObject {
     private var calendarIdentifier: String?
     private var hidden = false
     private var store: EKEventStore
+    
+    var teacherName = ""
+    var teacherID: String
 
     var classrooms: ClassroomAPI
     
     var notAdded: [String] = []
     var loadedAssignments = 0
     
-    init(classrooms: ClassroomAPI, name: String, courseID: String, placeholder: Bool = false, store: EKEventStore, manualRefresh: Bool = false, archived: Bool?) async {
+    init(classrooms: ClassroomAPI, name: String, courseID: String, placeholder: Bool = false, teacherID: String, store: EKEventStore, manualRefresh: Bool = false, archived: Bool?) async {
 
         self.store = store
         self.name = name
         self.courseID = courseID
         self.classrooms = classrooms
-
-
         
+        self.teacherID = teacherID
+        self.teacherName = await getTeacherName()
+        print("Teacher name of class \(name) is \(teacherName)")
         calendarIdentifier = UpdateValue.loadFromLocal(key: "\(courseID)_CALENDAR_IDENTIFIER", type: "String") as? String
         if let id = calendarIdentifier {
             if(store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == id }) == nil) {
@@ -120,7 +124,6 @@ class Classroom: Identifiable, ObservableObject {
                 self.classrooms.update()
 
             }
-           
         }
         
     }
@@ -431,6 +434,61 @@ class Classroom: Identifiable, ObservableObject {
             notAdded.remove(at: j)
         }
         self.classrooms.update()
+    }
+    
+    func getTeacherName() async -> String {
+        
+        await withCheckedContinuation { continuation in
+            fetchTeacherName() { name in
+
+                continuation.resume(returning: name)
+
+
+                self.classrooms.update()
+
+            }
+        }
+        
+    }
+    ///Fetch name of the course's teacher. Do not call directly.
+    func fetchTeacherName(completion: @escaping (String) -> Void) {
+        if let user = GIDSignIn.sharedInstance.currentUser {
+            user.authentication.do { authentication, error in
+                Task {
+                    guard error == nil else {
+                        return
+                    }
+                    guard let authentication = authentication else {
+                        return
+                    }
+                    
+                    // Get the access token to attach it to a REST or gRPC request.
+                    let accessToken = authentication.accessToken
+                    let urlString = "https://classroom.googleapis.com/v1/courses/\(self.courseID)/teachers/\(self.teacherID)"
+                    if let url = URL(string: urlString) {
+                        var request = URLRequest(url: url)
+                        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+                        
+                        do {
+                            let (data, _) = try await URLSession.shared.data(for: request)
+
+                            if let json = try? JSON(data: data) {
+                                let profile = json["profile"].dictionaryValue
+                                let nameDict = profile["name"]!.dictionaryValue
+                                completion(nameDict["fullName"]!.stringValue)
+                            } else {
+                                print("Error trying to fetch teacher name: cannot serialize JSON.")
+                            }
+                        } catch {
+                            print("Error trying to fetch teacher name: \(error)")
+                        }
+                    } else {
+                        print("Error trying to fetch teacher name: Invalid URL")
+                              
+                    }
+                }
+            }
+        }
     }
     
     

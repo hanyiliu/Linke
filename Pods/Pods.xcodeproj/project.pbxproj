@@ -1768,7 +1768,7 @@
 			};
 			name = Release;
 		};
-		35CEA980DA66643D83350D5E4BA5106D /* Debug */ = {
+		42BB9E7AE7847E13FDB6B8A5576192E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 884BE20CB07261FA0CFD0EE2F9516E7F /* AppAuth.debug.xcconfig */;
 			buildSettings = {
@@ -1776,7 +1776,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				GCC_PREFIX_HEADER = "Target Support Files/AppAuth/AppAuth-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
@@ -1856,30 +1856,6 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		8A993687BC6F991D3CEA2D25D8B4EF70 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A0C52E31591CE71CE7B80FFAC75BB35C /* AppAuth.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/AppAuth/AppAuth-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = AppAuth;
-				PRODUCT_NAME = AppAuth;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2018,6 +1994,30 @@
 			};
 			name = Debug;
 		};
+		C6CE4E0C539CC5DED6CFE1587E280778 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A0C52E31591CE71CE7B80FFAC75BB35C /* AppAuth.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/AppAuth/AppAuth-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = AppAuth;
+				PRODUCT_NAME = AppAuth;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		CBA98EE2BAC0E2FC64F74152A2E6BC3E /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 38CFCDED2B1F3498A1EDAE511A8311B3 /* SwiftyJSON.release.xcconfig */;
@@ -2115,8 +2115,8 @@
 		1D2072597D9B8A4E670A6B289618A465 /* Build configuration list for PBXNativeTarget "AppAuth" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				35CEA980DA66643D83350D5E4BA5106D /* Debug */,
-				8A993687BC6F991D3CEA2D25D8B4EF70 /* Release */,
+				42BB9E7AE7847E13FDB6B8A5576192E6 /* Debug */,
+				C6CE4E0C539CC5DED6CFE1587E280778 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

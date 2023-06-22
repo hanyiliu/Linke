@@ -32,6 +32,8 @@ struct UploadHandler: Any {
             var classroomDictionary: [String: Any] = [:]
             classroomDictionary["name"] = classroom.getName()
             classroomDictionary["id"] = classroom.getCourseID()
+            classroomDictionary["teacher_id"] = classroom.teacherID
+            classroomDictionary["teacher_name"] = classroom.teacherName
             
             var assignmentArray: [[String: Any]] = []
 
