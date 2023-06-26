@@ -138,21 +138,16 @@ class Classroom: Identifiable, ObservableObject {
     
     ///Initialize [Assignment] assignments
     func initializeAssignments(manualRefresh: Bool = false, completion: @escaping ([Assignment]) -> Void) {
-
         if let user = GIDSignIn.sharedInstance.currentUser {
             user.authentication.do { authentication, error in
                 Task {
-
                     guard error == nil else { return }
                     guard let authentication = authentication else { return }
-                    // Get the access token to attach it to a REST or gRPC request.
                     let accessToken = authentication.accessToken
-                    guard let url = URL(string: "https://classroom.googleapis.com/v1/courses/\(self.courseID)/courseWork") else{ //For entire classroom. Queried once for every classroom.
+                    guard let url = URL(string: "https://classroom.googleapis.com/v1/courses/\(self.courseID)/courseWork") else { //For entire classroom. Queried once for every classroom.
                         return
                     }
-                    
-                    
-                                       
+                                
                     var request = URLRequest(url: url)
                     request.httpMethod = "GET"
                     request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
@@ -168,13 +163,11 @@ class Classroom: Identifiable, ObservableObject {
                             return
                         }
                         
-                        //start of old initializeAssignemnts
                         let assignmentsJSON = json
                         var assignments: [Assignment] = []
                         for (_,courseWork):(String, JSON) in assignmentsJSON["courseWork"] {
 
                             if let hidden = UpdateValue.loadFromLocal(key: "\(courseWork["id"])_IS_HIDDEN", type: "Bool") as? Bool {
-
                                 if(hidden) {
                                     continue
                                 }
@@ -186,76 +179,20 @@ class Classroom: Identifiable, ObservableObject {
                             if(dateJSON.count == 0) {
                                 date = nil
                             } else {
-                                let calendar = Calendar.current
-                                if(timeJSON.count == 0) {
-                                    let dateComponents = DateComponents(year: dateJSON["year"]?.intValue,
-                                                                        month: dateJSON["month"]?.intValue,
-                                                                        day: dateJSON["day"]?.intValue
-                                    )
-                                    date = calendar.date(from: dateComponents)!
-                                } else {
-                                    let dateComponents = DateComponents(year: dateJSON["year"]?.intValue,
-                                                                        month: dateJSON["month"]?.intValue,
-                                                                        day: dateJSON["day"]?.intValue,
-                                                                        hour: timeJSON["hours"]?.intValue,
-                                                                        minute: timeJSON["minutes"]?.intValue
-                                    )
-                                    date = calendar.date(from: dateComponents)!
-                                    let sourceOffset = TimeZone(abbreviation: "UTC")!.secondsFromGMT(for: date!)
-                                    let destinationOffset = TimeZone.current.secondsFromGMT(for: date!)
-                                    let timeInterval = TimeInterval(destinationOffset - sourceOffset)
-                                    date = Date(timeInterval: timeInterval, since: date!)
-                                }
+                                date = self.getDateFromJSON(timeJSON: timeJSON, dateJSON: dateJSON)
                             }
                             var assignmentType: AssignmentType
 
                             if !manualRefresh, let data = UpdateValue.loadFromLocal(key: "\(courseWork["id"])_TYPE", type: "AssignmentType") as? AssignmentType {
                                 assignmentType = data
                             } else if let d = date {
-                                //print("Sending request to classroom API for assignment")
-                                guard let url = URL(string: "https://classroom.googleapis.com/v1/courses/\(self.courseID)/courseWork/\(courseWork["id"].stringValue)/studentSubmissions") else{ //For every assignment. Queried once for every assignment.
-                                    completion([])
-                                    return
-                                }
-                                var request = URLRequest(url: url)
-                                request.httpMethod = "GET"
-                                request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                                var data: Data
-                                do {
-                                    (data,_) = try await URLSession.shared.data(for: request)
-                                    
-                                    let json = try? JSON(data: data)
-                                    guard let json = json else {
-                                        print("CLASSROOM: JSON file invalid")
-                                        completion([])
-                                        return
-                                    }
-                                    let submissionState = json["studentSubmissions"][0]["state"]
-                                    switch submissionState {
-                                    case "NEW", "CREATED", "RECLAIMED_BY_STUDENT":
-                                        assignmentType = .inProgress
-                                        break
-                                    case "TURNED_IN", "RETURNED":
-                                        assignmentType = .completed
-                                        break
-                                    default:
-                                        assignmentType = .completed
-                                    }
-                                    if (assignmentType == .inProgress && d.compare(Date()) == .orderedAscending) {
-                                        assignmentType = .missing
-                                    }
-                                } catch {
-                                    print("CLASSROOM: Invalid data")
-                                    assignmentType = .noDateDue
-                                }
+                                assignmentType = await Assignment.fetchAssignmentType(accessToken: accessToken, courseID: self.courseID, assignmentID: courseWork["id"].stringValue, dueDate: d)
                             } else {
                                 assignmentType = .noDateDue
                             }
 
                             assignments.append(await Assignment(name: courseWork["title"].stringValue, id: courseWork["id"].stringValue, dueDate: date, classroom: self, type: assignmentType, store: self.store, manualRefresh: manualRefresh))
-
                         }
-
                         completion(assignments)
                     } catch {
                         print("CLASSROOM: Interesting")
@@ -264,6 +201,32 @@ class Classroom: Identifiable, ObservableObject {
                 }
             }
         }
+    }
+    
+    func getDateFromJSON(timeJSON: [String: JSON], dateJSON: [String: JSON]) -> Date {
+        var date: Date
+        let calendar = Calendar.current
+        if(timeJSON.count == 0) {
+            let dateComponents = DateComponents(year: dateJSON["year"]?.intValue,
+                                                month: dateJSON["month"]?.intValue,
+                                                day: dateJSON["day"]?.intValue
+            )
+            date = calendar.date(from: dateComponents)!
+        } else {
+            let dateComponents = DateComponents(year: dateJSON["year"]?.intValue,
+                                                month: dateJSON["month"]?.intValue,
+                                                day: dateJSON["day"]?.intValue,
+                                                hour: timeJSON["hours"]?.intValue,
+                                                minute: timeJSON["minutes"]?.intValue
+            )
+            date = calendar.date(from: dateComponents)!
+            let sourceOffset = TimeZone(abbreviation: "UTC")!.secondsFromGMT(for: date)
+            let destinationOffset = TimeZone.current.secondsFromGMT(for: date)
+            let timeInterval = TimeInterval(destinationOffset - sourceOffset)
+            date = Date(timeInterval: timeInterval, since: date)
+        }
+        
+        return date
     }
     
     ///Return name of classroom
@@ -437,18 +400,12 @@ class Classroom: Identifiable, ObservableObject {
     }
     
     func getTeacherName() async -> String {
-        
         await withCheckedContinuation { continuation in
             fetchTeacherName() { name in
-
                 continuation.resume(returning: name)
-
-
                 self.classrooms.update()
-
             }
         }
-        
     }
     ///Fetch name of the course's teacher. Do not call directly.
     func fetchTeacherName(completion: @escaping (String) -> Void) {

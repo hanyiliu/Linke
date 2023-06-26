@@ -7,6 +7,7 @@
 
 import Foundation
 import EventKit
+import SwiftyJSON
 
 class Assignment: Identifiable {
     private var name: String
@@ -249,6 +250,42 @@ class Assignment: Identifiable {
         return hidden
     }
     
+    static func fetchAssignmentType(accessToken: String, courseID: String, assignmentID: String, dueDate: Date) async -> AssignmentType {
+        //print("Sending request to classroom API for assignment")
+        guard let url = URL(string: "https://classroom.googleapis.com/v1/courses/\(courseID)/courseWork/\(assignmentID)/studentSubmissions") else{ //For every assignment. Queried once for every assignment.
+            print("Invalid URL for assignment.")
+            return .noDateDue
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        var data: Data
+        do {
+            (data,_) = try await URLSession.shared.data(for: request)
+            
+            let json = try? JSON(data: data)
+            guard let json = json else {
+                print("ASSIGNMENT: JSON file invalid")
+                return .noDateDue
+            }
+            let submissionState = json["studentSubmissions"][0]["state"]
+            switch submissionState {
+            case "NEW", "CREATED", "RECLAIMED_BY_STUDENT":
+                if (dueDate.compare(Date()) == .orderedAscending) {
+                    return .missing
+                } else {
+                    return .inProgress
+                }
+            case "TURNED_IN", "RETURNED":
+                return .completed
+            default:
+                return .completed
+            }
+        } catch {
+            print("CLASSROOM: Invalid data")
+            return .noDateDue
+        }
+    }
 }
 
 ///Types: missing, inProgress, noDateDue, completed

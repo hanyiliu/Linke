@@ -13,7 +13,7 @@ struct TeamView: View {
     @ObservedObject var team: Team
     @State private var teamCode: String = ""
     
-    @State private var showAlert = false //For entering tema code to join
+    @State private var showAlert = false //For entering team code to join
     @State private var enteredCode = "" //---
     
     @State private var showConfirmation = false //For leaving team
@@ -52,9 +52,12 @@ struct TeamView: View {
                                     Spacer()
                                 }
                             }.alert("Enter Team Code", isPresented: $showAlert) {
-                                TextField("Enter Team Code", text: $enteredCode)
+                                TextField("ABCDEF", text: $enteredCode)
+                                Button("Cancel") {
+                                    showAlert = false
+                                }
                                 Button("Join") {
-                                    team.teamCode = enteredCode
+                                    team.teamCode = enteredCode.uppercased()
                                 }
                             }
                             Spacer()

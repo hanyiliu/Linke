@@ -105,7 +105,6 @@ class ClassroomAPI: ObservableObject {
                     completion(nil)
                     return
                 }
-                
                 // Get the access token to attach it to a REST or gRPC request.
                 let accessToken = authentication.accessToken
                 
@@ -113,33 +112,22 @@ class ClassroomAPI: ObservableObject {
                     completion(nil)
                     return
                 }
-                
-                
-                // create get request
-                
-                
                 var request = URLRequest(url: url)
                 request.httpMethod = "GET"
-                
                 request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-                
                 let task = URLSession.shared.dataTask(with: request) { data, response, error in
                     guard let data = data, error == nil else {
                         print(error?.localizedDescription ?? "No data")
                         completion(nil)
                         return
                     }
-
                     let json = try? JSON(data: data)
                     guard let json = json else {
                         print("JSON file invalid")
                         completion(nil)
                         return
                     }
-
                     completion(json)
-                    
-                    
                 }
                 task.resume()
             }

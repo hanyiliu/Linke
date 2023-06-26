@@ -56,7 +56,7 @@ class Team: ObservableObject {
         let teamsCollection = Team.db.collection("team_data")
 
         // Query the collection to find the document with matching team_code
-        let querySnapshot = try await teamsCollection.whereField("team_code", isEqualTo: teamCode).getDocuments()
+        let querySnapshot = try await teamsCollection.whereField("student_code", isEqualTo: teamCode).getDocuments()
 
         // Check if any documents were found
         guard let document = querySnapshot.documents.first else {
