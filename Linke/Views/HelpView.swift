@@ -75,7 +75,7 @@ struct Help2: View {
                 Spacer()
                     .frame(height: UIScreen.main.bounds.size.height/6)
             }
-            Text("On the home screen, classrooms will have three symbols: ")
+            Text("On the home screen, classrooms will have four possible symbols next to them: ")
                 .font(.largeTitle)
                 .fontWeight(.medium)
                 .padding(.horizontal, UIScreen.main.bounds.size.width/20)
@@ -152,6 +152,10 @@ struct Help3: View {
                 .cornerRadius(10)
                 .padding()
                 .frame(width: UIScreen.main.bounds.size.width/1.25)
+            Text("Alternatively, after clicking \"Add All Assignments\" on the home page, you can automatically create lists accordingly.")
+                .font(.largeTitle)
+                .fontWeight(.medium)
+                .padding(.horizontal, UIScreen.main.bounds.size.width/20)
             Spacer()
                 .frame(height: UIScreen.main.bounds.size.height/20)
 
@@ -299,13 +303,6 @@ struct Help7: View {
                 }
                 .toggleStyle(CheckboxStyle())
             }
-            Spacer()
-                .frame(height: UIScreen.main.bounds.size.height/20)
-            Text("P.S. Linke does not store any of your data online. The only information stored are your classroom and assignment's IDs, which are useless by themselves. These data are also stored purely locally; thus, if you ever delete Linke, these information will also be deleted.")
-                .foregroundColor(.gray)
-                .padding(.horizontal, UIScreen.main.bounds.size.width/20)
-                .font(.system(size: 10))
-                .multilineTextAlignment(.center)
             Spacer()
         }
     }

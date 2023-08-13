@@ -14,7 +14,7 @@ class Team: ObservableObject {
             Task {
                 do {
                     teamDictionary = try await fetchTeamData(teamCode: value)
-                    
+                    UpdateValue.saveToLocal(key: "TEAM_CODE", value: value)
                 } catch {
                     print("Error trying to initialize team dictionary: \(error)")
                 }
@@ -29,8 +29,10 @@ class Team: ObservableObject {
     
     init() {
         if let teamCode = UpdateValue.loadFromLocal(key: "TEAM_CODE", type: "String") as? String {
+            print("Found existing team code: \(teamCode)")
             self.teamCode = teamCode
         } else {
+            print("Trying to find if student is part of team online.")
             guard let studentID = GIDSignIn.sharedInstance.currentUser?.userID else { return }
             let teamDataRef = Firestore.firestore().collection("team_data")
             let query = teamDataRef.whereField("students", arrayContains: studentID)
@@ -41,8 +43,9 @@ class Team: ObservableObject {
                         print("Document not found")
                         return
                     }
-                    
-                    let teamDictionary = document.data()
+                    print("Student already part of team online. Loading team.")
+                    teamDictionary = document.data()
+                    teamCode = teamDictionary!["student_code"] as? String ?? ""
                     
                 } catch {
                     print("Error getting document: \(error)")
@@ -61,6 +64,7 @@ class Team: ObservableObject {
         // Check if any documents were found
         guard let document = querySnapshot.documents.first else {
             print("No team document found with team_code: \(teamCode)")
+            
             return nil
         }
         
@@ -70,6 +74,7 @@ class Team: ObservableObject {
         // Convert the document data to [String: Any] dictionary
         let dictionary = document.data()
         toggle.toggle()
+        print("Successfully loaded team dictionary.")
         return dictionary
     }
     
@@ -94,10 +99,7 @@ class Team: ObservableObject {
         }
         let document = Team.db.collection("team_data").document(teamDictionary!["id"] as! String)
         removeStudentID(document: document)
-        UpdateValue.saveToLocal(key: "TEAM_CODE", value: "")
-        teamDictionary = nil
-        founderName = ""
-        teamCode = ""
+        clearLocalTeamData()
         toggle.toggle()
     }
     
@@ -163,6 +165,14 @@ class Team: ObservableObject {
         } catch {
             print("Error fetching founder's name: \(error)")
         }
+    }
+    
+    ///Clear local team data
+    func clearLocalTeamData() {
+        teamCode = ""
+        teamDictionary = nil
+        founderName = ""
+        UpdateValue.saveToLocal(key: "TEAM_CODE", value: "")
     }
     
  }

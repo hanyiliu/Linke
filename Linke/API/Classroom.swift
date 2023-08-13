@@ -20,6 +20,7 @@ class Classroom: Identifiable, ObservableObject {
     private var assignments: [Assignment] = []
     private var calendarIdentifier: String?
     private var hidden = false
+    private var archived = false
     private var store: EKEventStore
     
     var teacherName = ""
@@ -47,17 +48,16 @@ class Classroom: Identifiable, ObservableObject {
             }
         }
 
-        if let status = UpdateValue.loadFromLocal(key: "\(courseID)_IS_HIDDEN", type: "Bool") as? Bool {
-            
-
-            hidden = status
-        } else if let a = archived {
-            hidden = a
-        } else {
-            print("CLASSROOM: something went wrong")
+        if let a = archived {
+            setArchiveStatus(archived: a)
         }
+        
+        if let status = UpdateValue.loadFromLocal(key: "\(courseID)_IS_HIDDEN", type: "Bool") as? Bool {
+            hidden = status
+        }
+        
 
-        if(!hidden) {
+        if(!self.archived) {
 
             assignments = await queryAssignments(manualRefresh: manualRefresh)
 
@@ -109,6 +109,30 @@ class Classroom: Identifiable, ObservableObject {
             }
         } else {
             setIdentifier(calendarIdentifier: existingCalendar!.calendarIdentifier)
+        }
+    }
+    
+    ///Automatically create new Reminders list. Differs from initializeList in that it first checks for if there is an existing list under the classroom's name and matches it's list identifier.
+    func checkAndInitializeList(store: EKEventStore, useListIfExisting: Bool = false) -> Bool? {
+        if (getIdentifier() != nil &&
+            store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == getIdentifier()! }) != nil &&
+            store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == getIdentifier()! })?.title == getName()) {
+            print("There already is an existing list under this classroom's name.")
+            if useListIfExisting {
+                setIdentifier(calendarIdentifier: getIdentifier()!)
+            }
+            return false
+        } else {
+            initializeList(store: store)
+            if let listIdentiifer = getIdentifier() {
+                if store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == listIdentiifer }) != nil {
+                    return true
+                } else {
+                    print("Invalid calendar identifier")
+                    removeIdentifier()
+                }
+            }
+            return nil
         }
     }
     
@@ -329,6 +353,17 @@ class Classroom: Identifiable, ObservableObject {
     ///Returns classroom's hidden status.
     func getHiddenStatus() -> Bool {
         return hidden
+    }
+    
+    ///Set classroom's hidden status.
+    func setArchiveStatus(archived: Bool) {
+        setHiddenStatus(hidden: archived)
+        self.archived = archived
+    }
+    
+    ///Returns classroom's hidden status.
+    func getArchiveStatus() -> Bool {
+        return archived
     }
     
     ///Returns classroom's course ID.

@@ -28,12 +28,14 @@ struct UploadHandler: Any {
         studentDictionary["last_updated"] = Date()
 
         var classroomArray: [[String: Any]] = []
-        for classroom in classrooms.getVisibleClassrooms() {
+        for classroom in classrooms.getUnarchivedClassrooms() {
             var classroomDictionary: [String: Any] = [:]
             classroomDictionary["name"] = classroom.getName()
             classroomDictionary["id"] = classroom.getCourseID()
             classroomDictionary["teacher_id"] = classroom.teacherID
             classroomDictionary["teacher_name"] = classroom.teacherName
+            classroomDictionary["hidden"] = classroom.getHiddenStatus()
+            
             
             var assignmentArray: [[String: Any]] = []
 
@@ -61,7 +63,7 @@ struct UploadHandler: Any {
                         ]
                         assignmentDictionary["due_time"] = dueTime
                     }
-                    print("Assignment \(assignment.getName())\n     Type: \(assignment.type)\n      Reminder Status: \(assignment.reminderStatus)")
+                    //print("Assignment \(assignment.getName())\n     Type: \(assignment.type)\n      Reminder Status: \(assignment.reminderStatus)")
                     if(assignment.type == .completed) {
                         assignmentDictionary["status"] = 1
                     } else if(assignment.reminderStatus == .completed) {

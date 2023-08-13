@@ -19,15 +19,15 @@ struct HomeView: View {
     @StateObject var team = Team()
     
     @State var showAlert = false
-    @State var addedAssignments = 0
     @State var alertType = AlertType.statusReport
-    @State private var missingListForClassroom = ""
     @State var manualRefreshAlert = false
     @State private var chooseAssignments = false
-    @State private var showAfterDismiss = false
     @State private var isCompleted = [false, false, false, false]
     @State private var items = [AssignmentType.inProgress, .missing, .noDateDue, .completed]
     @State private var showSignOutConfirmation = false
+    
+    @State private var missingListsCount = 0
+    @State private var missingListsClassrooms: [Classroom] = []
     
     let store = EKEventStore()
     
@@ -41,49 +41,69 @@ struct HomeView: View {
                     Section {
 
                         Button("Add All Assignments to Reminders") {
+                            
+                            missingListsCount = 0
+                            missingListsClassrooms = []
+                            
                             for classroom in classrooms.getVisibleClassrooms() {
-                                guard (classroom.getIdentifier() != nil && store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) != nil) else {
+                                if(classroom.getIdentifier() == nil || store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) == nil) {
                                     print("\(classroom.getName()) has no active list.")
-                                    missingListForClassroom = classroom.getName()
-                                    alertType = .noList
-                                    showAlert = true
-                                    return
+                                    missingListsCount += 1
+                                    missingListsClassrooms.append(classroom)
                                 }
                             }
-                            chooseAssignments = true
+                            
+                            if missingListsCount > 0 {
+                                alertType = .noList
+                                showAlert = true
+                            } else {
+                                chooseAssignments = true
+                            }
                         }
                         .alert(isPresented: $showAlert) {
                             switch alertType {
                             case .noList:
                                 return Alert(
                                     title: Text("Missing List"),
-                                    message: Text("\(missingListForClassroom) has no active Reminders list. Please select a list, then try again.")
+                                    message: Text("\(missingListsCount) \(missingListsCount == 1 ? "classroom has" : "classrooms have") no active Reminders list. Do you want them to be automatically generated?"),
+                                    primaryButton: .default(Text("No, I'll create them manually")),
+                                    secondaryButton: .default(Text("Yes, create them automatically"), action: {
+                                        var successCount = 0
+                                        for classroom in missingListsClassrooms {
+                                            if let success = classroom.checkAndInitializeList(store: store, useListIfExisting: true), success {
+                                                successCount += 1
+                                            }
+                                        }
+                                        if successCount == missingListsCount {
+                                            chooseAssignments = true
+                                        } else {
+                                            alertType = .error
+                                            showAlert = true
+                                        }
+                                    })
                                     )
                             case .statusReport:
                                 return Alert(
                                     title: Text("Success!"),
-                                    message: Text("Added \(addedAssignments) new assignments"),
-                                    dismissButton: .default(Text("Cool!"))
+                                    message: Text("Added \(classrooms.addedAssignments) new assignments"),
+                                    dismissButton: .default(Text("Cool!"), action: { classrooms.addedAssignments = 0 })
                                 )
+                            case .error:
+                                return Alert(title: Text("Something went wrong. Please try again."))
                             default:
                                 return Alert(title: Text("You discovered a secret!"), dismissButton: .default(Text("Cool!")))
                             }
-                        }.sheet(isPresented: $chooseAssignments, onDismiss: {
-                            if(showAfterDismiss) {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                    alertType = .statusReport
-                                    showAlert = true
-                                    showAfterDismiss = false
-                                }
-                            }
-                        }, content: {
+                        }
+                        .sheet(isPresented: $chooseAssignments, content: {
                             Form {
                                 Section {
                                     Button(action: {
                                         Task {
-                                            addedAssignments = await classrooms.addAllAssignments(store: store, isCompleted: isCompleted, chosenTypes: items)
                                             chooseAssignments = false
-                                            showAfterDismiss = true
+                                            await classrooms.addAllAssignments(store: store, isCompleted: isCompleted, chosenTypes: items)
+                                            
+                                            alertType = .statusReport
+                                            showAlert = true
                                         }
                                     }) {
                                         Text("Add Assignments")
@@ -99,8 +119,21 @@ struct HomeView: View {
                                     }
                                 }
                             }.presentationDetents([PresentationDetent.medium])
+                        })
+                        .disabled(classrooms.addedAssignments != 0 || classrooms.loadedClassroomCount != classrooms.totalClassroomCount)
+                        
+                        if classrooms.addedAssignments != 0 {
+                            VStack {
+                                Text("Added \(classrooms.addedAssignments) assignments so far...")
+                                    .font(.footnote)
+                                    .foregroundColor(.gray)
+                                    .multilineTextAlignment(.center)
+                                ProgressView(value: Double(1), total: Double(1))
+                                    .progressViewStyle(LinearProgressViewStyle())
+                                    .padding()
+                            }
+
                         }
-                        )
                     }
                     
                     Section(header: Text("Your Classrooms")) {
@@ -160,7 +193,6 @@ struct HomeView: View {
                         
                         NavigationLink(destination: HelpView(viewRouter: viewRouter, fromHome: true)) {
                             Text("Help")
-                            
                         }
 
                         Button(action: {
@@ -171,11 +203,12 @@ struct HomeView: View {
                         }
                         .alert(isPresented: $showSignOutConfirmation) {
                             Alert(
-                                title: Text("Leave Team"),
-                                message: Text("Are you sure you want to leave the team?"),
+                                title: Text("Sign Out"),
+                                message: Text("Are you sure you want to sign out?"),
                                 primaryButton: .destructive(Text("Sign Out"), action: {
                                     GIDSignIn.sharedInstance.signOut()
                                     classrooms.clear()
+                                    team.clearLocalTeamData()
                                     viewRouter.currentPage = .googleSignIn
                                 }),
                                 secondaryButton: .cancel()
@@ -210,7 +243,7 @@ struct HomeView: View {
 
             }
             .onChange(of: scenePhase) { newPhase in
-                if newPhase == .active {
+                if newPhase == .active && !classrooms.currentlyRefreshing {
                     classrooms.refresh(manualRefresh: false)
                     team.refreshTeam()
                 }

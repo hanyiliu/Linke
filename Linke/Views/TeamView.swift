@@ -29,7 +29,6 @@ struct TeamView: View {
                             Spacer()
                             Button(action: {
                                 showAlert = true
-                                
                             }) {
                                 HStack {
                                     Spacer()
@@ -84,7 +83,7 @@ struct TeamView: View {
                     HStack {
                         Text("Code")
                         Spacer()
-                        Text(team.teamCode).foregroundColor(Color.gray)
+                        Text(team.teamCode).foregroundColor(Color.gray).onAppear()
                     }
                     HStack {
                         Text("Founder")

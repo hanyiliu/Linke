@@ -19,8 +19,10 @@ class ClassroomAPI: ObservableObject {
     private static var started = false
     var startTime: Date
     private var endTime: Date
+    var currentlyRefreshing = false
     @Published var totalClassroomCount = 0
-    @Published public var loadedClassroomCount = 0
+    @Published var loadedClassroomCount = 0
+    @Published var addedAssignments = 0
     @Published var updateVal = false //Call to update interface
     init(forceRestart: Bool = false) async {
 
@@ -145,7 +147,13 @@ class ClassroomAPI: ObservableObject {
             for (_,subJson):(String, JSON) in classroomJson["courses"] {
                 if !classrooms.contains(where: { $0.getCourseID() == subJson["id"].stringValue }) {
                     group.addTask {
-                        await Classroom(classrooms: self, name: subJson["name"].stringValue, courseID: subJson["id"].stringValue, teacherID: subJson["ownerId"].stringValue, store: store, manualRefresh: manualRefresh, archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil)
+                        await Classroom(classrooms: self,
+                                        name: subJson["name"].stringValue,
+                                        courseID: subJson["id"].stringValue,
+                                        teacherID: subJson["ownerId"].stringValue,
+                                        store: store,
+                                        manualRefresh: manualRefresh,
+                                        archived: subJson["courseState"].stringValue == "ARCHIVED" ? true : nil)
                     }
                 }
             }
@@ -181,6 +189,18 @@ class ClassroomAPI: ObservableObject {
         return visible
     }
     
+    ///Returns all unarchived classrooms in [Classroom] classrooms
+    func getUnarchivedClassrooms() -> [Classroom] {
+        var unarchived: [Classroom] = []
+        
+        for classroom in classrooms {
+            if(classroom.getArchiveStatus() == false) {
+                unarchived.append(classroom)
+            }
+        }
+        return unarchived
+    }
+    
     ///Returns all hidden classrooms in [Classroom] classrooms
     func getHiddenClassrooms() -> [Classroom] {
         var hidden: [Classroom] = []
@@ -196,7 +216,7 @@ class ClassroomAPI: ObservableObject {
     ///Refreshes Google Classroom API, resets [Classroom] classrooms.
     func refresh(manualRefresh: Bool = true) {
         print("Refreshing Google Classroom")
-        
+        currentlyRefreshing = true
         clear()
         DispatchQueue.main.async { [self] in
             self.initializer(completion:  { classroomJson in
@@ -208,12 +228,14 @@ class ClassroomAPI: ObservableObject {
                     
                     Task {
                         await self.initializeClassrooms(classroomJson: classroomJson, manualRefresh: manualRefresh)
+                        
+                        ClassroomAPI.started = true
+                        self.currentlyRefreshing = false
                     }
                 }
                 
             }, manualRefresh: true)
         }
-        ClassroomAPI.started = true
     }
     
     ///Clear all stored values in current instance.
@@ -227,9 +249,9 @@ class ClassroomAPI: ObservableObject {
     }
     
     ///Add all selected types of assignments.
-    func addAllAssignments(store: EKEventStore, isCompleted: [Bool], chosenTypes: [AssignmentType]) async -> Int{
+    func addAllAssignments(store: EKEventStore, isCompleted: [Bool], chosenTypes: [AssignmentType]) async {
+        addedAssignments = 0
         var matchedAssignments: [Assignment] = []
-        var count = 0
         for i in 0...isCompleted.count-1 {
 
             if(isCompleted[i]) {
@@ -246,14 +268,11 @@ class ClassroomAPI: ObservableObject {
             if(!assigned.isAdded()) {
                 
                 if(await assigned.addToReminders(store: store)){
-                    count += 1
+                    addedAssignments += 1
                 }
             }
         }
 
-
-        
-        return count
     }
     
     ///Get names of all reminder lists/

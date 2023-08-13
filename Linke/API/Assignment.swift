@@ -27,7 +27,7 @@ class Assignment: Identifiable {
         }
         
         didSet { //after value is set
-            print("Updated \(name) reminder status to \(reminderStatus)")
+            //print("Updated \(name) reminder status to \(reminderStatus)")
             UpdateValue.saveToLocal(key: "\(assignmentID)_REMINDER_STATUS", value: reminderStatus)
         }
     }

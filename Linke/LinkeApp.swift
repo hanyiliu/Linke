@@ -102,45 +102,46 @@ struct LinkerApp: App {
 }
 
 struct UpdateValue: Any {
+    static private var userID = GIDSignIn.sharedInstance.currentUser?.userID ?? ""
     static func saveToLocal(key: String, value: Bool) {
         if let encoded = try? JSONEncoder().encode(value) {
-            UserDefaults.standard.set(encoded, forKey: key)
+            UserDefaults.standard.set(encoded, forKey: "\(userID)_\(key)")
         }
     }
     
     static func saveToLocal(key: String, value: Bool?) {
         if let encoded = try? JSONEncoder().encode(value) {
-            UserDefaults.standard.set(encoded, forKey: key)
+            UserDefaults.standard.set(encoded, forKey: "\(userID)_\(key)")
         }
     }
     
     static func saveToLocal(key: String, value: String) {
         if let encoded = try? JSONEncoder().encode(value) {
-            UserDefaults.standard.set(encoded, forKey: key)
+            UserDefaults.standard.set(encoded, forKey: "\(userID)_\(key)")
         }
     }
     
     static func saveToLocal(key: String, value: Int) {
         if let encoded = try? JSONEncoder().encode(value) {
-            UserDefaults.standard.set(encoded, forKey: key)
+            UserDefaults.standard.set(encoded, forKey: "\(userID)_\(key)")
         }
     }
     
     static func saveToLocal(key: String, value: AssignmentType) {
         if let encoded = try? JSONEncoder().encode(value) {
-            UserDefaults.standard.set(encoded, forKey: key)
+            UserDefaults.standard.set(encoded, forKey: "\(userID)_\(key)")
         }
     }
     
     static func saveToLocal(key: String, value: ReminderType) {
         if let encoded = try? JSONEncoder().encode(value) {
-            UserDefaults.standard.set(encoded, forKey: key)
+            UserDefaults.standard.set(encoded, forKey: "\(userID)_\(key)")
         }
     }
     
     
     static func loadFromLocal(key: String, type: String) -> Any? {
-        if let data = UserDefaults.standard.data(forKey: key) {
+        if let data = UserDefaults.standard.data(forKey: "\(userID)_\(key)") {
             switch(type) {
             case "String":
                 if let decoded = try? JSONDecoder().decode(String.self, from: data

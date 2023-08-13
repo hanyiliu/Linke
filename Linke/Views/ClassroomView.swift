@@ -149,25 +149,38 @@ struct ClassroomView: View {
                             }
                             Section {
                                 Button("Create New List Under Current Classroom Name") {
-                                    if (classroom.getIdentifier() != nil &&
-                                        store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) != nil &&
-                                        store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! })?.title == classroom.getName()) {
-                                        alertType = .failure
-                                        showAlert = true
-                                        print("There already is an existing list under this classroom's name.")
-                                    } else {
-                                        classroom.initializeList(store: store)
-                                        if let listIdentiifer = classroom.getIdentifier() {
-                                            if let calendar = store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == listIdentiifer }) {
-                                                classroomListName = calendar.title
-                                                alertType = .success
-                                                showAlert = true
-                                            } else {
-                                                print("Invalid calendar identifier")
-                                                classroom.removeIdentifier()
-                                            }
+                                    if let success = classroom.checkAndInitializeList(store: store) {
+                                        if success {
+                                            classroomListName = classroom.getName()
+                                            alertType = .success
+                                            showAlert = true
+                                        } else {
+                                            alertType = .failure
+                                            showAlert = true
                                         }
+                                    } else {
+                                        alertType = .error
+                                        showAlert = true
                                     }
+//                                    if (classroom.getIdentifier() != nil &&
+//                                        store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! }) != nil &&
+//                                        store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == classroom.getIdentifier()! })?.title == classroom.getName()) {
+//                                        alertType = .failure
+//                                        showAlert = true
+//                                        print("There already is an existing list under this classroom's name.")
+//                                    } else {
+//                                        classroom.initializeList(store: store)
+//                                        if let listIdentiifer = classroom.getIdentifier() {
+//                                            if let calendar = store.calendars(for: .reminder).first(where: { $0.calendarIdentifier == listIdentiifer }) {
+//                                                classroomListName = calendar.title
+//                                                alertType = .success
+//                                                showAlert = true
+//                                            } else {
+//                                                print("Invalid calendar identifier")
+//                                                classroom.removeIdentifier()
+//                                            }
+//                                        }
+//                                    }
                                 }.alert(isPresented: $showAlert) {
                                     switch alertType {
                                     case .failure:
@@ -175,15 +188,24 @@ struct ClassroomView: View {
                                                      message: Text("There already is an existing list under this classroom's name."))
                                     case .success:
                                         return Alert(title: Text("Success!"),
-                                                     message: Text("Created new list named \(classroomListName)."))
+                                                     message: Text("Classroom added to list named \(classroomListName)."))
+                                    case .error:
+                                        return Alert(title: Text("Error"),
+                                                     message: Text("Something went wrong. Please try again."))
                                     default:
                                         return Alert(title: Text("You found a secret!"))
                                     }
+                                    
                                 }
                             }
                         }.presentationDetents([PresentationDetent.medium])
                     })
                     Image(systemName: "chevron.right") .font(.system(size: UIFont.systemFontSize, weight: .medium)) .opacity(0.35)
+                }
+                HStack {
+                    Text("Teacher")
+                    Spacer()
+                    Text(classroom.teacherName).foregroundColor(Color.gray)
                 }
             }
             Section(header: Text("In Progress")){
@@ -243,5 +265,5 @@ struct ClassroomView: View {
 }
 
 enum AlertType {
-    case noList, statusReport, success, failure
+    case noList, statusReport, success, failure, error
 }
