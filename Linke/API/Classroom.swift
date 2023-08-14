@@ -267,7 +267,7 @@ class Classroom: Identifiable, ObservableObject {
         return assignments
     }
     
-    ///Syncronously return [Assignment] assignments. Will call queryAssignments if it's not initialized.
+    ///Syncronously return [Assignment] assignments. Will NOT call queryAssignments if it's not initialized.
     func getAssignments() -> [Assignment] {
 
         return assignments

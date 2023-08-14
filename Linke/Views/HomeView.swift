@@ -20,6 +20,7 @@ struct HomeView: View {
     
     @State var showAlert = false
     @State var alertType = AlertType.statusReport
+    @State var firstTimeAlert = false
     @State var manualRefreshAlert = false
     @State private var chooseAssignments = false
     @State private var isCompleted = [false, false, false, false]
@@ -209,6 +210,7 @@ struct HomeView: View {
                                     GIDSignIn.sharedInstance.signOut()
                                     classrooms.clear()
                                     team.clearLocalTeamData()
+                                    UpdateValue.saveToLocal(key: "IS_FIRST_TIME", value: true)
                                     viewRouter.currentPage = .googleSignIn
                                 }),
                                 secondaryButton: .cancel()
@@ -232,15 +234,29 @@ struct HomeView: View {
                 }.alert(isPresented: $manualRefreshAlert) {
                     Alert(
                         title: Text("Time Warning"),
-                        message: Text("Manually refreshing the Classroom API might take a few minutes! If you just want to quickly refresh the API, simply refresh Linke.")
+                        message: Text("Manually refreshing the Classroom API might take a few minutes! If you just want to quickly refresh the API, simply reopen Linke.")
                         )
                 }
                 )
                 
             }.navigationViewStyle(StackNavigationViewStyle())
-            .onAppear() {
-
-
+            .onAppear {
+                if let isFirstTime = UpdateValue.loadFromLocal(key: "IS_FIRST_TIME", type: "Bool") as? Bool {
+                    if isFirstTime {
+                        firstTimeAlert = true
+                        UpdateValue.saveToLocal(key: "IS_FIRST_TIME", value: false)
+                    }
+                
+                } else {
+                    firstTimeAlert = true
+                    UpdateValue.saveToLocal(key: "IS_FIRST_TIME", value: false)
+                }
+             }
+            .alert(isPresented: $firstTimeAlert) {
+                Alert(
+                    title: Text("Welcome!"),
+                    message: Text("The first time you open Linke, it might take a minute or two to load all your classrooms. This is normal, and will only happen on this initial load.")
+                    )
             }
             .onChange(of: scenePhase) { newPhase in
                 if newPhase == .active && !classrooms.currentlyRefreshing {

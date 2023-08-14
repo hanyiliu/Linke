@@ -210,7 +210,11 @@ struct ClassroomView: View {
             }
             Section(header: Text("In Progress")){
                 ForEach(classroom.getVisibleAssignments(type: .inProgress)) { assigned in
-                    Text(assigned.getName())
+                    HStack {
+                        Text(assigned.getName())
+                        Spacer()
+                        Text(assigned.formattedDueDate()).foregroundColor(Color.gray)
+                    }
                 }.onDelete { indexSet in
                     print("hiding assignment \(classroom.getVisibleAssignments(type: .inProgress)[indexSet.first!].getName())")
                     classroom.getVisibleAssignments(type: .inProgress)[indexSet.first!].setHiddenStatus(hidden: true)
@@ -218,7 +222,11 @@ struct ClassroomView: View {
             }
             Section(header: Text("Missing")){
                 ForEach(classroom.getVisibleAssignments(type: .missing)) { assigned in
-                    Text(assigned.getName())
+                    HStack {
+                        Text(assigned.getName())
+                        Spacer()
+                        Text(assigned.formattedDueDate()).foregroundColor(Color.red)
+                    }
                 }.onDelete { indexSet in
                     print("hiding assignment \(classroom.getVisibleAssignments(type: .missing)[indexSet.first!].getName())")
                     classroom.getVisibleAssignments(type: .missing)[indexSet.first!].setHiddenStatus(hidden: true)
@@ -226,7 +234,11 @@ struct ClassroomView: View {
             }
             Section(header: Text("In Progress & No Due Date")){
                 ForEach(classroom.getVisibleAssignments(type: .noDateDue)) { assigned in
-                    Text(assigned.getName())
+                    HStack {
+                        Text(assigned.getName())
+                        Spacer()
+                        Text(assigned.formattedDueDate()).foregroundColor(Color.gray)
+                    }
                 }.onDelete { indexSet in
                     print("hiding assignment \(classroom.getVisibleAssignments(type: .noDateDue)[indexSet.first!].getName())")
                     classroom.getVisibleAssignments(type: .noDateDue)[indexSet.first!].setHiddenStatus(hidden: true)
@@ -234,7 +246,11 @@ struct ClassroomView: View {
             }
             Section(header: Text("Completed")){
                 ForEach(classroom.getVisibleAssignments(type: .completed)) { assigned in
-                    Text(assigned.getName())
+                    HStack {
+                        Text(assigned.getName())
+                        Spacer()
+                        Text(assigned.formattedDueDate()).foregroundColor(Color.gray)
+                    }
                 }.onDelete { indexSet in
                     print("hiding assignment \(classroom.getVisibleAssignments(type: .completed)[indexSet.first!].getName())")
                     classroom.getVisibleAssignments(type: .completed)[indexSet.first!].setHiddenStatus(hidden: true)

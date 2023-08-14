@@ -77,6 +77,23 @@ class Assignment: Identifiable {
         return dueDate
     }
     
+    /// Return dueDate in a readable String format.
+    func formattedDueDate() -> String {
+        guard let dueDate = dueDate else { return "No Due Date" }
+        let dateFormatter = DateFormatter()
+        
+        let currentYear = Calendar.current.component(.year, from: Date())
+        let dueYear = Calendar.current.component(.year, from: dueDate)
+        
+        if currentYear != dueYear {
+            dateFormatter.dateFormat = "M/d/yy h:mm a"
+        } else {
+            dateFormatter.dateFormat = "M/d h:mm a"
+        }
+        
+        return dateFormatter.string(from: dueDate)
+    }
+    
     ///Get ID of assignment.
     func getID() -> String {
         return assignmentID
