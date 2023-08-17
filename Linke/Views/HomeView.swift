@@ -188,7 +188,7 @@ struct HomeView: View {
                             Text("Hidden Classrooms")
                         }.foregroundColor(Color.gray)
                         
-                        NavigationLink(destination: SettingsView()) {
+                        NavigationLink(destination: SettingsView(viewRouter: viewRouter, classrooms: classrooms, team: team)) {
                             Text("Settings")
                         }
                         
@@ -211,6 +211,7 @@ struct HomeView: View {
                                     classrooms.clear()
                                     team.clearLocalTeamData()
                                     UpdateValue.saveToLocal(key: "IS_FIRST_TIME", value: true)
+                                    UpdateValue.saveToLocal(key: "SHOW_HELP", value: true)
                                     viewRouter.currentPage = .googleSignIn
                                 }),
                                 secondaryButton: .cancel()

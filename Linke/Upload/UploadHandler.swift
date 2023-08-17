@@ -8,6 +8,7 @@
 
 import Foundation
 import FirebaseFirestore
+import GoogleSignIn
 
 
 //import FirebaseFirestore
@@ -92,6 +93,13 @@ struct UploadHandler: Any {
         
         let document = db.collection("student_data").document("\(data["id"]!)")
         document.setData(data)
+    }
+    
+    static func deleteData(id: String) {
+        Task {
+            let studentDocRef = db.collection(datasetID).document(id)
+            try await studentDocRef.delete()
+        }
     }
 
 }
